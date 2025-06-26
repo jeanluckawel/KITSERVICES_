@@ -2,7 +2,9 @@
 
 namespace App\Imports;
 
+use App\Mail\NewEmployeeNotification;
 use App\Models\Employee;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -56,6 +58,13 @@ class EmployeesImport implements ToModel, withHeadingRow
             'contract_type' => $row['contract_type'] ?? '',
             'salaire_mensuel_brut' => $row['salaire_mensuel_brut'] ?? '',
             'status' => 1,
+
         ]);
+
+
+
+
     }
+
+
 }

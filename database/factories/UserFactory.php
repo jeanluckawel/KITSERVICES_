@@ -27,7 +27,7 @@ class UserFactory extends Factory
             'name' => 'Kit services',
             'email' => 'info@Kitservice.com',
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('12345678'), // Kitservice@2020
+            'password' => static::$password ??= Hash::make('Kitservice@2020'), // Kitservice@2020
             'remember_token' => Str::random(10),
         ];
     }

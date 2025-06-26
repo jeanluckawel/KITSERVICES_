@@ -215,7 +215,7 @@
             </ul>
 
             <div class="px-6 my-6">
-                <a href="{{ route('logout') }}" class="btn btn-orange w-full">
+                <a href="#" class="btn btn-orange w-full">
                     Log out {{ Auth::user()->name ?? '' }}
                 </a>
             </div>
