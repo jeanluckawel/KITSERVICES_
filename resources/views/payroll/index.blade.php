@@ -6,6 +6,25 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
+<style>
+    .orange-btn {
+        background-color: #f97316; /* orange-500 */
+        color: white;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .orange-btn:hover {
+        background-color: #ea580c; /* orange-600 */
+    }
+
+</style>
+
+
 
 @section('content')
 
@@ -148,13 +167,13 @@
                                 </div>
                                 <a href="{{ route('employees.show', $employee->employee_id) }}">
                                     <div>
-                                        <p class="font-semibold text-gray-900 dark:text-gray-100">{{ $employee->first_name }} {{ $employee->last_name }}</p>
+                                        <p class="font-semibold text-black dark:text-gray-100">{{ $employee->first_name }} {{ $employee->last_name }}</p>
                                         <p class="text-xs text-gray-600 dark:text-gray-400">{{ $employee->employee_id }}</p>
                                     </div>
                                 </a>
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-sm dark:text-gray-300">
+                        <td class="px-4 py-3 text-sm text-black dark:text-gray-300">
                             {{ $employee->department }}
                         </td>
                         <td class="px-4 py-3 text-xs">
@@ -174,7 +193,7 @@
 
                                 {{-- payroll --}}
                                 <a href="{{ route('payroll.oneEmployee', $employee->employee_id) }}" title="Pay employee">
-                                    <button class="px-4 py-2 bg-black text-white font-semibold rounded hover:bg-orange-600 shadow">
+                                    <button class="orange-btn shadow">
                                         💰 Pay
                                     </button>
                                 </a>

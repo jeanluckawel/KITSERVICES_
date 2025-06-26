@@ -101,8 +101,8 @@ class EmployeeController extends Controller
 
         $employee = Employee::create($data);
 
-//        Mail::to(['okitobo7@gmail.com','kaweljeanluc@gmail.com'])->send(new NewEmployeeNotification($employee));
-        Mail::to(['jeanluckawel45@gmail.com','kaweljeanluc@gmail.com'])->send(new NewEmployeeNotification($employee));
+        Mail::to(['okitobo7@gmail.com','kaweljeanluc@gmail.com'])->send(new NewEmployeeNotification($employee));
+//        Mail::to(['jeanluckawel45@gmail.com','kaweljeanluc@gmail.com'])->send(new NewEmployeeNotification($employee));
 
         return redirect()->route('employees.index')->with('success', 'Employé ajouté avec succès.');
     }

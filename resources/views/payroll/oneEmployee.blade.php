@@ -2,6 +2,26 @@
 
 @section('title', 'Kit Service | Payroll')
 
+<style>
+    .orange-btn {
+        background-color: #f97316; /* orange-500 */
+        color: white;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .orange-btn:hover {
+        background-color: #ea580c; /* orange-600 */
+    }
+
+</style>
+
+
+
 @section('content')
     @if ($errors->any())
         <div class="bg-red-500 text-white p-4 rounded-lg mb-4">
@@ -51,12 +71,12 @@
                                     <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                                 </div>
                                 <div>
-                                    <p class="font-semibold text-gray-900 dark:text-gray-100">{{ $employees->first_name }} {{ $employees->last_name }}</p>
+                                    <p class="font-semibold text-black dark:text-gray-100">{{ $employees->first_name }} {{ $employees->last_name }}</p>
                                     <p class="text-xs text-gray-600 dark:text-gray-400">{{ $employees->employee_id }}</p>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-4 py-3 text-sm dark:text-gray-300">
+                        <td class="px-4 py-3 text-sm text-black dark:text-gray-300">
                             {{ $employees->department ?? ' ' }} - {{ $employees->function ?? ' ' }}
                         </td>
                         <td class="px-4 py-3 text-xs">
@@ -118,7 +138,7 @@
             {{-- Submit --}}
             <div class="flex justify-end items-center mb-10">
                 <button id="submitBtn" type="submit"
-                        class="bg-black text-white px-6 py-2 rounded hover:bg-orange-700 hidden">
+                        class="orange-btn hidden">
                     Valid Pay
                 </button>
             </div>

@@ -2,6 +2,17 @@
 
 @extends('layouts.app')
 
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<!-- Croppie CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" />
+<!-- Croppie JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
+
+
 @section('title', 'Kit Service | Add or Edit Employee')
 
 <style>
@@ -53,6 +64,10 @@
                 <button type="button" class="tab-btn" data-target="entreprise-section">
                     <i class="fas fa-building mr-2"></i> Entreprise
                 </button>
+
+{{--                <button type="button" class="tab-btn" data-target="photo-section">--}}
+{{--                    <i class="fas fa-building mr-2"></i> Photo--}}
+{{--                </button>--}}
             </div>
         </div>
 
@@ -162,6 +177,26 @@
                 </div>
             </div>
 
+
+
+
+{{--            <div id="photo-section" class="tab-content p-6 mb-8  bg-white rounded-lg shadow-md dark:bg-gray-800">--}}
+
+{{--            <div >--}}
+{{--                <label class="block text-sm font-medium text-gray-700 mb-1">Importer une photo</label>--}}
+{{--                <input type="file" id="upload" accept="image/*"--}}
+{{--                       class="block mb-4 file:bg-orange-100 file:text-orange-700 file:px-4 file:py-2 file:rounded-md file:cursor-pointer"/>--}}
+
+{{--                <div id="upload-demo" class="rounded-md shadow-md"></div>--}}
+
+{{--                --}}{{-- Champ caché pour l'image redimensionnée à envoyer --}}
+{{--                <input type="hidden" name="photo_cropped" id="photo_cropped" />--}}
+{{--            </div>--}}
+{{--            </div>--}}
+
+
+
+
             {{-- ENTREPRISE INFO --}}
             <div id="entreprise-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Entreprise Information</h3>
@@ -194,6 +229,8 @@
                     {{ isset($employee) ? 'Update Employee' : 'Create Employee' }}
                 </button>
             </div>
+
+
         </form>
     </div>
 
@@ -278,6 +315,46 @@
             });
 
             checkRequiredFields();
+        });
+
+
+
+
+        // img redimensionement
+
+        var croppieInstance = null;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            croppieInstance = new Croppie(document.getElementById('upload-demo'), {
+                viewport: { width: 200, height: 200, type: 'square' }, // zone visible
+                boundary: { width: 300, height: 300 }, // taille du cadre
+                enableResize: true,
+                enableOrientation: true
+            });
+
+            document.getElementById('upload').addEventListener('change', function (e) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    croppieInstance.bind({
+                        url: event.target.result
+                    });
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            });
+        });
+
+        // Avant l’envoi du formulaire, récupérer l’image redimensionnée
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault(); // enlever cette ligne si pas en AJAX
+
+            croppieInstance.result({
+                type: 'base64',
+                format: 'jpeg',
+                quality: 1
+            }).then(function (base64) {
+                document.getElementById('photo_cropped').value = base64;
+                e.target.submit(); // soumettre le formulaire après ajout
+            });
         });
     </script>
 @endsection

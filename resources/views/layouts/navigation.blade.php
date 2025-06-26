@@ -273,8 +273,13 @@
                 <!-- Search input - hidden on small screens -->
                 <div  class="flex-1 max-w-xl mx-4 hidden md:block">
 
+
                     <div class="relative">
-                        <p class="text-2xl "><strong>Kit Service Sarl</strong> </p>
+                        <p class="text-2xl "><strong>
+                                <a href="{{ route('dashboard') }}">
+                                Kit Service Sarl
+                                </a>
+                            </strong> </p>
                      </div>
                 </div>
 
