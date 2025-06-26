@@ -128,11 +128,11 @@
             <div class="id-photo-section">
                 <div class="id-photo">
                     @if(!empty($employee->photo))
-
-                        <img src="{{ asset('storage/photos/' . $employee->photo) }}" alt="Photo">
+                        <img src="{{ asset('storage/' . $employee->photo) }}" alt="{{ asset( $employee->first_name) }}" class="h-32 w-32 object-cover rounded-md">
                     @else
                         <div class="id-no-photo">Aucune photo</div>
                     @endif
+
                 </div>
 
             </div>
