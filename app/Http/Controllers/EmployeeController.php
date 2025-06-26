@@ -16,7 +16,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::all();
+//        $employees = Employee::all();
+        $employees = Employee::paginate(5);
         $count = $employees->where('status', '1')->count();
         return view('employees.index',compact('employees','count'));
     }
