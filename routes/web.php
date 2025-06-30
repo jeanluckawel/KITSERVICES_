@@ -6,6 +6,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeEntrepriseController;
 use App\Http\Controllers\EmployeeImportController;
 use App\Http\Controllers\FamillyController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\ProfileController;
@@ -90,20 +91,20 @@ Route::get('/clients/create', [ClientsController::class, 'create'])->name('clien
 Route::post('/clients', [ClientsController::class, 'store'])->name('clients.store')->middleware(['auth', 'verified']);
 
 // Invoices
-Route::get('/invoices', [InvoicesController::class, 'index'])->name('invoices.index')->middleware(['auth', 'verified']);
-Route::get('/invoices/create/{id}', [InvoicesController::class, 'create'])->name('invoices.create')->middleware(['auth', 'verified']);
-Route::post('/invoices', [InvoicesController::class, 'store'])->name('invoices.store')->middleware(['auth', 'verified']);
+//Route::get('/invoices', [InvoicesController::class, 'index'])->name('invoices.index')->middleware(['auth', 'verified']);
+//Route::get('/invoices/create/{id}', [InvoicesController::class, 'create'])->name('invoices.create')->middleware(['auth', 'verified']);
+//Route::post('/invoices', [InvoicesController::class, 'store'])->name('invoices.store')->middleware(['auth', 'verified']);
 // Invoices liées à un client
-Route::get('/clients/{client}/invoices/create', [InvoicesController::class, 'create'])->name('clients.invoices.create')->middleware(['auth', 'verified']);
-Route::get('/clients/{client}/invoice', [InvoicesController::class, 'show'])->name('invoices.show')->middleware(['auth', 'verified']);
+//Route::get('/clients/{client}/invoices/create', [InvoicesController::class, 'create'])->name('clients.invoices.create')->middleware(['auth', 'verified']);
+//Route::get('/clients/{client}/invoice', [InvoicesController::class, 'show'])->name('invoices.show')->middleware(['auth', 'verified']);
 
 
 
-Route::get('/invoices', [InvoicesController::class, 'index'])->name('invoices.index')->middleware(['auth', 'verified']);
-Route::get('/invoices/create/{id}', [InvoicesController::class, 'create'])->name('invoices.create')->middleware(['auth', 'verified']);
-Route::post('/invoices', [InvoicesController::class, 'store'])->name('invoices.store')->middleware(['auth', 'verified']);
-Route::get('/invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show')->middleware(['auth', 'verified']);
-
+//Route::get('/invoices', [InvoicesController::class, 'index'])->name('invoices.index')->middleware(['auth', 'verified']);
+//Route::get('/invoices/create/{id}', [InvoicesController::class, 'create'])->name('invoices.create')->middleware(['auth', 'verified']);
+//Route::post('/invoices', [InvoicesController::class, 'store'])->name('invoices.store')->middleware(['auth', 'verified']);
+//Route::get('/invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show')->middleware(['auth', 'verified']);
+//
 
 
 
@@ -146,6 +147,18 @@ Route::get('/employees/template/file', [EmployeeController::class, 'file'])->nam
 Route::get('/employees/template/download', [EmployeeController::class, 'downloadTemplate'])->name('employees.download.template');
 
 Route::get('customers/create', [\App\Http\Controllers\CustomerController::class, 'create'])->name('customers.create');
-Route::get('customers/store', [\App\Http\Controllers\CustomerController::class, 'store'])->name('customers.store');
+Route::get('customers/{id}/show', [\App\Http\Controllers\CustomerController::class, 'show'])->name('customers.show');
+Route::post('customers/create', [\App\Http\Controllers\CustomerController::class, 'store'])->name('customers.store');
+Route::get('customers/', [\App\Http\Controllers\CustomerController::class, 'index'])->name('customers.index');
+Route::get('/customers/search', [\App\Http\Controllers\CustomerController::class, 'search'])->name('customers.search');
+
+
+Route::post('customers/{customer}/invoice', [InvoiceController::class, 'store'])->name('invoices.store');
+
+Route::get('invoices/create/{customer}', [\App\Http\Controllers\InvoiceController::class, 'create'])->name('invoices.create');
+Route::get('invoices/show/{customer}', [\App\Http\Controllers\InvoiceController::class, 'show'])->name('invoices.show');
+
+//Route::post('/customers/{customer}/invoice', [InvoiceController::class, 'store'])->name('invoices.store');
+
 
 require __DIR__.'/auth.php';

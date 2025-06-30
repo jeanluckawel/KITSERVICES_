@@ -1,95 +1,64 @@
 @extends('layouts.app')
 
-@section('title', 'Kit Service | Ajouter plusieurs factures')
+@section('title', 'Kit Service | Créer une Facture')
+
+<style>
+    .orange-btn {
+        background-color: #f97316;
+        color: white;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .orange-btn:hover {
+        background-color: #ea580c;
+    }
+</style>
 
 @section('content')
-    @if ($errors->any())
-        <div class="bg-red-100 text-red-700 p-4 rounded mb-4 border border-red-300">
-            <ul class="list-disc pl-5">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <div class="max-w-4xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-md dark:bg-gray-800">
+        <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">
+            Créer une facture pour <span class="text-orange-500">{{ $customer->name }}</span>
+        </h3>
 
-    <form method="POST" action="{{ route('invoices.store') }}">
-        @csrf
 
-        <input type="hidden" name="client_id" value="{{ $client->id }}">
+        <form action="{{ route('invoices.store', ['customer' => $customer->id]) }}" method="POST">
+            @csrf
+            <input type="hidden" name="customer_id" value="{{ $customer->id }}">
+            <x-form.input name="po" label="Numero Po" required autocomplete="off"/>
+            <br>
+            <div id="invoice-items">
 
-        <div class="bg-white p-8 rounded-lg shadow mb-10">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-2">Ajouter plusieurs factures</h2>
-            <p class="text-gray-500 mb-6">Remplissez les détails de chaque facture liée au PO Order</p>
-
-            <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                    PO Order commun <sup class="text-red-600">*</sup>
-                </label>
-                <input name="po_order" required
-                       class="w-full border border-gray-300 px-4 py-2 rounded-md focus:ring-orange-500 focus:border-orange-500"/>
-            </div>
-
-            <div id="items-container">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 item-row">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                        <input type="date" name="items[0][date]" required
-                               class="w-full border border-gray-300 px-3 py-2 rounded-md">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Montant</label>
-                        <input type="number" step="0.01" name="items[0][amount]" required
-                               class="w-full border border-gray-300 px-3 py-2 rounded-md">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Paiement</label>
-                        <input type="number" step="0.01" name="items[0][payment]"
-                               class="w-full border border-gray-300 px-3 py-2 rounded-md">
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Solde</label>
-                        <input type="number" step="0.01" name="items[0][balance]"
-                               class="w-full border border-gray-300 px-3 py-2 rounded-md">
-                    </div>
-
-                    <div class="col-span-full">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                        <textarea name="items[0][description]" rows="2"
-                                  class="w-full border border-gray-300 px-3 py-2 rounded-md resize-none"></textarea>
-                    </div>
+                <div class="flex flex-col md:flex-row gap-6 item-row">
+                    <x-form.input name="description[]" label="Description" required autocomplete="off"/>
+                    <x-form.input name="unite[]" label="Unité" autocomplete="off"/>
+                    <x-form.input name="quantity[]" label="Quantité" type="number" required min="1" autocomplete="off"/>
+                    <x-form.input name="pu[]" label="PU" type="number" step="0.01" required autocomplete="off"/>
+                    <x-form.input name="pt_mois[]" label="PT / Mois" type="number" step="0.01" required autocomplete="off"/>
                 </div>
             </div>
 
-            <button type="button" id="add-row"
-                    class="text-sm bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 mb-6">
-                + Ajouter une ligne
-            </button>
+            <button type="button" onclick="addRow()" class="mt-4 orange-btn">➕</button>
 
-            <div>
-                <button type="submit" class="bg-black text-white px-6 py-2 rounded hover:bg-orange-700">
-                    Enregistrer toutes les lignes
-                </button>
+            <div class="mt-6">
+                <button type="submit" class="orange-btn">Save</button>
             </div>
-        </div>
-    </form>
+        </form>
+
+       </div>
+
 
     <script>
-        let itemIndex = 1;
-        document.getElementById('add-row').addEventListener('click', function () {
-            const container = document.getElementById('items-container');
-            const row = document.querySelector('.item-row').cloneNode(true);
-            row.querySelectorAll('input, textarea').forEach(input => {
-                const name = input.getAttribute('name');
-                const newName = name.replace(/\[\d+\]/, `[${itemIndex}]`);
-                input.setAttribute('name', newName);
-                input.value = '';
-            });
-            container.appendChild(row);
-            itemIndex++;
-        });
+        function addRow() {
+            const container = document.getElementById('invoice-items');
+            const newRow = container.children[0].cloneNode(true);
+            Array.from(newRow.querySelectorAll('input')).forEach(input => input.value = '');
+            container.appendChild(newRow);
+        }
     </script>
+
 @endsection

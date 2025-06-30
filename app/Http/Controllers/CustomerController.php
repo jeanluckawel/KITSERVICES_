@@ -14,6 +14,10 @@ class CustomerController extends Controller
     {
         //
 
+        $customers = Customer::paginate(5);
+
+        return view('customers.show', compact('customers'));
+
     }
 
     /**
@@ -48,7 +52,7 @@ class CustomerController extends Controller
 
         Customer::create($request->all());
 
-        return redirect()->route('customer.create')->with('success', 'Customer has been created');
+        return redirect()->route('customers.index')->with('success', 'Customer has been created');
     }
 
     /**
@@ -57,6 +61,8 @@ class CustomerController extends Controller
     public function show(Customer $customer)
     {
         //
+
+        return view('customers.show', compact('customer'));
     }
 
     /**
@@ -82,4 +88,19 @@ class CustomerController extends Controller
     {
         //
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+
+        $customers = Customer::query()
+            ->where('name', 'like', "%{$query}%")
+            ->orWhere('id_nat', 'like', "%{$query}%")
+            ->orWhere('rccm', 'like', "%{$query}%")
+            ->limit(50)
+            ->get(['id', 'name', 'id_nat', 'rccm']);
+
+        return response()->json($customers);
+    }
+
 }

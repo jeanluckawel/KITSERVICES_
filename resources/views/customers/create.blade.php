@@ -38,7 +38,7 @@
         <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Customer Information</h3>
 
         <div class="flex flex-col md:flex-row gap-6">
-            <x-form.input name="name_customer" label="Name" required autocomplete="off"/>
+            <x-form.input name="name" label="Name" required autocomplete="off"/>
             <x-form.input name="id_nat" label="ID NAT" autocomplete="off"/>
             <x-form.input name="rccm" label="RCCM" autocomplete="off"/>
         </div>
