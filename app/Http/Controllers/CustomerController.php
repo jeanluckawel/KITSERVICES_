@@ -22,6 +22,7 @@ class CustomerController extends Controller
     public function create()
     {
         //
+        return view('customers.create');
     }
 
     /**
@@ -30,6 +31,24 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'id_nat' => 'required|string|max:50|unique:customers,id_nat',
+            'rccm' => 'nullable|string|max:50',
+            'nif' => 'nullable|string|max:50',
+            'province' => 'required|string|max:100',
+            'ville' => 'required|string|max:100',
+            'commune' => 'required|string|max:100',
+            'quartier' => 'nullable|string|max:100',
+            'avenue' => 'nullable|string|max:100',
+            'numero' => 'nullable|string|max:50',
+            'telephone' => 'required|string|max:20',
+            'email' => 'nullable|email|max:255'
+        ]);
+
+        Customer::create($request->all());
+
+        return redirect()->route('customer.create')->with('success', 'Customer has been created');
     }
 
     /**
