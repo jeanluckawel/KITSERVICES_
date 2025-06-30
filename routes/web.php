@@ -145,6 +145,7 @@ Route::get('/files',function(){
 Route::get('/employees/template/file', [EmployeeController::class, 'file'])->name('employees.download.file');
 Route::get('/employees/template/download', [EmployeeController::class, 'downloadTemplate'])->name('employees.download.template');
 
-Route::get('customers', [\App\Http\Controllers\CustomerController::class, 'index'])->name('customers.index');
+Route::get('customers/create', [\App\Http\Controllers\CustomerController::class, 'create'])->name('customers.create');
+Route::get('customers/store', [\App\Http\Controllers\CustomerController::class, 'store'])->name('customers.store');
 
 require __DIR__.'/auth.php';

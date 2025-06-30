@@ -310,8 +310,8 @@
                     <!-- Profile dropdown -->
                     <div class="relative">
                         <button @click="isProfileMenuOpen = !isProfileMenuOpen" class="flex items-center space-x-2 focus:outline-none">
-                            <img class="w-8 h-8 rounded-full" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=f97316&color=fff" alt="User avatar">
-                            <span class="hidden md:inline-block text-sm font-medium">{{ Auth::user()->name }}</span>
+                            <img class="w-8 h-8 rounded-full" src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name ?? '') }}&background=f97316&color=fff" alt="User avatar">
+                            <span class="hidden md:inline-block text-sm font-medium">{{ Auth::user()->name ?? '' }}</span>
                         </button>
                         <div x-show="isProfileMenuOpen" @click.away="isProfileMenuOpen = false" class="absolute right-0 w-48 mt-2 bg-white rounded-md shadow-lg dark:bg-gray-700">
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 dark:text-gray-300 dark:hover:bg-gray-600">Profile</a>
