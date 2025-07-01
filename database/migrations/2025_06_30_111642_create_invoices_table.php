@@ -13,13 +13,16 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('customer_id'); // relation avec customers
+            $table->unsignedBigInteger('customer_id');
             $table->string('po');
+            $table->string('numero_invoice')->unique()->nullable();
             $table->string('description');
             $table->string('unite')->nullable();
             $table->integer('quantity')->default(1);
-            $table->decimal('pu', 10, 2); // prix unitaire
-            $table->decimal('pt_mois', 10, 2); // prix total par mois
+            $table->integer('nb_jours')->default(1);
+            $table->decimal('pu', 10, 2);
+            $table->decimal('pt_jours', 10, 2);
+            $table->decimal('pt_mois', 10, 2);
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
 
