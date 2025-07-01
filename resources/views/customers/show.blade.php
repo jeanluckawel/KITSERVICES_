@@ -57,6 +57,7 @@
                     </thead>
                     <tbody id="customersTableBody" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                     @foreach($customers as $customer)
+
                         <tr data-href="{{ route('customers.show', $customer->id) }}" class="text-gray-700 dark:text-gray-400">
                             <td class="px-4 py-3 text-sm font-semibold text-black dark:text-white">
                                 {{ $customer->name }}

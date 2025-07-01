@@ -40,7 +40,7 @@
         <div class="flex flex-col md:flex-row gap-6">
             <x-form.input name="name" label="Name" required autocomplete="off"/>
             <x-form.input name="id_nat" label="ID NAT" autocomplete="off"/>
-            <x-form.input name="rccm" label="RCCM" autocomplete="off"/>
+            <x-form.input name="rccm"label="RCCM"/>
         </div>
 
         <div class="flex flex-col md:flex-row gap-6 mt-4">

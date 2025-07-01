@@ -30,14 +30,14 @@
 
                 <!-- Client Infos -->
                 <div class="w-1/3 space-y-1 text-sm">
-                    <h2 class="text-gray-700 font-semibold">To : KAMOA COPPER SA</h2>
+                    <h2 class="text-gray-700 font-semibold">To :{{' '. $customer->name ?? '' }}</h2>
                     <p>Appartements 3 et 4, Bâtiment 2404, 999, RN 39</p>
                     <p>Avenue Route Likasi, Quartier Joli-Site</p>
                     <p>Commune de Manika, Ville de Kolwezi</p>
                     <p>Province du Lualaba, RDC</p>
-                    <p>ID NAT : 05-B0500-N37233J</p>
-                    <p>RCCM : 14-B-1683</p>
-                    <p>NIF : A0901048A</p>
+                    <p>ID NAT : {{ $customer->id_nat }}</p>
+                    <p>RCCM :{{ $customer->rccm }}</p>
+                    <p>NIF :  {{ $customer->nif }}</p>
                 </div>
 
                 <!-- Logo -->
