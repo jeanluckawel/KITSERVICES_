@@ -155,6 +155,7 @@ Route::get('/customers/search', [\App\Http\Controllers\CustomerController::class
 
 Route::post('customers/{customer}/invoice', [InvoiceController::class, 'store'])->name('invoices.store');
 
+
 Route::get('invoices/create/{customer}', [InvoiceController::class, 'create'])->name('invoices.create');
 Route::get('invoices/show/{customer}', [InvoiceController::class, 'show'])->name('invoices.show');
 
