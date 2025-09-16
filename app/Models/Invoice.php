@@ -8,7 +8,7 @@ class Invoice extends Model
 {
     //
 
-    protected $fillable = ['po','customer_id', 'description', 'unite', 'quantity', 'pu', 'pt_mois'];
+    protected $fillable = ['customer_id', 'po', 'numero_invoice', 'description', 'unite', 'quantity', 'nb_jours', 'pu', 'pt_jours', 'pt_mois'];
 
     public function customer()
     {

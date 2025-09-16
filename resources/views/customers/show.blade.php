@@ -1,12 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Kit Service | Customers List')
+@section('title', 'Kit Service | Liste des clients')
 
 @section('content')
 
+    <!-- Lucide icons CDN -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
     <style>
         .orange-btn {
-            background-color: #f97316; /* orange-500 */
+            background-color: #f97316;
             color: white;
             font-weight: bold;
             padding: 0.5rem 1rem;
@@ -17,114 +20,110 @@
         }
 
         .orange-btn:hover {
-            background-color: #ea580c; /* orange-600 */
+            background-color: #ea580c;
         }
 
-        /* Hover highlight on table rows */
         tbody tr:hover {
-            background-color: #fef3c7; /* bg-orange-100 */
+            background-color: #fef3c7;
             cursor: pointer;
-            color: #c2410c; /* orange-700 */
+        }
+
+        .action-links a {
+            margin-right: 0.5rem;
         }
     </style>
 
-    <div class="max-w-4xl mx-auto mt-10">
+    <div class="max-w-6xl mx-auto mt-10">
 
-        <h1 class="text-3xl font-semibold mb-6">Liste des clients</h1>
+        <div class="flex justify-between items-center mb-6">
+            <!-- Titre -->
+            <h1 class="text-3xl font-semibold flex items-center gap-2">
+                <i data-lucide="users" class="w-6 h-6 text-orange-500"></i>
+                Customer list
+            </h1>
 
-        <!-- Search input -->
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Rechercher un client par nom, ID NAT, RCCM..."
-            class="w-full p-3 mb-6 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
-            autocomplete="off"
-        >
+            <div class="flex gap-3">
+                <a href="{{ route('customers.create') }}" class="orange-btn inline-flex items-center gap-2">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Add New Customer
+                </a>
+            </div>
+        </div>
 
-        <!-- Customers table container -->
-        <div class="w-full overflow-hidden rounded-lg shadow-xs">
-            <div class="w-full overflow-x-auto">
-                <table class="w-full whitespace-no-wrap" id="customersTable">
-                    <thead>
-                    <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
+
+        <div class="flex items-center gap-2 mb-6">
+            <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Rechercher par nom, ID NAT, RCCM..."
+                class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+                autocomplete="off"
+            >
+        </div>
+
+        <div class="overflow-hidden rounded-lg shadow">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-600">
+                    <thead class="bg-gray-100 uppercase text-xs font-semibold text-gray-500">
+                    <tr>
                         <th class="px-4 py-3">Nom</th>
                         <th class="px-4 py-3">ID NAT</th>
                         <th class="px-4 py-3">RCCM</th>
                         <th class="px-4 py-3">Téléphone</th>
                         <th class="px-4 py-3">Commune</th>
                         <th class="px-4 py-3">Ville</th>
+                        <th class="px-4 py-3 text-center">Actions</th>
                     </tr>
                     </thead>
-                    <tbody id="customersTableBody" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                    <tbody id="customersTableBody" class="bg-white divide-y">
                     @foreach($customers as $customer)
+                        <tr class="hover:bg-orange-50">
+                            <td class="px-4 py-3 font-medium text-black">{{ $customer->name }}</td>
+                            <td class="px-4 py-3">{{ $customer->id_nat }}</td>
+                            <td class="px-4 py-3">{{ $customer->rccm ?? 'N/A' }}</td>
+                            <td class="px-4 py-3">{{ $customer->telephone ?? '-' }}</td>
+                            <td class="px-4 py-3">{{ $customer->commune }}</td>
+                            <td class="px-4 py-3">{{ $customer->ville }}</td>
+                            <td class="px-4 py-3 text-center action-links">
+                                <a href="{{ route('invoices.create', $customer->id) }}" class="text-blue-600 inline-flex items-center gap-1">
+                                    <i data-lucide="file-plus" class="w-4 h-4"></i> Créer
+                                </a>
+                                <a href="{{ route('clients.invoices.index', $customer->id) }}"
+                                   class="text-green-600 inline-flex items-center gap-1">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Voir
+                                </a>
 
-                        <tr data-href="{{ route('customers.show', $customer->id) }}" class="text-gray-700 dark:text-gray-400">
-                            <td class="px-4 py-3 text-sm font-semibold text-black dark:text-white">
-                                {{ $customer->name }}
                             </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $customer->id_nat }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $customer->rccm ?? 'N/A' }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $customer->telephone ?? '-' }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $customer->commune }}
-                            </td>
-                            <td class="px-4 py-3 text-sm">
-                                {{ $customer->ville }}
-                            </td>
-
-                            <a href="{{ route('invoices.create', $customer->id) }}" class="text-blue-600">Créer facture</a>
-                            <a href="{{ route('invoices.show', $customer->id) }}" class="text-green-600">Voir facture</a>
-
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
 
-                <!-- Loading indicator -->
                 <div id="loading" class="hidden text-center mt-4 text-orange-500 font-semibold">Chargement...</div>
-
-                <!-- No results message -->
-                <div id="noResults" class="hidden mt-4 text-center text-red-600 font-semibold">
-                    Aucun client trouvé.
-                </div>
+                <div id="noResults" class="hidden mt-4 text-center text-red-600 font-semibold">Aucun client trouvé.</div>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            lucide.createIcons(); // Init Lucide
+
             const searchInput = document.getElementById('searchInput');
             const tableBody = document.getElementById('customersTableBody');
             const loadingIndicator = document.getElementById('loading');
             const noResults = document.getElementById('noResults');
 
-            // Delegate click event on table rows to redirect to show page
-            tableBody.addEventListener('click', function(e) {
-                let tr = e.target.closest('tr');
-                if(tr && tr.dataset.href){
-                    window.location.href = tr.dataset.href;
-                }
-            });
-
-            // Debounce function to limit requests
             function debounce(func, wait) {
                 let timeout;
-                return function(...args) {
+                return function (...args) {
                     clearTimeout(timeout);
                     timeout = setTimeout(() => func.apply(this, args), wait);
                 };
             }
 
-            // Search function with fetch AJAX
             async function searchCustomers(query) {
-                if(query.length === 0) {
-                    // If input empty, reload full list (optional: you can also reload page or restore old data)
+                if (query.length === 0) {
                     window.location.reload();
                     return;
                 }
@@ -139,45 +138,48 @@
                         }
                     });
 
-                    if(!response.ok) throw new Error('Network response was not ok');
+                    if (!response.ok) throw new Error('Erreur réseau');
 
                     const data = await response.json();
-
-                    // Clear table
                     tableBody.innerHTML = '';
 
-                    if(data.length === 0) {
+                    if (data.length === 0) {
                         noResults.classList.remove('hidden');
                         loadingIndicator.classList.add('hidden');
                         return;
                     }
 
-                    // Append rows
                     data.forEach(customer => {
                         const tr = document.createElement('tr');
-                        tr.className = 'text-gray-700 dark:text-gray-400 hover:bg-orange-100 cursor-pointer';
-                        tr.setAttribute('data-href', `/customers/${customer.id}`);
-
+                        tr.className = 'hover:bg-orange-50';
                         tr.innerHTML = `
-                        <td class="px-4 py-3 text-sm font-semibold text-black dark:text-white">${customer.name}</td>
-                        <td class="px-4 py-3 text-sm">${customer.id_nat}</td>
-                        <td class="px-4 py-3 text-sm">${customer.rccm ?? 'N/A'}</td>
-                        <td class="px-4 py-3 text-sm">${customer.telephone ?? '-'}</td>
-                        <td class="px-4 py-3 text-sm">${customer.commune}</td>
-                        <td class="px-4 py-3 text-sm">${customer.ville}</td>
+                        <td class="px-4 py-3 font-medium text-black">${customer.name}</td>
+                        <td class="px-4 py-3">${customer.id_nat}</td>
+                        <td class="px-4 py-3">${customer.rccm ?? 'N/A'}</td>
+                        <td class="px-4 py-3">${customer.telephone ?? '-'}</td>
+                        <td class="px-4 py-3">${customer.commune}</td>
+                        <td class="px-4 py-3">${customer.ville}</td>
+                        <td class="px-4 py-3 text-center action-links">
+                            <a href="/invoices/create/${customer.id}" class="text-blue-600 inline-flex items-center gap-1">
+                                <i data-lucide="file-plus" class="w-4 h-4"></i> Créer
+                            </a>
+                            <a href="/invoices/${customer.id}" class="text-green-600 inline-flex items-center gap-1">
+                                <i data-lucide="eye" class="w-4 h-4"></i> Voir
+                            </a>
+                        </td>
                     `;
                         tableBody.appendChild(tr);
                     });
 
+                    lucide.createIcons(); // Refresh icons after DOM update
                     loadingIndicator.classList.add('hidden');
-                } catch(error) {
-                    console.error('Fetch error:', error);
+                } catch (error) {
+                    console.error('Erreur AJAX:', error);
                     loadingIndicator.classList.add('hidden');
                 }
             }
 
-            // Debounced search input event listener
-            searchInput.addEventListener('input', debounce(function() {
+            searchInput.addEventListener('input', debounce(function () {
                 const query = this.value.trim();
                 searchCustomers(query);
             }, 300));

@@ -138,6 +138,13 @@
             <div class="mt-6">
                 <button type="submit" class="orange-btn">Save</button>
             </div>
+
+{{--            btn back --}}
+            <div class="mt-6">
+                <a href="{{ route('customers.index') }}" class="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white text-sm">
+                    &larr; Back to Customers
+                </a>
+            </div>
         </form>
     </div>
 
