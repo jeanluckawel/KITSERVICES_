@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('employees', function (Blueprint $table) {
-//          Employee
-            $table->id();
+            // Employee info
             $table->string('employee_id')->unique()->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
@@ -26,7 +25,8 @@ return new class extends Migration
             $table->string('nationality')->nullable();
             $table->string('photo')->nullable();
             $table->integer('age')->nullable();
-//          Address
+
+            // Address
             $table->string('house_phone')->nullable();
             $table->string('mobile_phone')->nullable();
             $table->string('email')->nullable();
@@ -35,14 +35,14 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->integer('status')->default(1);
 
-//          emergency
+            // Emergency
             $table->string('emergency_full_name')->nullable();
             $table->string('emergency_relationship')->nullable();
             $table->string('emergency_mobile_phone')->nullable();
             $table->string('emergency_address')->nullable();
             $table->string('emergency_city')->nullable();
 
-//            Spouse
+            // Family / Spouse
             $table->string('father_name')->nullable();
             $table->string('father_name_status')->nullable();
             $table->string('mother_name')->nullable();
@@ -51,15 +51,17 @@ return new class extends Migration
             $table->string('spouse_phone')->nullable();
             $table->date('spouse_birth_date')->nullable();
 
-
-
-            // Enterprise
+            // Enterprise info
+            $table->string('job_title')->nullable();
+            $table->string('classification')->nullable();
+            $table->string('position')->nullable();
             $table->string('department')->nullable();
             $table->string('function')->nullable();
             $table->string('niveau')->nullable();
             $table->string('echelon')->nullable();
             $table->string('contract_type')->nullable();
             $table->decimal('salaire_mensuel_brut', 10, 2)->nullable();
+            $table->string('situation_avant_embauche')->nullable();
 
             $table->timestamps();
         });

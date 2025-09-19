@@ -28,8 +28,23 @@ class EmployeeController extends Controller
     }
     public function create()
     {
-        return view('employees.create');
+        $departments = Department::pluck('name', 'id');
+        $fonctions   = Fonction::pluck('name', 'id');
+        $niveaux     = Niveau::pluck('name', 'id');
+        $echelons    = Echelon::pluck('name', 'id');
+
+        // Grilles avec relations (pour JS)
+        $salaryGrids = salary_grid::with(['department','fonction','niveau','echelon'])->get();
+
+        return view('employees.create', compact(
+            'departments',
+            'fonctions',
+            'niveaux',
+            'echelons',
+            'salaryGrids'
+        ));
     }
+
 
 
 
@@ -55,7 +70,7 @@ class EmployeeController extends Controller
 //            'highest_education_level'  => 'nullable|string|max:255',
 //            'nationality'              => 'nullable|string|max:255',
             'photo'                    => 'nullable|image|max:2048',
-
+//
 //            'mobile_phone'             => 'required|string|max:20',
 //            'email'                    => 'required|email|max:255',
 //            'address1'                 => 'required|string|max:255',
@@ -68,7 +83,7 @@ class EmployeeController extends Controller
 //            'emergency_mobile_phone'   => 'nullable|string|max:20',
 //            'emergency_address'        => 'nullable|string|max:255',
 //            'emergency_city'           => 'nullable|string|max:100',
-
+//
 //            'father_name'              => 'nullable|string|max:255',
 //            'father_name_status'       => 'nullable|string|max:255',
 //            'mother_name'              => 'nullable|string|max:255',
@@ -76,7 +91,7 @@ class EmployeeController extends Controller
 //            'spouse_name'              => 'nullable|string|max:255',
 //            'spouse_phone'             => 'nullable|string|max:20',
 //            'spouse_birth_date'        => 'nullable|date',
-
+//
 //            'department'               => 'required|string|max:255',
 //            'function'                 => 'required|string|max:255',
 //            'niveau'                   => 'required|string|max:255',
@@ -93,8 +108,8 @@ class EmployeeController extends Controller
         $data = $request->all();
 
         // Gestion de la photo (upload direct ou base64 depuis Croppie)
+// In your store method, ensure this part exists:
         if ($request->has('photo_cropped') && !empty($request->photo_cropped)) {
-            // si Croppie renvoie en base64
             $image = $request->photo_cropped;
             $image = str_replace('data:image/jpeg;base64,', '', $image);
             $image = str_replace(' ', '+', $image);
@@ -102,7 +117,6 @@ class EmployeeController extends Controller
             \Storage::disk('public')->put("photos/$fileName", base64_decode($image));
             $data['photo'] = "photos/$fileName";
         } elseif ($request->hasFile('photo')) {
-            // si upload normal
             $data['photo'] = $request->file('photo')->store('photos', 'public');
         }
 

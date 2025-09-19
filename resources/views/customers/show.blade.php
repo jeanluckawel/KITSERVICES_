@@ -35,38 +35,48 @@
 
     <div class="max-w-6xl mx-auto mt-10">
 
+        {{-- Navigation --}}
+        <div class="flex items-center justify-start gap-4 mb-4 border-b border-gray-200">
+
+            <a href="{{ route('dashboard') }}" class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-orange-600 hover:border-orange-600 border-b-2 border-transparent">
+                Dashboard
+            </a>
+            <a  class="px-4 py-2 text-sm font-medium text-orange-600 border-b-2 border-orange-600">
+                 All Customers
+            </a>
+        </div>
+
+        {{-- Header --}}
         <div class="flex justify-between items-center mb-6">
-            <!-- Titre -->
             <h1 class="text-3xl font-semibold flex items-center gap-2">
                 <i data-lucide="users" class="w-6 h-6 text-orange-500"></i>
-                Customer list
+                Customer List
             </h1>
 
-            <div class="flex gap-3">
-                <a href="{{ route('customers.create') }}" class="orange-btn inline-flex items-center gap-2">
+            <div>
+                <a href="{{ route('customers.create') }}"
+                   class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 font-medium shadow">
                     <i data-lucide="plus-circle" class="w-4 h-4"></i> Add New Customer
                 </a>
             </div>
         </div>
 
-
+        {{-- Search --}}
         <div class="flex items-center gap-2 mb-6">
             <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Rechercher par nom, ID NAT, RCCM..."
-                class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
-                autocomplete="off"
-            >
+            <input type="text" id="searchInput"
+                   placeholder="Rechercher par nom, ID NAT, RCCM..."
+                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 shadow-sm"
+                   autocomplete="off">
         </div>
 
-        <div class="overflow-hidden rounded-lg shadow">
+        {{-- Table --}}
+        <div class="overflow-hidden rounded-lg shadow-lg bg-white">
             <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left text-gray-600">
-                    <thead class="bg-gray-100 uppercase text-xs font-semibold text-gray-500">
+                <table class="w-full text-sm text-left text-gray-700">
+                    <thead class="bg-gray-50 uppercase text-xs font-semibold text-gray-500 border-b">
                     <tr>
-                        <th class="px-4 py-3">Nom</th>
+                        <th class="px-4 py-3">Client</th>
                         <th class="px-4 py-3">ID NAT</th>
                         <th class="px-4 py-3">RCCM</th>
                         <th class="px-4 py-3">Téléphone</th>
@@ -75,24 +85,37 @@
                         <th class="px-4 py-3 text-center">Actions</th>
                     </tr>
                     </thead>
-                    <tbody id="customersTableBody" class="bg-white divide-y">
-                    @foreach($customers as $customer)
-                        <tr class="hover:bg-orange-50">
-                            <td class="px-4 py-3 font-medium text-black">{{ $customer->name }}</td>
+                    <tbody id="customersTableBody" class="divide-y bg-white">
+                    @php
+                        $colors = ['bg-orange-500','bg-red-500','bg-green-500','bg-blue-500','bg-purple-500','bg-pink-500','bg-yellow-500'];
+                    @endphp
+                    @foreach($customers as $index => $customer)
+                        @php
+                            $colorClass = $colors[$index % count($colors)];
+                            $initials = strtoupper(substr($customer->name,0,1) . substr(explode(' ', $customer->name)[1] ?? '',0,1));
+                        @endphp
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            {{-- Client Name with Avatar --}}
+                            <td class="px-4 py-3 flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold {{ $colorClass }}">
+                                    {{ $initials }}
+                                </div>
+                                <span class="font-medium text-gray-800">{{ $customer->name }}</span>
+                            </td>
                             <td class="px-4 py-3">{{ $customer->id_nat }}</td>
                             <td class="px-4 py-3">{{ $customer->rccm ?? 'N/A' }}</td>
                             <td class="px-4 py-3">{{ $customer->telephone ?? '-' }}</td>
                             <td class="px-4 py-3">{{ $customer->commune }}</td>
                             <td class="px-4 py-3">{{ $customer->ville }}</td>
-                            <td class="px-4 py-3 text-center action-links">
-                                <a href="{{ route('invoices.create', $customer->id) }}" class="text-blue-600 inline-flex items-center gap-1">
+                            <td class="px-4 py-3 text-center flex justify-center gap-2">
+                                <a href="{{ route('invoices.create', $customer->id) }}"
+                                   class="text-blue-600 hover:text-blue-800 inline-flex items-center gap-1 font-medium">
                                     <i data-lucide="file-plus" class="w-4 h-4"></i> Créer
                                 </a>
                                 <a href="{{ route('clients.invoices.index', $customer->id) }}"
-                                   class="text-green-600 inline-flex items-center gap-1">
+                                   class="text-green-600 hover:text-green-800 inline-flex items-center gap-1 font-medium">
                                     <i data-lucide="eye" class="w-4 h-4"></i> Voir
                                 </a>
-
                             </td>
                         </tr>
                     @endforeach
@@ -104,6 +127,9 @@
             </div>
         </div>
     </div>
+
+
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {

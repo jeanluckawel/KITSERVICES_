@@ -11,6 +11,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SalaryGridController;
 use App\Http\Controllers\TimeSheetController;
 use Illuminate\Support\Facades\Route;
@@ -215,6 +216,13 @@ Route::get('/departments/{id}/functions', [SalaryGridController::class, 'getFunc
 Route::get('/niveaux/{id}/echelons', [SalaryGridController::class, 'getEchelons']);
 
 
+
+
+
+
+Route::get('/functions/{department}', [SalaryController::class, 'getFunctions']);
+Route::get('/levels-echelons/{department}/{fonction}', [SalaryController::class, 'getLevelsEchelons']);
+Route::get('/salary/{department}/{fonction}/{niveau}/{echelon}', [SalaryController::class, 'getSalary']);
 
 
 

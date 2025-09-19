@@ -15,33 +15,7 @@ class Employee extends Model
     use HasFactory;
 
     protected $fillable = [
-        'employee_id', 'first_name', 'last_name',
-        'middle_name',
-        'personal_id', 'birth_date', 'gender',
-        'marital_status',
-        'highest_education_level',
-        'nationality',
-        'photo', 'age', 'house_phone',
-        'mobile_phone', 'email', 'address1',
-        'address2', 'city', 'status',
-        'emergency_full_name',
-        'emergency_relationship',
-        'emergency_mobile_phone',
-        'emergency_address', 'emergency_city'
-              ,
-        'father_name'            ,
-            'father_name_status'       ,
-            'mother_name'              ,
-            'mother_name_status'       ,
-            'spouse_name'               ,
-            'spouse_phone'              ,
-            'spouse_birth_date'        ,
-            'department',
-            'function',
-            'niveau',
-            'echelon',
-            'contract_type',
-            'salaire_mensuel_brut',
+        'employee_id', 'first_name', 'last_name', 'middle_name', 'personal_id', 'birth_date', 'gender', 'marital_status', 'highest_education_level', 'nationality', 'photo', 'age', 'house_phone', 'mobile_phone', 'email', 'address1', 'address2', 'city', 'status', 'emergency_full_name', 'emergency_relationship', 'emergency_mobile_phone', 'emergency_address', 'emergency_city', 'father_name', 'father_name_status', 'mother_name', 'mother_name_status', 'spouse_name', 'spouse_phone', 'spouse_birth_date', 'job_title', 'classification', 'position', 'department', 'function', 'niveau', 'echelon', 'contract_type', 'salaire_mensuel_brut', 'situation_avant_embauche',
 
     ];
 

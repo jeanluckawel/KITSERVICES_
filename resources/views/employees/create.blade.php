@@ -41,6 +41,21 @@
     }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
+    .upload-btn-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        cursor: pointer;
+    }
+    .upload-btn-wrapper input[type=file] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+    }
 </style>
 
 @section('content')
@@ -150,123 +165,48 @@
                 </div>
             </div>
 
-            {{-- ENTREPRISE INFO --}}
-            {{-- ENTREPRISE INFO --}}
-            <div id="entreprise-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Entreprise Information</h3>
+                {{-- ENTREPRISE INFO --}}
+                <div id="entreprise-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Entreprise Information</h3>
 
-                <div class="flex flex-col md:flex-row gap-6">
-                    <x-form.select id="department_id" name="department_id" label="Department" :options="$departments" />
-                    <x-form.select id="fonction_id" name="fonction_id" label="Function" :options="$fonctions" />
+                    <div class="flex flex-col md:flex-row gap-6">
+                        <x-form.select id="department_id" name="department_id" label="Department" :options="$departments" />
+                        <x-form.select id="fonction_id" name="fonction_id" label="Function" :options="$fonctions" />
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-6 mt-4">
+                        <x-form.select id="niveau_id" name="niveau_id" label="Niveau" :options="$niveaux" />
+                        <x-form.select id="echelon_id" name="echelon_id" label="Echelon" :options="$echelons" />
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-6 mt-4">
+                        <x-form.select name="contract_type" label="Contract Type" :options="['CDI'=>'CDI','CDD'=>'CDD','Stage'=>'Stage']" />
+                        <x-form.input id="base_salary" name="base_salary" label="Salaire mensuel brut" type="number" readonly />
+                    </div>
                 </div>
-
-                <div class="flex flex-col md:flex-row gap-6 mt-4">
-                    <x-form.select id="niveau_id" name="niveau_id" label="Niveau" :options="$niveaux" />
-                    <x-form.select id="echelon_id" name="echelon_id" label="Echelon" :options="$echelons" />
-                </div>
-
-                <div class="flex flex-col md:flex-row gap-6 mt-4">
-                    <x-form.select name="contract_type" label="Contract Type" :options="['CDI'=>'CDI','CDD'=>'CDD','Stage'=>'Stage']" />
-                    <x-form.input id="base_salary" name="base_salary" label="Salaire mensuel brut" type="number" readonly />
-                </div>
-            </div>
-
-            <script>
-                const salaryGrids = @json($salaryGrids);
-
-                const departmentSelect = document.getElementById('department_id');
-                const fonctionSelect = document.getElementById('fonction_id');
-                const niveauSelect = document.getElementById('niveau_id');
-                const echelonSelect = document.getElementById('echelon_id');
-                const baseSalaryInput = document.getElementById('base_salary');
-
-                function updateDropdowns() {
-                    const deptId = departmentSelect.value;
-
-                    // Filtrer selon le département
-                    const filteredGrids = salaryGrids.filter(sg => sg.department_id == deptId);
-
-                    // Remplir Function
-                    fonctionSelect.innerHTML = '';
-                    const fonctions = [...new Map(filteredGrids.map(sg => [sg.function_id, sg.fonction.name]))];
-                    fonctions.forEach(([id, name]) => {
-                        const opt = document.createElement('option');
-                        opt.value = id;
-                        opt.text = name;
-                        fonctionSelect.appendChild(opt);
-                    });
-
-                    // Remplir Niveau
-                    niveauSelect.innerHTML = '';
-                    const niveaux = [...new Map(filteredGrids.map(sg => [sg.niveau_id, sg.niveau.name]))];
-                    niveaux.forEach(([id, name]) => {
-                        const opt = document.createElement('option');
-                        opt.value = id;
-                        opt.text = name;
-                        niveauSelect.appendChild(opt);
-                    });
-
-                    // Remplir Echelon
-                    echelonSelect.innerHTML = '';
-                    const echelons = [...new Map(filteredGrids.map(sg => [sg.echelon_id, sg.echelon.name]))];
-                    echelons.forEach(([id, name]) => {
-                        const opt = document.createElement('option');
-                        opt.value = id;
-                        opt.text = name;
-                        echelonSelect.appendChild(opt);
-                    });
-
-                    updateSalary();
-                }
-
-                function updateSalary() {
-                    const deptId = departmentSelect.value;
-                    const fonctionId = fonctionSelect.value;
-                    const niveauId = niveauSelect.value;
-                    const echelonId = echelonSelect.value;
-
-                    const grid = salaryGrids.find(sg =>
-                        sg.department_id == deptId &&
-                        sg.function_id == fonctionId &&
-                        sg.niveau_id == niveauId &&
-                        sg.echelon_id == echelonId
-                    );
-
-                    baseSalaryInput.value = grid ? grid.base_salary : '';
-                }
-
-                // Listeners
-                departmentSelect.addEventListener('change', updateDropdowns);
-                fonctionSelect.addEventListener('change', updateSalary);
-                niveauSelect.addEventListener('change', updateSalary);
-                echelonSelect.addEventListener('change', updateSalary);
-
-                // **Initialisation au chargement :**
-                // Si les selects ont déjà des valeurs, remplir le salary automatiquement
-                window.addEventListener('DOMContentLoaded', () => {
-                    updateDropdowns(); // Remplit les dropdowns
-                    updateSalary();    // Affiche le salaire correspondant
-                });
-            </script>
-
 
             {{-- PICTURE INFO --}}
             <div id="picture-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Upload Picture</h3>
-                <label class="block text-gray-700 mb-2">Upload Picture</label>
-                <input type="file" id="upload" accept="image/*" />
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2">Upload Picture</label>
+                    <div class="upload-btn-wrapper bg-orange-500 text-white px-4 py-2 rounded inline-block cursor-pointer">
+                        <span>Choose File</span>
+                        <input type="file" id="upload" accept="image/*" />
+                    </div>
+                    <span id="file-name" class="ml-2 text-gray-600"></span>
+                </div>
+
                 <input type="hidden" name="photo_cropped" id="photo_cropped"/>
-                <div id="upload-demo" class="mt-4"></div>
+                <div id="upload-demo" class="mt-4 mb-4"></div>
+                <button type="button" id="crop-btn" class="orange-btn hidden">Crop Image</button>
             </div>
 
             {{-- SUBMIT BUTTON --}}
-            {{-- SUBMIT BUTTON --}}
-{{--            <button type="submit">ok</button>--}}
             <div class="flex justify-end mb-10">
-                <button type="submit" id="submitBtn" class="orange-btn hidden">Create Employee</button>
+                <button type="submit" id="submitBtn" class="orange-btn">Create Employee</button>
             </div>
-
-
         </form>
     </div>
 
@@ -291,13 +231,35 @@
                 enableResize: true,
                 enableOrientation: true
             });
-            document.getElementById('upload').addEventListener('change', function(e){
-                const reader = new FileReader();
-                reader.onload = function(ev){ croppieInstance.bind({ url: ev.target.result }); };
-                reader.readAsDataURL(e.target.files[0]);
+
+            const uploadInput = document.getElementById('upload');
+            const cropBtn = document.getElementById('crop-btn');
+            const fileName = document.getElementById('file-name');
+
+            uploadInput.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    fileName.textContent = this.files[0].name;
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        croppieInstance.bind({ url: ev.target.result });
+                        cropBtn.classList.remove('hidden');
+                    };
+                    reader.readAsDataURL(this.files[0]);
+                }
             });
 
-            // --- Form validation ---
+            cropBtn.addEventListener('click', function() {
+                croppieInstance.result({
+                    type: 'base64',
+                    size: 'viewport',
+                    format: 'jpeg'
+                }).then(function(base64) {
+                    // Set the base64 data to the hidden input
+                    document.getElementById('photo_cropped').value = base64;
+                    alert('Image cropped successfully! Click "Create Employee" to save.');
+                });
+            });
+
             // --- Form validation ---
             const form = document.getElementById('employeeForm');
             const submitBtn = document.getElementById('submitBtn');
@@ -312,7 +274,7 @@
                     }
                 });
 
-                // bouton caché si pas tous remplis
+                // Show/hide submit button based on required fields
                 if (allFilled) {
                     submitBtn.classList.remove('hidden');
                 } else {
@@ -320,10 +282,84 @@
                 }
             };
 
-// surveille tous les champs requis
+            // Monitor all required fields
             form.querySelectorAll('[required]').forEach(f => f.addEventListener('input', checkRequiredFields));
             checkRequiredFields();
 
+            // --- Salary Grid Logic ---
+            const salaryGrids = @json($salaryGrids);
+            const departmentSelect = document.getElementById('department_id');
+            const fonctionSelect = document.getElementById('fonction_id');
+            const niveauSelect = document.getElementById('niveau_id');
+            const echelonSelect = document.getElementById('echelon_id');
+            const baseSalaryInput = document.getElementById('base_salary');
+
+            function updateDropdowns() {
+                const deptId = departmentSelect.value;
+
+                // Filter based on department
+                const filteredGrids = salaryGrids.filter(sg => sg.department_id == deptId);
+
+                // Fill Function dropdown
+                fonctionSelect.innerHTML = '';
+                const fonctions = [...new Map(filteredGrids.map(sg => [sg.function_id, sg.fonction.name]))];
+                fonctions.forEach(([id, name]) => {
+                    const opt = document.createElement('option');
+                    opt.value = id;
+                    opt.text = name;
+                    fonctionSelect.appendChild(opt);
+                });
+
+                // Fill Niveau dropdown
+                niveauSelect.innerHTML = '';
+                const niveaux = [...new Map(filteredGrids.map(sg => [sg.niveau_id, sg.niveau.name]))];
+                niveaux.forEach(([id, name]) => {
+                    const opt = document.createElement('option');
+                    opt.value = id;
+                    opt.text = name;
+                    niveauSelect.appendChild(opt);
+                });
+
+                // Fill Echelon dropdown
+                echelonSelect.innerHTML = '';
+                const echelons = [...new Map(filteredGrids.map(sg => [sg.echelon_id, sg.echelon.name]))];
+                echelons.forEach(([id, name]) => {
+                    const opt = document.createElement('option');
+                    opt.value = id;
+                    opt.text = name;
+                    echelonSelect.appendChild(opt);
+                });
+
+                updateSalary();
+            }
+
+            function updateSalary() {
+                const deptId = departmentSelect.value;
+                const fonctionId = fonctionSelect.value;
+                const niveauId = niveauSelect.value;
+                const echelonId = echelonSelect.value;
+
+                const grid = salaryGrids.find(sg =>
+                    sg.department_id == deptId &&
+                    sg.function_id == fonctionId &&
+                    sg.niveau_id == niveauId &&
+                    sg.echelon_id == echelonId
+                );
+
+                baseSalaryInput.value = grid ? grid.base_salary : '';
+            }
+
+            // Listeners for salary grid
+            departmentSelect.addEventListener('change', updateDropdowns);
+            fonctionSelect.addEventListener('change', updateSalary);
+            niveauSelect.addEventListener('change', updateSalary);
+            echelonSelect.addEventListener('change', updateSalary);
+
+            // Initialize on load
+            window.addEventListener('DOMContentLoaded', () => {
+                updateDropdowns();
+                updateSalary();
+            });
         });
     </script>
 @endsection

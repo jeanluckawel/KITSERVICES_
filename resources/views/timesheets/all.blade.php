@@ -3,6 +3,15 @@
 @section('content')
     <div class="p-6">
         <h1 class="text-2xl font-bold mb-4">Clock de tous les employés</h1>
+
+
+        <a href="{{ route('dashboard') }}" class="px-4 py-2 text-sm font-medium text-gray-500 hover:text-orange-600 hover:border-orange-600 border-b-2 border-transparent">
+            Dashboard
+        </a>
+        <a  class="px-4 py-2 text-sm font-medium text-orange-600 border-b-2 border-orange-600">
+            Clock
+        </a>
+
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white rounded-lg shadow">
                 <thead class="bg-orange-500 text-white">
