@@ -35,6 +35,8 @@ class DepartmentController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255|unique:departments,name',
+        ], [
+            'name.unique' => 'Ce département existe déjà.',
         ]);
 
         department::create([

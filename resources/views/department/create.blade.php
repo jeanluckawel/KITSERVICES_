@@ -23,14 +23,26 @@
             <!-- Add Department Form -->
             <div x-show="tab === 'add'" x-transition>
                 @if(session('success'))
-                    <div class="mb-4 text-green-600 font-semibold">{{ session('success') }}</div>
+                    <div class="mb-4 px-4 py-2 bg-green-100 border border-green-300 text-green-700 rounded">
+                        {{ session('success') }}
+                    </div>
                 @endif
+
+                @if ($errors->any())
+                    <div class="mb-4 px-4 py-2 bg-red-100 border border-red-300 text-red-700 rounded">
+                        {{ $errors->first('name') }}
+                    </div>
+                @endif
+
 
                 <form action="{{ route('departments.store') }}" method="POST" class="space-y-4">
                     @csrf
                     <div>
                         <label class="block mb-2 text-orange-600 font-medium">Name</label>
-                        <input type="text" name="name" class="w-full border border-orange-300 px-3 py-2 rounded focus:ring-2 focus:ring-orange-400" required>
+                        <input type="text" name="name"
+                               value="{{ old('name') }}"
+                               class="w-full border border-orange-300 px-3 py-2 rounded focus:ring-2 focus:ring-orange-400"
+                               required>
                     </div>
                     <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded">Save</button>
                 </form>
@@ -41,7 +53,7 @@
                 <table class="w-full border-collapse">
                     <thead class="bg-orange-100 sticky top-0 z-10">
                     <tr>
-                        <th class="border px-4 py-2 text-left text-orange-600">ID</th>
+                        <th class="border px-4 py-2 text-left text-orange-600">#</th>
                         <th class="border px-4 py-2 text-left text-orange-600">Name</th>
                     </tr>
                     </thead>

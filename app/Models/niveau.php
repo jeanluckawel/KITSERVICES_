@@ -15,4 +15,9 @@ class niveau extends Model
     {
         return $this->hasMany(salary_grid::class);
     }
+
+    public function echelons()
+    {
+        return $this->hasMany(echelon::class);
+    }
 }

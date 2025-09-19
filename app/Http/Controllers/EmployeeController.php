@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Mail\NewEmployeeNotification;
+use App\Models\department;
+use App\Models\echelon;
 use App\Models\Employee;
+use App\Models\fonction;
+use App\Models\niveau;
+use App\Models\salary_grid;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -16,8 +21,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-//        $employees = Employee::all();
-        $employees = Employee::paginate(7);
+        $employees = Employee::all();
+//        $employees = Employee::paginate(100);
         $count = $employees->where('status', '1')->count();
         return view('employees.index',compact('employees','count'));
     }
@@ -25,6 +30,8 @@ class EmployeeController extends Controller
     {
         return view('employees.create');
     }
+
+
 
     /**
      * Show the form for creating a new resource.

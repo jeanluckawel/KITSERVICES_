@@ -16,33 +16,48 @@
                 <button @click="tab = 'show'"
                         :class="tab === 'show' ? 'border-orange-600 text-orange-600' : 'text-gray-700'"
                         class="px-4 py-2 font-medium border-b-2">
-                    Show Niveau
+                    Show Niveaux
                 </button>
             </nav>
 
             <!-- Add Niveau Form -->
             <div x-show="tab === 'add'" x-transition>
+                <!-- Message de succès -->
                 @if(session('success'))
-                    <div class="mb-4 text-green-600 font-semibold">{{ session('success') }}</div>
+                    <div class="mb-4 bg-green-100 text-green-800 p-3 rounded font-semibold">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                <!-- Message d'erreur -->
+                @if ($errors->any())
+                    <div class="mb-4 bg-red-100 text-red-800 p-3 rounded font-semibold">
+                        {{ $errors->first('name') }}
+                    </div>
                 @endif
 
                 <form action="{{ route('niveaux.store') }}" method="POST" class="space-y-4">
                     @csrf
                     <div>
                         <label class="block mb-2 text-orange-600 font-medium">Niveau Name</label>
-                        <input type="text" name="name" class="w-full border border-orange-300 px-3 py-2 rounded focus:ring-2 focus:ring-orange-400" required>
+                        <input type="text" name="name"
+                               class="w-full border border-orange-300 px-3 py-2 rounded focus:ring-2 focus:ring-orange-400"
+                               required>
                     </div>
 
-                    <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded">Save</button>
+                    <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded">
+                        Save
+                    </button>
                 </form>
             </div>
 
             <!-- Show Niveaux -->
-            <div x-show="tab === 'show'" x-transition class="overflow-auto max-h-96 border border-orange-300 rounded">
+            <div x-show="tab === 'show'" x-transition
+                 class="overflow-auto max-h-96 border border-orange-300 rounded">
                 <table class="w-full border-collapse">
                     <thead class="bg-orange-100 sticky top-0 z-10">
                     <tr>
-                        <th class="border px-4 py-2 text-left text-orange-600">ID</th>
+                        <th class="border px-4 py-2 text-left text-orange-600">#</th>
                         <th class="border px-4 py-2 text-left text-orange-600">Niveau</th>
                     </tr>
                     </thead>

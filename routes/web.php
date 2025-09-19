@@ -11,6 +11,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SalaryGridController;
 use App\Http\Controllers\TimeSheetController;
 use Illuminate\Support\Facades\Route;
 
@@ -208,6 +209,11 @@ Route::prefix('admin')->group(function () {
     Route::resource('salary_grids', \App\Http\Controllers\SalaryGridController::class)->only(['create', 'store']);
 
 });
+
+
+Route::get('/departments/{id}/functions', [SalaryGridController::class, 'getFunctions']);
+Route::get('/niveaux/{id}/echelons', [SalaryGridController::class, 'getEchelons']);
+
 
 
 

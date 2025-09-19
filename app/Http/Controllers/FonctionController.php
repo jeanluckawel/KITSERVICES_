@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\fonction;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class FonctionController extends Controller
 {
@@ -34,15 +35,26 @@ class FonctionController extends Controller
         //
 
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('fonctions')->where(function ($query) use ($request) {
+                    return $query->where('department_id', $request->department_id);
+                }),
+            ],
             'department_id' => 'required|exists:departments,id',
+        ], [
+            'name.unique' => 'Cette fonction existe déjà dans ce département.',
         ]);
+
         fonction::create([
             'name' => $request->name,
             'department_id' => $request->department_id,
         ]);
 
-        return redirect()->back()->with('success', 'Department created successfully.');
+        return redirect()->back()->with('success', 'Fonction créée avec succès.');
+
     }
 
     /**

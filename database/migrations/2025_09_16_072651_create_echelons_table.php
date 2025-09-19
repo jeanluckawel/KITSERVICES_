@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('echelons', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignId('niveau_id')->constrained('niveaux')->onDelete('cascade');
             $table->timestamps();
         });
     }

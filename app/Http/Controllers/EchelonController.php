@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\echelon;
+use App\Models\niveau;
 use Illuminate\Http\Request;
 
 class EchelonController extends Controller
@@ -22,8 +23,10 @@ class EchelonController extends Controller
     {
         //
 
-        $echelons = echelon::all();
-        return view('echelons.create', compact('echelons'));
+        $echelons = echelon::with('niveau')->get();
+        $niveaux = niveau::all();
+
+        return view('echelons.create', compact('echelons', 'niveaux'));
     }
 
     /**
@@ -33,15 +36,15 @@ class EchelonController extends Controller
     {
         //
         $request->validate([
+            'niveau_id' => 'required|unique:echelons,niveau_id',
             'name' => 'required|string|max:255',
+        ], [
+            'niveau_id.unique' => 'Ce niveau a déjà un échelon assigné.',
         ]);
 
-        echelon::create([
-            'name' => $request->name,
-        ]);
+        echelon::create($request->all());
 
-        return redirect()->route('echelons.create')->with('success', 'Échelon added successfully!');
-
+        return redirect()->back()->with('success', 'Échelon ajouté avec succès !');
     }
 
     /**

@@ -22,16 +22,14 @@ class SalaryGridController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
     public function create()
     {
-        //
         $departments = department::all();
-        $functions = fonction::all();
         $niveaux = niveau::all();
-        $echelons = echelon::all();
+        $salaryGrids = salary_grid::with(['department','fonction','niveau','echelon'])->get();
 
-        return view('salary_grids.create', compact('departments', 'functions', 'niveaux', 'echelons'));
-
+        return view('salary_grids.create', compact('departments', 'niveaux', 'salaryGrids'));
     }
 
     /**
@@ -43,15 +41,16 @@ class SalaryGridController extends Controller
 
         $request->validate([
             'department_id' => 'required|exists:departments,id',
-            'function_id' => 'required|exists:functions,id',
+            'fonction_id' => 'required|exists:fonctions,id',
             'niveau_id' => 'required|exists:niveaux,id',
             'echelon_id' => 'required|exists:echelons,id',
             'base_salary' => 'required|numeric|min:0',
         ]);
 
+
         salary_grid::create($request->all());
 
-        return redirect()->route('salary_grids.index')->with('success', 'Niveau created successfully.');
+        return redirect()->back()->with('success', 'Niveau created successfully.');
 
 
     }
@@ -87,4 +86,17 @@ class SalaryGridController extends Controller
     {
         //
     }
+
+    public function getFunctions($id)
+    {
+        $functions = \App\Models\Fonction::where('department_id', $id)->get();
+        return response()->json($functions);
+    }
+
+    public function getEchelons($id)
+    {
+        $echelons = \App\Models\Echelon::where('niveau_id', $id)->get();
+        return response()->json($echelons);
+    }
+
 }

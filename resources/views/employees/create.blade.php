@@ -151,21 +151,104 @@
             </div>
 
             {{-- ENTREPRISE INFO --}}
+            {{-- ENTREPRISE INFO --}}
             <div id="entreprise-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Entreprise Information</h3>
+
                 <div class="flex flex-col md:flex-row gap-6">
-                    <x-form.select name="department" label="Department" :options="['HR'=>'HR']" />
-                    <x-form.select name="function" label="Function" :options="['HR Admin'=>'HR Admin']" />
+                    <x-form.select id="department_id" name="department_id" label="Department" :options="$departments" />
+                    <x-form.select id="fonction_id" name="fonction_id" label="Function" :options="$fonctions" />
                 </div>
+
                 <div class="flex flex-col md:flex-row gap-6 mt-4">
-                    <x-form.select name="niveau" label="Niveau" :options="['A1'=>'A1']" />
-                    <x-form.select name="echelon" label="Echelon" :options="['I'=>'I']" />
+                    <x-form.select id="niveau_id" name="niveau_id" label="Niveau" :options="$niveaux" />
+                    <x-form.select id="echelon_id" name="echelon_id" label="Echelon" :options="$echelons" />
                 </div>
+
                 <div class="flex flex-col md:flex-row gap-6 mt-4">
                     <x-form.select name="contract_type" label="Contract Type" :options="['CDI'=>'CDI','CDD'=>'CDD','Stage'=>'Stage']" />
-                    <x-form.input name="salaire_mensuel_brut" label="Salaire mensuel brut" type="number"/>
+                    <x-form.input id="base_salary" name="base_salary" label="Salaire mensuel brut" type="number" readonly />
                 </div>
             </div>
+
+            <script>
+                const salaryGrids = @json($salaryGrids);
+
+                const departmentSelect = document.getElementById('department_id');
+                const fonctionSelect = document.getElementById('fonction_id');
+                const niveauSelect = document.getElementById('niveau_id');
+                const echelonSelect = document.getElementById('echelon_id');
+                const baseSalaryInput = document.getElementById('base_salary');
+
+                function updateDropdowns() {
+                    const deptId = departmentSelect.value;
+
+                    // Filtrer selon le département
+                    const filteredGrids = salaryGrids.filter(sg => sg.department_id == deptId);
+
+                    // Remplir Function
+                    fonctionSelect.innerHTML = '';
+                    const fonctions = [...new Map(filteredGrids.map(sg => [sg.function_id, sg.fonction.name]))];
+                    fonctions.forEach(([id, name]) => {
+                        const opt = document.createElement('option');
+                        opt.value = id;
+                        opt.text = name;
+                        fonctionSelect.appendChild(opt);
+                    });
+
+                    // Remplir Niveau
+                    niveauSelect.innerHTML = '';
+                    const niveaux = [...new Map(filteredGrids.map(sg => [sg.niveau_id, sg.niveau.name]))];
+                    niveaux.forEach(([id, name]) => {
+                        const opt = document.createElement('option');
+                        opt.value = id;
+                        opt.text = name;
+                        niveauSelect.appendChild(opt);
+                    });
+
+                    // Remplir Echelon
+                    echelonSelect.innerHTML = '';
+                    const echelons = [...new Map(filteredGrids.map(sg => [sg.echelon_id, sg.echelon.name]))];
+                    echelons.forEach(([id, name]) => {
+                        const opt = document.createElement('option');
+                        opt.value = id;
+                        opt.text = name;
+                        echelonSelect.appendChild(opt);
+                    });
+
+                    updateSalary();
+                }
+
+                function updateSalary() {
+                    const deptId = departmentSelect.value;
+                    const fonctionId = fonctionSelect.value;
+                    const niveauId = niveauSelect.value;
+                    const echelonId = echelonSelect.value;
+
+                    const grid = salaryGrids.find(sg =>
+                        sg.department_id == deptId &&
+                        sg.function_id == fonctionId &&
+                        sg.niveau_id == niveauId &&
+                        sg.echelon_id == echelonId
+                    );
+
+                    baseSalaryInput.value = grid ? grid.base_salary : '';
+                }
+
+                // Listeners
+                departmentSelect.addEventListener('change', updateDropdowns);
+                fonctionSelect.addEventListener('change', updateSalary);
+                niveauSelect.addEventListener('change', updateSalary);
+                echelonSelect.addEventListener('change', updateSalary);
+
+                // **Initialisation au chargement :**
+                // Si les selects ont déjà des valeurs, remplir le salary automatiquement
+                window.addEventListener('DOMContentLoaded', () => {
+                    updateDropdowns(); // Remplit les dropdowns
+                    updateSalary();    // Affiche le salaire correspondant
+                });
+            </script>
+
 
             {{-- PICTURE INFO --}}
             <div id="picture-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -178,10 +261,10 @@
 
             {{-- SUBMIT BUTTON --}}
             {{-- SUBMIT BUTTON --}}
-            <button type="submit">ok</button>
-{{--            <div class="flex justify-end mb-10">--}}
-{{--                <button type="submit" id="submitBtn" class="orange-btn hidden">Create Employee</button>--}}
-{{--            </div>--}}
+{{--            <button type="submit">ok</button>--}}
+            <div class="flex justify-end mb-10">
+                <button type="submit" id="submitBtn" class="orange-btn hidden">Create Employee</button>
+            </div>
 
 
         </form>

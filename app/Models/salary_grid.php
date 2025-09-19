@@ -10,7 +10,7 @@ class salary_grid extends Model
 
     protected $fillable = [
         'department_id',
-        'function_id',
+        'fonction_id',
         'niveau_id',
         'echelon_id',
         'base_salary',
@@ -24,7 +24,7 @@ class salary_grid extends Model
 
     public function fonction()
     {
-        return $this->belongsTo(fonction::class, 'function_id');
+        return $this->belongsTo(fonction::class);
     }
 
     public function niveau()

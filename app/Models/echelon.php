@@ -8,11 +8,15 @@ class echelon extends Model
 {
     //
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'niveau_id'];
 
-    // Un échelon peut être utilisé dans plusieurs grilles salariales
     public function salaryGrids()
     {
         return $this->hasMany(salary_grid::class);
+    }
+
+    public function niveau()
+    {
+        return $this->belongsTo(niveau::class);
     }
 }

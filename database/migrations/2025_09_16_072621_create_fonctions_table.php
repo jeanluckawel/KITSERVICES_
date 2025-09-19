@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('fonctions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->foreignId('department_id')->constrained()->onDelete('cascade');
+            $table->unique(['department_id', 'name']); // Ensure unique function names within the same department
             $table->timestamps();
         });
     }

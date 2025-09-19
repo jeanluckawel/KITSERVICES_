@@ -37,6 +37,8 @@ class NiveauController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255|unique:niveaux,name',
+        ], [
+            'name.unique' => 'Ce niveau existe déjà.',
         ]);
 
         niveau::create([

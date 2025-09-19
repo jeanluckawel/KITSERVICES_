@@ -61,15 +61,16 @@
 
     <div class="w-full overflow-hidden rounded-lg shadow-xs">
 
-        <div class="w-full overflow-x-auto">
-            <table class="w-full whitespace-no-wrap">
-                <thead>
-                <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-                    <th class="px-4 py-3">Full Name</th>
-                    <th class="px-4 py-3">Department</th>
-                    <th class="px-4 py-3">Gender</th>
-                    <th class="px-4 py-3">EmployeeID</th>
-                    <th class="px-4 py-3">Action</th>
+        <!-- Scrollable table container with fixed header -->
+        <div class="w-full max-h-[500px] overflow-y-auto overflow-x-auto">
+            <table class="w-full whitespace-no-wrap border-collapse">
+                <thead class="bg-gray-50 dark:bg-gray-800 sticky top-0 z-20 border-b dark:border-gray-700">
+                <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 dark:text-gray-400 uppercase">
+                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800">Full Name</th>
+                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800">Department</th>
+                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800">Gender</th>
+                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800">EmployeeID</th>
+                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800">Action</th>
                 </tr>
                 </thead>
                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -104,27 +105,16 @@
                         </td>
                         <td class="px-4 py-3 text-sm">
                             <div class="flex items-center justify-start space-x-2">
-
-
-
-                                {{-- Enfant --}}
                                 <a href="{{ route('children.create', $employee->employee_id) }}" title="Ajouter un enfant">
-                                    <button class="orange-btn">
-                                        ➕ Add a child
-                                    </button>
+                                    <button class="orange-btn">➕ Add a child</button>
                                 </a>
-
-
                             </div>
                         </td>
-
-
                     </tr>
                 @endforeach
                 </tbody>
             </table>
         </div>
-
 
     </div>
 
