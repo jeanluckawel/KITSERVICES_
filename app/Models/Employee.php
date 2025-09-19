@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Controllers\ChildController;
 use App\Http\Controllers\EmployeeEntrepriseController;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -11,8 +12,22 @@ class Employee extends Model
 {
     //
 
+    use HasFactory;
+
     protected $fillable = [
-        'employee_id', 'first_name', 'last_name', 'middle_name', 'personal_id', 'birth_date', 'gender', 'marital_status', 'highest_education_level', 'nationality', 'photo', 'age', 'house_phone', 'mobile_phone', 'email', 'address1', 'address2', 'city', 'status', 'emergency_full_name', 'emergency_relationship', 'emergency_mobile_phone', 'emergency_address', 'emergency_city'
+        'employee_id', 'first_name', 'last_name',
+        'middle_name',
+        'personal_id', 'birth_date', 'gender',
+        'marital_status',
+        'highest_education_level',
+        'nationality',
+        'photo', 'age', 'house_phone',
+        'mobile_phone', 'email', 'address1',
+        'address2', 'city', 'status',
+        'emergency_full_name',
+        'emergency_relationship',
+        'emergency_mobile_phone',
+        'emergency_address', 'emergency_city'
               ,
         'father_name'            ,
             'father_name_status'       ,
@@ -55,6 +70,11 @@ class Employee extends Model
     public function entreprise()
     {
         return $this->hasOne(EmployeeEntreprise::class, 'employee_id', 'employee_id');
+    }
+
+    public function timeSheets()
+    {
+        return $this->hasMany(TimeSheet::class);
     }
 
 }

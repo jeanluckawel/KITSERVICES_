@@ -46,7 +46,7 @@
                         </tr>
                         <tr>
                             <td class="border px-2 py-1">Prénom</td>
-                            |
+
 
 
                             <td class="border px-2 py-1">{{  $employee->last_name ?? 'N/A' }}</td>

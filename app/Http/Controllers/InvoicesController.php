@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Mail\InvoiceCreatedMail;
 use App\Models\clients;
+use App\Models\Customer;
+use App\Models\Invoice;
 use App\Models\invoices;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -37,7 +40,7 @@ class InvoicesController extends Controller
         $savedInvoices = [];
 
         foreach ($request->items as $item) {
-            $invoice = invoices::create([
+            $invoice = Invoices::create([
                 'client_id' => $request->client_id,
                 'po_order' => $request->po_order,
                 'date' => $item['date'],
@@ -71,7 +74,7 @@ class InvoicesController extends Controller
 
     public function index()
     {
-        $invoice = invoices::with('client')->latest()->get();
+        $invoice = Invoice::with('client')->latest()->get();
         return view('invoices.show', compact('invoice'));
     }
 
@@ -80,18 +83,38 @@ class InvoicesController extends Controller
      * Display the specified resource.
      */
 
-   public function show($id)
-   {
-       $invoice = invoices::with('client')->findOrFail($id);
-       return view('invoices.show', compact('invoice'));
-   }
-
-    public function listByClient(clients $client)
+    public function show($id)
     {
-        $invoices = Invoices::where('client_id', $client->id)->get();
+        // Récupérer la facture sélectionnée
+        $invoice = Invoice::findOrFail($id);
 
-        return view('invoices.list', compact('client', 'invoices'));
+        // Récupérer le client lié
+        $customer = $invoice->customer;
+
+        // Récupérer toutes les lignes de la même facture (même PO et numéro_invoice)
+        $invoices = Invoice::where('customer_id', $invoice->customer_id)
+            ->where('po', $invoice->po)
+            ->where('numero_invoice', $invoice->numero_invoice)
+            ->get();
+
+        return view('invoices.invoice', compact('customer', 'invoice', 'invoices'));
     }
+
+    public function listByClient($clientId)
+    {
+        $customer = Customer::findOrFail($clientId);
+
+        // On regroupe par po et numero_invoice
+        $invoices = Invoice::select('po', 'numero_invoice', DB::raw('MIN(id) as id'))
+            ->where('customer_id', $clientId)
+            ->groupBy('po', 'numero_invoice')
+            ->orderByDesc('id')
+            ->get();
+
+        return view('invoices.list', compact('customer', 'invoices'));
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.

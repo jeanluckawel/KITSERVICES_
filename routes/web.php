@@ -2,18 +2,27 @@
 
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeEntrepriseController;
 use App\Http\Controllers\EmployeeImportController;
 use App\Http\Controllers\FamillyController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SalaryGridController;
+use App\Http\Controllers\TimeSheetController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', function () {
     return view('dashboard');
 });
+
+//Route::get('/dashboard', [DashboardController::class, 'index'])
+//    ->middleware(['auth', 'verified'])
+//    ->name('dashboard');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -90,29 +99,32 @@ Route::get('/clients/create', [ClientsController::class, 'create'])->name('clien
 Route::post('/clients', [ClientsController::class, 'store'])->name('clients.store')->middleware(['auth', 'verified']);
 
 // Invoices
-Route::get('/invoices', [InvoicesController::class, 'index'])->name('invoices.index')->middleware(['auth', 'verified']);
-Route::get('/invoices/create/{id}', [InvoicesController::class, 'create'])->name('invoices.create')->middleware(['auth', 'verified']);
-Route::post('/invoices', [InvoicesController::class, 'store'])->name('invoices.store')->middleware(['auth', 'verified']);
-// Invoices liées à un client
-Route::get('/clients/{client}/invoices/create', [InvoicesController::class, 'create'])->name('clients.invoices.create')->middleware(['auth', 'verified']);
-Route::get('/clients/{client}/invoice', [InvoicesController::class, 'show'])->name('invoices.show')->middleware(['auth', 'verified']);
+//Route::get('/invoices', [InvoicesController::class, 'index'])->name('invoices.index')->middleware(['auth', 'verified']);
+//Route::get('/invoices/create/{id}', [InvoicesController::class, 'create'])->name('invoices.create')->middleware(['auth', 'verified']);
+//Route::post('/invoices', [InvoicesController::class, 'store'])->name('invoices.store')->middleware(['auth', 'verified']);
+////  Invoices liées à un client
+//Route::get('/clients/{client}/invoices/create', [InvoicesController::class, 'create'])->name('clients.invoices.create')->middleware(['auth', 'verified']);
+//Route::get('/clients/{client}/invoice', [InvoicesController::class, 'show'])->name('invoices.show')->middleware(['auth', 'verified']);
+//
+//
+//
+//Route::get('/invoices', [InvoicesController::class, 'index'])->name('invoices.index')->middleware(['auth', 'verified']);
+//Route::get('/invoices/create/{id}', [InvoicesController::class, 'create'])->name('invoices.create')->middleware(['auth', 'verified']);
+//Route::post('/invoices', [InvoicesController::class, 'store'])->name('invoices.store')->middleware(['auth', 'verified']);
+//Route::get('/invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show')->middleware(['auth', 'verified']);
 
 
 
-Route::get('/invoices', [InvoicesController::class, 'index'])->name('invoices.index')->middleware(['auth', 'verified']);
-Route::get('/invoices/create/{id}', [InvoicesController::class, 'create'])->name('invoices.create')->middleware(['auth', 'verified']);
-Route::post('/invoices', [InvoicesController::class, 'store'])->name('invoices.store')->middleware(['auth', 'verified']);
-Route::get('/invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show')->middleware(['auth', 'verified']);
-
-
+//Route::get('/invoices/{invoice}', [InvoicesController::class, 'show'])
+//    ->name('invoices.show');
 
 
 
 // Voir toutes les factures d'un client (entreprise)
 Route::get('/clients/{client}/invoices', [InvoicesController::class, 'listByClient'])->name('clients.invoices.index');
 
-// Voir le détail d'une facture
-Route::get('/invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show');
+//// Voir le détail d'une facture
+//Route::get('/invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show');
 
 //download PDF
 
@@ -144,6 +156,67 @@ Route::get('/files',function(){
 
 Route::get('/employees/template/file', [EmployeeController::class, 'file'])->name('employees.download.file');
 Route::get('/employees/template/download', [EmployeeController::class, 'downloadTemplate'])->name('employees.download.template');
+
+Route::get('customers/create', [\App\Http\Controllers\CustomerController::class, 'create'])->name('customers.create');
+Route::get('customers/{id}/show', [\App\Http\Controllers\CustomerController::class, 'show'])->name('customers.show');
+Route::post('customers/create', [\App\Http\Controllers\CustomerController::class, 'store'])->name('customers.store');
+Route::get('customers/', [\App\Http\Controllers\CustomerController::class, 'index'])->name('customers.index');
+Route::get('/customers/search', [\App\Http\Controllers\CustomerController::class, 'search'])->name('customers.search');
+
+
+Route::post('customers/{customer}/invoice', [InvoiceController::class, 'store'])->name('invoices.store');
+
+
+Route::get('invoices/create/{customer}', [InvoiceController::class, 'create'])->name('invoices.create')->middleware(['auth', 'verified']);
+Route::get('invoices/show/{customer}', [InvoiceController::class, 'show'])->name('invoices.show');
+
+//Route::post('/customers/{customer}/invoice', [InvoiceController::class, 'store'])->name('invoices.store');
+// web.php
+Route::get('/invoices/detail/{numero_invoice}', [InvoiceController::class, 'detail'])->name('invoices.detail')->middleware(['auth', 'verified']);
+
+
+
+
+Route::get('/clients/{client}/invoices', [InvoicesController::class, 'listByClient'])
+    ->name('clients.invoices.index')->middleware(['auth', 'verified']);
+
+Route::get('/invoices/{invoice}', [InvoicesController::class, 'show'])
+    ->name('invoices.show')->middleware(['auth', 'verified']);
+
+
+
+Route::get('/timesheet/login', [TimeSheetController::class, 'loginForm'])->name('timesheets.login');
+Route::post('/timesheet/login', [TimeSheetController::class, 'login'])->name('timesheets.login.submit');
+
+
+Route::get('/timesheet/dashboard', [TimeSheetController::class, 'dashboard'])->name('timesheets.dashboard');
+Route::post('/timesheet/start', [TimeSheetController::class, 'start'])->name('timesheets.start');
+Route::post('/timesheet/end', [TimeSheetController::class, 'end'])->name('timesheets.end');
+// routes/web.php
+Route::get('/timesheets/all', [TimeSheetController::class, 'all'])->name('timesheets.all');
+
+
+
+
+
+
+Route::prefix('admin')->group(function () {
+
+    Route::resource('departments', \App\Http\Controllers\DepartmentController::class)->only(['create', 'store']);
+    Route::resource('functions', \App\Http\Controllers\FonctionController::class)->only(['create', 'store']);
+    Route::resource('niveaux', \App\Http\Controllers\NiveauController::class)->only(['create', 'store']);
+    Route::resource('echelons', \App\Http\Controllers\EchelonController::class)->only(['create', 'store']);
+    Route::resource('salary_grids', \App\Http\Controllers\SalaryGridController::class)->only(['create', 'store']);
+
+});
+
+
+Route::get('/departments/{id}/functions', [SalaryGridController::class, 'getFunctions']);
+Route::get('/niveaux/{id}/echelons', [SalaryGridController::class, 'getEchelons']);
+
+
+
+
 
 
 

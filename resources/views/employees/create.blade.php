@@ -1,8 +1,15 @@
-
-
 @extends('layouts.app')
 
 @section('title', 'Kit Service | Add or Edit Employee')
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+<!-- Croppie CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.css" />
+<!-- Croppie JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
 
 <style>
     .orange-btn {
@@ -15,10 +22,25 @@
         cursor: pointer;
         transition: background-color 0.3s ease;
     }
-
     .orange-btn:hover {
         background-color: #ea580c; /* orange-600 */
     }
+    .tab-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        border-bottom: 2px solid transparent;
+        color: #4B5563;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .tab-btn:hover { color: #f97316; }
+    .tab-btn.active-tab {
+        border-bottom-color: #f97316;
+        color: #f97316;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 </style>
 
 @section('content')
@@ -37,50 +59,31 @@
         <!-- Tabs -->
         <div class="mb-6">
             <div class="flex border-b dark:border-gray-700 space-x-4">
-                <button type="button" class="tab-btn active-tab" data-target="employee-section">
-                    <i class="fas fa-user mr-2"></i> Employee
-                </button>
-                <button type="button" class="tab-btn" data-target="address-section">
-                    <i class="fas fa-map-marker-alt mr-2"></i> Address
-                </button>
-                <button type="button" class="tab-btn" data-target="emergency-section">
-                    <i class="fas fa-phone-alt mr-2"></i> Emergency
-                </button>
-                <button type="button" class="tab-btn" data-target="family-section">
-                    <i class="fas fa-users mr-2"></i> Family
-                </button>
-
-                <button type="button" class="tab-btn" data-target="entreprise-section">
-                    <i class="fas fa-building mr-2"></i> Entreprise
-                </button>
+                <button type="button" class="tab-btn active-tab" data-target="employee-section"><i class="fas fa-user mr-2"></i> Employee</button>
+                <button type="button" class="tab-btn" data-target="address-section"><i class="fas fa-map-marker-alt mr-2"></i> Address</button>
+                <button type="button" class="tab-btn" data-target="emergency-section"><i class="fas fa-phone-alt mr-2"></i> Emergency</button>
+                <button type="button" class="tab-btn" data-target="family-section"><i class="fas fa-users mr-2"></i> Family</button>
+                <button type="button" class="tab-btn" data-target="entreprise-section"><i class="fas fa-building mr-2"></i> Entreprise</button>
+                <button type="button" class="tab-btn" data-target="picture-section"><i class="fas fa-image mr-2"></i> Picture</button>
             </div>
         </div>
 
-        <form id="employeeForm"
-              action="{{ isset($employee) ? route('employees.update', $employee->id) : route('employees.store') }}"
-              method="POST"
-              enctype="multipart/form-data"
-              autocomplete="off"
-        >
+        <form id="employeeForm" action="{{ route('employees.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
             @csrf
-            @if(isset($employee)) @method('PUT') @endif
 
             {{-- EMPLOYEE INFO --}}
             <div id="employee-section" class="tab-content active p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Employee Information</h3>
-
                 <div class="flex flex-col md:flex-row gap-6">
-                    <x-form.input name="first_name" label="First Name" required  autocomplete="off"/>
-                    <x-form.input name="last_name" label="Last Name" required  autocomplete="off"/>
-                    <x-form.input name="middle_name" label="Middle Name"  autocomplete="off"/>
+                    <x-form.input name="first_name" label="First Name"  autocomplete="off"/>
+                    <x-form.input name="last_name" label="Last Name"  autocomplete="off"/>
+                    <x-form.input name="middle_name" label="Middle Name" autocomplete="off"/>
                 </div>
-
                 <div class="flex flex-col md:flex-row gap-6 mt-4">
                     <x-form.input name="personal_id" label="Personal ID" autocomplete="off" />
-                    <x-form.input type="date" name="birth_date" label="Birth Date"  autocomplete="off"/>
-                    <x-form.input name="nationality" label="Nationality"  autocomplete="off"/>
+                    <x-form.input type="date" name="birth_date" label="Birth Date" autocomplete="off"/>
+                    <x-form.input name="nationality" label="Nationality" autocomplete="off"/>
                 </div>
-
                 <div class="flex flex-col md:flex-row gap-6 mt-4">
                     <div class="block text-sm flex-1">
                         <span class="text-gray-700">Gender <sup class="text-red-600">*</sup></span>
@@ -89,170 +92,213 @@
                             <x-form.radio name="gender" value="F" label="F" />
                         </div>
                     </div>
-
-                    <x-form.select name="marital_status" label="Marital Status" :options="['Single', 'Married', 'Divorced', 'Widowed']" required />
+                    <x-form.select name="marital_status" label="Marital Status" :options="['Single', 'Married', 'Divorced', 'Widowed']"  />
                     <x-form.select name="highest_education_level" label="Education Level" :options="['High School', 'Bachelor', 'Master', 'PhD']" />
                 </div>
-
-                <x-form.input type="file" name="photo" label="Upload Picture" class="mt-6"  autocomplete="off"/>
             </div>
 
             {{-- ADDRESS INFO --}}
             <div id="address-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Address Information</h3>
-
                 <div class="flex flex-col md:flex-row gap-6">
-                    <x-form.input name="house_phone" label="House Phone"  autocomplete="off" />
-                    <x-form.input name="mobile_phone" label="Mobile Phone" required  autocomplete="off" />
+                    <x-form.input name="house_phone" label="House Phone" autocomplete="off" />
+                    <x-form.input name="mobile_phone" label="Mobile Phone"  autocomplete="off" />
                 </div>
-
                 <div class="flex flex-col md:flex-row gap-6 mt-4">
-                    <x-form.input name="email" type="email" label="Email" required  autocomplete="off"/>
-                    <x-form.input name="address1" label="Address Line 1" required   autocomplete="off"/>
+                    <x-form.input name="email" type="email" label="Email"  autocomplete="off"/>
+                    <x-form.input name="address1" label="Address Line 1"  autocomplete="off"/>
                 </div>
-
                 <div class="flex flex-col md:flex-row gap-6 mt-4">
-                    <x-form.input name="address2" label="Address Line 2"  autocomplete="off" />
-                    <x-form.input name="city" label="City"  autocomplete="off"/>
+                    <x-form.input name="address2" label="Address Line 2" autocomplete="off" />
+                    <x-form.input name="city" label="City" autocomplete="off"/>
                 </div>
             </div>
 
-            {{-- EMERGENCY CONTACT INFO --}}
+            {{-- EMERGENCY INFO --}}
             <div id="emergency-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Emergency Contact</h3>
-
                 <div class="flex flex-col md:flex-row gap-6">
-                    <x-form.select name="emergency_relationship" label="Relationship" :options="['Mr', 'Mss', 'Dr', 'Father', 'Mother', 'Uncle', 'Tante', 'Husband', 'Wife']" />
-                    <x-form.input name="emergency_full_name" label="Full Name" required  autocomplete="off" />
+                    <x-form.select name="emergency_relationship" label="Relationship" :options="['Mr','Mss','Dr','Father','Mother','Uncle','Tante','Husband','Wife']" />
+                    <x-form.input name="emergency_full_name" label="Full Name"  autocomplete="off" />
                 </div>
-
                 <div class="flex flex-col md:flex-row gap-6">
-                    <x-form.input name="emergency_mobile_phone" label="Mobile Phone"  autocomplete="off" required />
-                    <x-form.input name="emergency_city" label="City" required  autocomplete="off" />
+                    <x-form.input name="emergency_mobile_phone" label="Mobile Phone"  autocomplete="off"/>
+                    <x-form.input name="emergency_city" label="City"  autocomplete="off"/>
                 </div>
-
                 <div class="mt-4">
-                    <x-form.input name="emergency_address" label="Address"  autocomplete="off" required />
+                    <x-form.input name="emergency_address" label="Address"  autocomplete="off"/>
                 </div>
             </div>
 
             {{-- FAMILY INFO --}}
             <div id="family-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Family Information</h3>
-
                 <div class="flex flex-col md:flex-row gap-6">
-                    <x-form.input name="father_name" label="Father's Name"  autocomplete="off" />
-                    <x-form.select name="father_name_status" label="Father's Status"
-                                   :options="['Alive' => 'Alive', 'Deceased' => 'Deceased']" />
+                    <x-form.input name="father_name" label="Father's Name" autocomplete="off"/>
+                    <x-form.select name="father_name_status" label="Father's Status" :options="['Alive'=>'Alive','Deceased'=>'Deceased']"/>
                 </div>
-
                 <div class="flex flex-col md:flex-row gap-6 mt-4">
-                    <x-form.input name="mother_name" label="Mother's Name" />
-                    <x-form.select name="mother_name_status" label="Mother's Status"
-                                   :options="['Alive' => 'Alive', 'Deceased' => 'Deceased']" />
+                    <x-form.input name="mother_name" label="Mother's Name"/>
+                    <x-form.select name="mother_name_status" label="Mother's Status" :options="['Alive'=>'Alive','Deceased'=>'Deceased']"/>
                 </div>
-
                 <div class="flex flex-col md:flex-row gap-6 mt-4">
-                    <x-form.input name="spouse_name" label="Spouse Name"  autocomplete="off" />
+                    <x-form.input name="spouse_name" label="Spouse Name" autocomplete="off"/>
                 </div>
-
                 <div class="flex flex-col md:flex-row gap-6 mt-4">
-                    <x-form.input type="text" name="spouse_phone" label="Spouse Phone"  autocomplete="off" />
-                    <x-form.input type="date" name="spouse_birth_date" label="Birth Date" required />
+                    <x-form.input type="text" name="spouse_phone" label="Spouse Phone" autocomplete="off"/>
+                    <x-form.input type="date" name="spouse_birth_date" label="Birth Date" />
                 </div>
             </div>
 
             {{-- ENTREPRISE INFO --}}
+            {{-- ENTREPRISE INFO --}}
             <div id="entreprise-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Entreprise Information</h3>
 
-                {{-- Ligne 1 : Département et Fonction --}}
                 <div class="flex flex-col md:flex-row gap-6">
-                    <x-form.select name="department" label="Department"
-                                   :options="['HR' => 'HR']" required />
-                    <x-form.select name="function" label="Function"
-                                   :options="['HR Admin' => 'HR Admin']" required />
+                    <x-form.select id="department_id" name="department_id" label="Department" :options="$departments" />
+                    <x-form.select id="fonction_id" name="fonction_id" label="Function" :options="$fonctions" />
                 </div>
-                {{-- Ligne 2 : Niveau et Échelon --}}
+
                 <div class="flex flex-col md:flex-row gap-6 mt-4">
-                    <x-form.select name="niveau" label="Niveau"
-                                   :options="['A1' => 'A1']" required />
-                    <x-form.select name="echelon" label="Echelon"
-                                   :options="['I' => 'I']" required />
+                    <x-form.select id="niveau_id" name="niveau_id" label="Niveau" :options="$niveaux" />
+                    <x-form.select id="echelon_id" name="echelon_id" label="Echelon" :options="$echelons" />
                 </div>
-                {{-- Ligne 3 : Type de contrat et Salaire --}}
+
                 <div class="flex flex-col md:flex-row gap-6 mt-4">
-                    <x-form.select name="contract_type" label="Contract Type"
-                                   :options="['CDI' => 'CDI', 'CDD' => 'CDD', 'Stage' => 'Stage']" required />
-                    <x-form.input name="salaire_mensuel_brut" label="Salaire mensuel brut" type="number" />
+                    <x-form.select name="contract_type" label="Contract Type" :options="['CDI'=>'CDI','CDD'=>'CDD','Stage'=>'Stage']" />
+                    <x-form.input id="base_salary" name="base_salary" label="Salaire mensuel brut" type="number" readonly />
                 </div>
             </div>
-            {{-- Buttons --}}
-            <div class="flex justify-between items-center mb-10">
-                <button id="submitBtn" type="submit"
-                        class="orange-btn hidden">
-                    {{ isset($employee) ? 'Update Employee' : 'Create Employee' }}
-                </button>
+
+            <script>
+                const salaryGrids = @json($salaryGrids);
+
+                const departmentSelect = document.getElementById('department_id');
+                const fonctionSelect = document.getElementById('fonction_id');
+                const niveauSelect = document.getElementById('niveau_id');
+                const echelonSelect = document.getElementById('echelon_id');
+                const baseSalaryInput = document.getElementById('base_salary');
+
+                function updateDropdowns() {
+                    const deptId = departmentSelect.value;
+
+                    // Filtrer selon le département
+                    const filteredGrids = salaryGrids.filter(sg => sg.department_id == deptId);
+
+                    // Remplir Function
+                    fonctionSelect.innerHTML = '';
+                    const fonctions = [...new Map(filteredGrids.map(sg => [sg.function_id, sg.fonction.name]))];
+                    fonctions.forEach(([id, name]) => {
+                        const opt = document.createElement('option');
+                        opt.value = id;
+                        opt.text = name;
+                        fonctionSelect.appendChild(opt);
+                    });
+
+                    // Remplir Niveau
+                    niveauSelect.innerHTML = '';
+                    const niveaux = [...new Map(filteredGrids.map(sg => [sg.niveau_id, sg.niveau.name]))];
+                    niveaux.forEach(([id, name]) => {
+                        const opt = document.createElement('option');
+                        opt.value = id;
+                        opt.text = name;
+                        niveauSelect.appendChild(opt);
+                    });
+
+                    // Remplir Echelon
+                    echelonSelect.innerHTML = '';
+                    const echelons = [...new Map(filteredGrids.map(sg => [sg.echelon_id, sg.echelon.name]))];
+                    echelons.forEach(([id, name]) => {
+                        const opt = document.createElement('option');
+                        opt.value = id;
+                        opt.text = name;
+                        echelonSelect.appendChild(opt);
+                    });
+
+                    updateSalary();
+                }
+
+                function updateSalary() {
+                    const deptId = departmentSelect.value;
+                    const fonctionId = fonctionSelect.value;
+                    const niveauId = niveauSelect.value;
+                    const echelonId = echelonSelect.value;
+
+                    const grid = salaryGrids.find(sg =>
+                        sg.department_id == deptId &&
+                        sg.function_id == fonctionId &&
+                        sg.niveau_id == niveauId &&
+                        sg.echelon_id == echelonId
+                    );
+
+                    baseSalaryInput.value = grid ? grid.base_salary : '';
+                }
+
+                // Listeners
+                departmentSelect.addEventListener('change', updateDropdowns);
+                fonctionSelect.addEventListener('change', updateSalary);
+                niveauSelect.addEventListener('change', updateSalary);
+                echelonSelect.addEventListener('change', updateSalary);
+
+                // **Initialisation au chargement :**
+                // Si les selects ont déjà des valeurs, remplir le salary automatiquement
+                window.addEventListener('DOMContentLoaded', () => {
+                    updateDropdowns(); // Remplit les dropdowns
+                    updateSalary();    // Affiche le salaire correspondant
+                });
+            </script>
+
+
+            {{-- PICTURE INFO --}}
+            <div id="picture-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Upload Picture</h3>
+                <label class="block text-gray-700 mb-2">Upload Picture</label>
+                <input type="file" id="upload" accept="image/*" />
+                <input type="hidden" name="photo_cropped" id="photo_cropped"/>
+                <div id="upload-demo" class="mt-4"></div>
             </div>
+
+            {{-- SUBMIT BUTTON --}}
+            {{-- SUBMIT BUTTON --}}
+{{--            <button type="submit">ok</button>--}}
+            <div class="flex justify-end mb-10">
+                <button type="submit" id="submitBtn" class="orange-btn hidden">Create Employee</button>
+            </div>
+
+
         </form>
     </div>
 
-    <style>
-        .tab-btn {
-            padding: 0.75rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            border-bottom: 2px solid transparent;
-            color: #4B5563;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .tab-btn:hover {
-            color: #f97316;
-        }
-
-        .tab-btn.active-tab {
-            border-bottom-color: #f97316;
-            color: #f97316;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-    </style>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Tab switching
+            // --- Tabs ---
             const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabSections = document.querySelectorAll('.tab-content');
-
-            function showTab(targetId) {
-                tabSections.forEach(section => {
-                    section.classList.remove('active');
-                    if (section.id === targetId) section.classList.add('active');
-                });
-
-                tabButtons.forEach(btn => {
-                    btn.classList.remove('active-tab');
-                    if (btn.dataset.target === targetId) btn.classList.add('active-tab');
-                });
-            }
-
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    showTab(button.dataset.target);
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    tabContents.forEach(tc => tc.classList.remove('active'));
+                    tabButtons.forEach(b => b.classList.remove('active-tab'));
+                    document.getElementById(btn.dataset.target).classList.add('active');
+                    btn.classList.add('active-tab');
                 });
             });
 
-            showTab('employee-section');
+            // --- Croppie ---
+            const croppieInstance = new Croppie(document.getElementById('upload-demo'), {
+                viewport: { width: 200, height: 200, type: 'square' },
+                boundary: { width: 300, height: 300 },
+                enableResize: true,
+                enableOrientation: true
+            });
+            document.getElementById('upload').addEventListener('change', function(e){
+                const reader = new FileReader();
+                reader.onload = function(ev){ croppieInstance.bind({ url: ev.target.result }); };
+                reader.readAsDataURL(e.target.files[0]);
+            });
 
-            // Form validation for showing submit button
+            // --- Form validation ---
+            // --- Form validation ---
             const form = document.getElementById('employeeForm');
             const submitBtn = document.getElementById('submitBtn');
 
@@ -260,12 +306,13 @@
                 const requiredFields = form.querySelectorAll('[required]');
                 let allFilled = true;
 
-                requiredFields.forEach(input => {
-                    if (!input.value.trim()) {
+                requiredFields.forEach(f => {
+                    if (!f.value.trim()) {
                         allFilled = false;
                     }
                 });
 
+                // bouton caché si pas tous remplis
                 if (allFilled) {
                     submitBtn.classList.remove('hidden');
                 } else {
@@ -273,11 +320,10 @@
                 }
             };
 
-            form.querySelectorAll('[required]').forEach(input => {
-                input.addEventListener('input', checkRequiredFields);
-            });
-
+// surveille tous les champs requis
+            form.querySelectorAll('[required]').forEach(f => f.addEventListener('input', checkRequiredFields));
             checkRequiredFields();
+
         });
     </script>
 @endsection

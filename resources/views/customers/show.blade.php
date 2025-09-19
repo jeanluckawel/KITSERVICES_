@@ -1,117 +1,189 @@
 @extends('layouts.app')
 
-@section('title', 'Kit Service | Customer Details')
+@section('title', 'Kit Service | Liste des clients')
 
 @section('content')
-    <div class="p-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+
+    <!-- Lucide icons CDN -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+    <style>
+        .orange-btn {
+            background-color: #f97316;
+            color: white;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .orange-btn:hover {
+            background-color: #ea580c;
+        }
+
+        tbody tr:hover {
+            background-color: #fef3c7;
+            cursor: pointer;
+        }
+
+        .action-links a {
+            margin-right: 0.5rem;
+        }
+    </style>
+
+    <div class="max-w-6xl mx-auto mt-10">
+
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-semibold">Customer Details</h2>
-            <div class="flex space-x-2">
-                <a href="{{ route('customers.edit', $customer->id) }}"
-                   class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                    Edit
-                </a>
-                <form action="{{ route('customers.destroy', $customer->id) }}" method="POST"
-                      onsubmit="return confirm('Are you sure you want to delete this customer?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                        Delete
-                    </button>
-                </form>
-                <a href="{{ route('customers.index') }}"
-                   class="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
-                    Back to List
+            <!-- Titre -->
+            <h1 class="text-3xl font-semibold flex items-center gap-2">
+                <i data-lucide="users" class="w-6 h-6 text-orange-500"></i>
+                Customer list
+            </h1>
+
+            <div class="flex gap-3">
+                <a href="{{ route('customers.create') }}" class="orange-btn inline-flex items-center gap-2">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i> Add New Customer
                 </a>
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Company Info -->
-            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                <h3 class="text-lg font-medium mb-4">Company Information</h3>
-                <div class="space-y-3">
-                    <p><strong>Company Name:</strong> {{ $customer->company_name }}</p>
-                    <p><strong>ID NAT:</strong> {{ $customer->id_nat ?? 'N/A' }}</p>
-                    <p><strong>RCCM:</strong> {{ $customer->rccm ?? 'N/A' }}</p>
-                    <p><strong>NIF:</strong> {{ $customer->nif ?? 'N/A' }}</p>
-                </div>
-            </div>
 
-            <!-- Address -->
-            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                <h3 class="text-lg font-medium mb-4">Address</h3>
-                <div class="space-y-3">
-                    <p><strong>Address:</strong> {{ $customer->address }}</p>
-                    <p><strong>City:</strong> {{ $customer->city }}</p>
-                    <p><strong>Province:</strong> {{ $customer->province ?? 'N/A' }}</p>
-                    <p><strong>Country:</strong> {{ $customer->country ?? 'N/A' }}</p>
-                </div>
-            </div>
+        <div class="flex items-center gap-2 mb-6">
+            <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Rechercher par nom, ID NAT, RCCM..."
+                class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+                autocomplete="off"
+            >
+        </div>
 
-            <!-- Contact Info -->
-            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                <h3 class="text-lg font-medium mb-4">Contact Information</h3>
-                <div class="space-y-3">
-                    <p><strong>Phone:</strong> {{ $customer->phone ?? 'N/A' }}</p>
-                    <p><strong>Email:</strong> {{ $customer->email ?? 'N/A' }}</p>
-                    <p><strong>Website:</strong>
-                        @if($customer->website)
-                            <a href="{{ $customer->website }}" target="_blank" class="text-orange-600 hover:underline">
-                                {{ $customer->website }}
-                            </a>
-                        @else
-                            N/A
-                        @endif
-                    </p>
-                </div>
-            </div>
+        <div class="overflow-hidden rounded-lg shadow">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-600">
+                    <thead class="bg-gray-100 uppercase text-xs font-semibold text-gray-500">
+                    <tr>
+                        <th class="px-4 py-3">Nom</th>
+                        <th class="px-4 py-3">ID NAT</th>
+                        <th class="px-4 py-3">RCCM</th>
+                        <th class="px-4 py-3">Téléphone</th>
+                        <th class="px-4 py-3">Commune</th>
+                        <th class="px-4 py-3">Ville</th>
+                        <th class="px-4 py-3 text-center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody id="customersTableBody" class="bg-white divide-y">
+                    @foreach($customers as $customer)
+                        <tr class="hover:bg-orange-50">
+                            <td class="px-4 py-3 font-medium text-black">{{ $customer->name }}</td>
+                            <td class="px-4 py-3">{{ $customer->id_nat }}</td>
+                            <td class="px-4 py-3">{{ $customer->rccm ?? 'N/A' }}</td>
+                            <td class="px-4 py-3">{{ $customer->telephone ?? '-' }}</td>
+                            <td class="px-4 py-3">{{ $customer->commune }}</td>
+                            <td class="px-4 py-3">{{ $customer->ville }}</td>
+                            <td class="px-4 py-3 text-center action-links">
+                                <a href="{{ route('invoices.create', $customer->id) }}" class="text-blue-600 inline-flex items-center gap-1">
+                                    <i data-lucide="file-plus" class="w-4 h-4"></i> Créer
+                                </a>
+                                <a href="{{ route('clients.invoices.index', $customer->id) }}"
+                                   class="text-green-600 inline-flex items-center gap-1">
+                                    <i data-lucide="eye" class="w-4 h-4"></i> Voir
+                                </a>
 
-            <!-- Purchase Orders -->
-            <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg md:col-span-2">
-                <h3 class="text-lg font-medium mb-4">Purchase Orders</h3>
-                @if($customer->purchaseOrders->count() > 0)
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full border border-gray-200">
-                            <thead>
-                            <tr class="bg-gray-100 dark:bg-gray-600">
-                                <th class="px-4 py-2">PO Number</th>
-                                <th class="px-4 py-2">Date</th>
-                                <th class="px-4 py-2">Amount</th>
-                                <th class="px-4 py-2">Status</th>
-                                <th class="px-4 py-2">Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($customer->purchaseOrders as $order)
-                                <tr class="border-t border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                    <td class="px-4 py-3">{{ $order->po_number }}</td>
-                                    <td class="px-4 py-3">{{ $order->date->format('d/m/Y') }}</td>
-                                    <td class="px-4 py-3">${{ number_format($order->amount, 2) }}</td>
-                                    <td class="px-4 py-3">
-                                            <span class="px-2 py-1 text-xs rounded-full
-                                                @if($order->status === 'paid') bg-green-100 text-green-800
-                                                @elseif($order->status === 'issued') bg-blue-100 text-blue-800
-                                                @elseif($order->status === 'cancelled') bg-red-100 text-red-800
-                                                @else bg-gray-100 text-gray-800 @endif">
-                                                {{ ucfirst($order->status) }}
-                                            </span>
-                                    </td>
-                                    <td class="px-4 py-3">
-                                        <a href="{{ route('purchase-orders.show', $order->id) }}"
-                                           class="text-orange-600 hover:text-orange-800">
-                                            View
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                @else
-                    <p class="text-gray-500">No purchase orders found for this customer.</p>
-                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+
+                <div id="loading" class="hidden text-center mt-4 text-orange-500 font-semibold">Chargement...</div>
+                <div id="noResults" class="hidden mt-4 text-center text-red-600 font-semibold">Aucun client trouvé.</div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            lucide.createIcons(); // Init Lucide
+
+            const searchInput = document.getElementById('searchInput');
+            const tableBody = document.getElementById('customersTableBody');
+            const loadingIndicator = document.getElementById('loading');
+            const noResults = document.getElementById('noResults');
+
+            function debounce(func, wait) {
+                let timeout;
+                return function (...args) {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => func.apply(this, args), wait);
+                };
+            }
+
+            async function searchCustomers(query) {
+                if (query.length === 0) {
+                    window.location.reload();
+                    return;
+                }
+
+                loadingIndicator.classList.remove('hidden');
+                noResults.classList.add('hidden');
+
+                try {
+                    const response = await fetch('{{ route('customers.search') }}?q=' + encodeURIComponent(query), {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+
+                    if (!response.ok) throw new Error('Erreur réseau');
+
+                    const data = await response.json();
+                    tableBody.innerHTML = '';
+
+                    if (data.length === 0) {
+                        noResults.classList.remove('hidden');
+                        loadingIndicator.classList.add('hidden');
+                        return;
+                    }
+
+                    data.forEach(customer => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'hover:bg-orange-50';
+                        tr.innerHTML = `
+                        <td class="px-4 py-3 font-medium text-black">${customer.name}</td>
+                        <td class="px-4 py-3">${customer.id_nat}</td>
+                        <td class="px-4 py-3">${customer.rccm ?? 'N/A'}</td>
+                        <td class="px-4 py-3">${customer.telephone ?? '-'}</td>
+                        <td class="px-4 py-3">${customer.commune}</td>
+                        <td class="px-4 py-3">${customer.ville}</td>
+                        <td class="px-4 py-3 text-center action-links">
+                            <a href="/invoices/create/${customer.id}" class="text-blue-600 inline-flex items-center gap-1">
+                                <i data-lucide="file-plus" class="w-4 h-4"></i> Créer
+                            </a>
+                            <a href="/invoices/${customer.id}" class="text-green-600 inline-flex items-center gap-1">
+                                <i data-lucide="eye" class="w-4 h-4"></i> Voir
+                            </a>
+                        </td>
+                    `;
+                        tableBody.appendChild(tr);
+                    });
+
+                    lucide.createIcons(); // Refresh icons after DOM update
+                    loadingIndicator.classList.add('hidden');
+                } catch (error) {
+                    console.error('Erreur AJAX:', error);
+                    loadingIndicator.classList.add('hidden');
+                }
+            }
+
+            searchInput.addEventListener('input', debounce(function () {
+                const query = this.value.trim();
+                searchCustomers(query);
+            }, 300));
+        });
+    </script>
+
 @endsection

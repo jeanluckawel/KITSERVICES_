@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('echelons', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('company')->nullable();
-            $table->string('email')->nullable();
-            $table->string('phone')->nullable();
+            $table->foreignId('niveau_id')->constrained('niveaux')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('echelons');
     }
 };

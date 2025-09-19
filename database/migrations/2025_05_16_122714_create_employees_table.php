@@ -14,25 +14,25 @@ return new class extends Migration
         Schema::create('employees', function (Blueprint $table) {
 //          Employee
             $table->id();
-            $table->string('employee_id')->unique();
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->string('employee_id')->unique()->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('middle_name')->nullable();
             $table->string('personal_id')->nullable();
-            $table->date('birth_date');
-            $table->string('gender');
-            $table->string('marital_status');
+            $table->date('birth_date')->nullable();
+            $table->string('gender')->nullable();
+            $table->string('marital_status')->nullable();
             $table->string('highest_education_level')->nullable();
             $table->string('nationality')->nullable();
             $table->string('photo')->nullable();
             $table->integer('age')->nullable();
 //          Address
             $table->string('house_phone')->nullable();
-            $table->string('mobile_phone');
-            $table->string('email');
-            $table->string('address1');
+            $table->string('mobile_phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('address1')->nullable();
             $table->string('address2')->nullable();
-            $table->string('city');
+            $table->string('city')->nullable();
             $table->integer('status')->default(1);
 
 //          emergency

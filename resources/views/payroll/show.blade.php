@@ -113,14 +113,14 @@
 
         <!-- Totaux -->
         <div class="info-grid avoid-break mb-3 font-semibold">
-            <div><strong>Total Brut:</strong> 138,374 CDF</div>
+            <div><strong>Total Brut:</strong> ${{ $employee->payroll->basic_usd_salary *  2800 ?? '' }}</div>
             <div><strong>Total Déductions:</strong> 6,822 CDF</div>
         </div>
 
         <!-- Net à payer -->
         <div class="info-grid avoid-break mb-5 font-bold text-green-700">
-            <div><strong>Net à Payer (USD):</strong> $80.33</div>
-            <div><strong>Net à Payer (CDF):</strong> 131,552 CDF</div>
+            <div><strong>Net à Payer (USD):</strong> ${{ $employee->payroll->basic_usd_salary ?? '' }}</div>
+            <div><strong>Net à Payer (CDF):</strong> CDF {{ $employee->payroll->basic_usd_salary * 2800  ?? '' }} </div>
         </div>
 
         <!-- Signature -->

@@ -1,36 +1,44 @@
 @extends('layouts.app')
 
-@section('title', 'Factures pour ' . $client->name)
+@section('title', 'Factures de ' . $customer->name)
 
 @section('content')
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
-        <h2 class="text-xl font-bold mb-4">Factures de {{ $client->name }}</h2>
+    <div class="max-w-5xl mx-auto bg-white shadow p-6 rounded">
+        <h2 class="text-xl font-bold text-orange-600 mb-4">
+            Factures de {{ $customer->name }}
+        </h2>
 
-        <table class="table-auto w-full border">
-            <thead>
-            <tr>
-                <th class="border px-2 py-1">Date</th>
-                <th class="border px-2 py-1">Montant</th>
-                <th class="border px-2 py-1">Paiement</th>
-                <th class="border px-2 py-1">Solde</th>
-                <th class="border px-2 py-1">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach ($invoices as $invoice)
+        @if($invoices->isEmpty())
+            <p class="text-gray-500">Aucune facture trouvée pour ce client.</p>
+        @else
+            <table class="w-full border border-gray-200 text-sm">
+                <thead class="bg-gray-100">
                 <tr>
-                    <td class="border px-2 py-1">{{ $invoice->date }}</td>
-                    <td class="border px-2 py-1">{{ $invoice->amount }} $</td>
-                    <td class="border px-2 py-1">{{ $invoice->payment }} $</td>
-                    <td class="border px-2 py-1">{{ $invoice->balance }} $</td>
-                    <td class="border px-2 py-1">
-                        <a href="{{ route('invoices.show', $invoice->id) }}" class="text-blue-600 hover:underline">
-                            Détails
-                        </a>
-                    </td>
+                    <th class="border px-3 py-2">N° Facture</th>
+                    <th class="border px-3 py-2">PO</th>
+                    <th class="border px-3 py-2">Actions</th>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                @foreach($invoices as $invoice)
+                    <tr>
+                        <td class="border px-3 py-2">{{ $invoice->numero_invoice }}</td>
+                        <td class="border px-3 py-2">{{ $invoice->po }}</td>
+                        <td class="border px-3 py-2">
+                            <a href="{{ route('invoices.show', $invoice->id) }}"
+                               class="text-orange-600 inline-flex items-center gap-1">
+                                <i data-lucide="eye" class="w-4 h-4"></i> Voir
+                            </a>
+
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @endif
+
+        <a href="{{ route('customers.index') }}" class="mt-4 inline-block text-gray-600">
+            ← Retour aux clients
+        </a>
     </div>
 @endsection
