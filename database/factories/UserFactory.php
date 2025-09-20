@@ -30,6 +30,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('Kitservice@2020'), // Kitservice@2020
             'remember_token' => Str::random(10),
         ];
+
     }
 
     /**
