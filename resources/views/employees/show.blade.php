@@ -117,7 +117,7 @@
                         </tr>
                         <tr>
                             <td class="border px-1 py-0.5">Classification*</td>
-                            <td class="border px-1 py-0.5">{{ $employee->classification ?? 'N/A' }}</td>
+                            <td class="border px-1 py-0.5">{{ $employee->department ?? 'N/A' }}</td>
                             <td class="border px-1 py-0.5">Position</td>
                             <td class="border px-1 py-0.5">{{ $employee->function ?? 'N/A' }}</td>
                         </tr>
@@ -131,7 +131,7 @@
                             <td class="border px-1 py-0.5">Échelon</td>
                             <td class="border px-1 py-0.5">{{ $employee->echelon ?? 'N/A' }}</td>
                             <td class="border px-1 py-0.5">Taux horaire brut (FC)</td>
-                            <td class="border px-1 py-0.5">{{ $employee->hourly_rate ?? 'N/A' }}</td>
+                            <td class="border px-1 py-0.5">{{'FC' . number_format($employee->taux_horaire_brut,2)  ?? 'N/A' }}</td>
                         </tr>
                         <tr>
                             <td class="border px-1 py-0.5">Salaire mensuel brut</td>
@@ -154,7 +154,7 @@
                             <td class="border px-1 py-0.5">Type de contrat</td>
                             <td class="border px-1 py-0.5">{{ $employee->contract_type ?? 'N/A' }}</td>
                             <td class="border px-1 py-0.5">Situation avant embauche</td>
-                            <td class="border px-1 py-0.5">{{ $employee->previous_situation ?? 'N/A' }}</td>
+                            <td class="border px-1 py-0.5">{{ $employee->situation_avant_embauche ?? 'N/A' }}</td>
                         </tr>
 
 

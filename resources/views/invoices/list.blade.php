@@ -29,8 +29,8 @@
                                class="text-orange-600 inline-flex items-center gap-1">
                                 <i data-lucide="eye" class="w-4 h-4"></i> Voir
                             </a>
-
                         </td>
+
                     </tr>
                 @endforeach
                 </tbody>

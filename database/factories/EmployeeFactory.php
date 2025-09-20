@@ -56,6 +56,8 @@ class EmployeeFactory extends Factory
             'niveau'                 => $this->faker->randomElement(['N1', 'N2', 'N3']),
             'echelon'                => $this->faker->randomElement(['E1', 'E2', 'E3']),
             'contract_type'          => $this->faker->randomElement(['CDI', 'CDD', 'Stage']),
+            'taux_horaire_brut'      => $this->faker->numberBetween(2800, 2900),
+            'situation_avant_embauche' => $this->faker->randomElement(['Stagiaire','Chômeur','Étudiant','Étudiante','Travailleur']),
             'salaire_mensuel_brut'   => $this->faker->numberBetween(500, 3000),
         ];
     }

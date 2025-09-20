@@ -168,6 +168,13 @@
                                     Employee List
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('employees.card') }}" class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
+                                    <i class='bx bx-list-ul mr-2'></i>
+                                    Employee Card
+                                </a>
+                            </li>
+
 
                         </ul>
                     </li>

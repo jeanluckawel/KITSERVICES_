@@ -170,18 +170,35 @@
                     <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Entreprise Information</h3>
 
                     <div class="flex flex-col md:flex-row gap-6">
-                        <x-form.select id="department_id" name="department_id" label="Department" :options="$departments" />
-                        <x-form.select id="fonction_id" name="fonction_id" label="Function" :options="$fonctions" />
+                        <x-form.select id="department" name="department" label="Department" :options="$departments" />
+                        <x-form.select id="function" name="function" label="Function" :options="$fonctions" />
                     </div>
 
                     <div class="flex flex-col md:flex-row gap-6 mt-4">
-                        <x-form.select id="niveau_id" name="niveau_id" label="Niveau" :options="$niveaux" />
-                        <x-form.select id="echelon_id" name="echelon_id" label="Echelon" :options="$echelons" />
+                        <x-form.select id="niveau" name="niveau" label="Niveau" :options="$niveaux" />
+                        <x-form.select id="echelon" name="echelon" label="Echelon" :options="$echelons" />
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-6 mt-4">
+                        <x-form.select
+                            name="situation_avant_embauche"
+                            label="Situation avant embauche"
+                            :options="[
+                            'Stagiaire'   => 'Stagiaire',
+                            'Chômeur'     => 'Chômeur',
+                            'Étudiant'    => 'Étudiant',
+                            'Étudiante'   => 'Étudiante',
+                            'Travailleur' => 'Travailleur'
+                            ]"
+                        />
+
+                        <x-form.input id="taux_horaire_brut" name="taux_horaire_brut" label="Taux horaire brut (FC)" type="number" readonly />
+{{--                        <x-form.input id="base_salary" name="base_salary" label="Salaire mensuel brut" type="number" readonly />--}}
                     </div>
 
                     <div class="flex flex-col md:flex-row gap-6 mt-4">
                         <x-form.select name="contract_type" label="Contract Type" :options="['CDI'=>'CDI','CDD'=>'CDD','Stage'=>'Stage']" />
-                        <x-form.input id="base_salary" name="base_salary" label="Salaire mensuel brut" type="number" readonly />
+                        <x-form.input id="salaire_mensuel_brut" name="salaire_mensuel_brut" label="Salaire mensuel brut" type="number" readonly />
                     </div>
                 </div>
 

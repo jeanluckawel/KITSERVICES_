@@ -21,7 +21,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::all();
+        $employees = Employee::all()->sortByDesc('created_at');
 //        $employees = Employee::paginate(100);
         $count = $employees->where('status', '1')->count();
         return view('employees.index',compact('employees','count'));
@@ -97,6 +97,8 @@ class EmployeeController extends Controller
 //            'niveau'                   => 'required|string|max:255',
 //            'echelon'                  => 'required|string|max:255',
 //            'contract_type'            => 'required|string|max:255',
+//            'taux_horaire_brut'        => 'nullable|numeric',
+//            'situation_avant_embauche' => 'nullable|string|max:255',
 //            'salaire_mensuel_brut'     => 'nullable|numeric',
         ]);
 
@@ -108,8 +110,8 @@ class EmployeeController extends Controller
         $data = $request->all();
 
         // Gestion de la photo (upload direct ou base64 depuis Croppie)
-// In your store method, ensure this part exists:
         if ($request->has('photo_cropped') && !empty($request->photo_cropped)) {
+            // si Croppie renvoie en base64
             $image = $request->photo_cropped;
             $image = str_replace('data:image/jpeg;base64,', '', $image);
             $image = str_replace(' ', '+', $image);
@@ -117,6 +119,7 @@ class EmployeeController extends Controller
             \Storage::disk('public')->put("photos/$fileName", base64_decode($image));
             $data['photo'] = "photos/$fileName";
         } elseif ($request->hasFile('photo')) {
+            // si upload normal
             $data['photo'] = $request->file('photo')->store('photos', 'public');
         }
 
@@ -166,18 +169,65 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Employee $employee)
+    public function edit($employee_id)
     {
-        //
+        $employee = Employee::where('employee_id', $employee_id)->firstOrFail();
 
+        $departments = department::pluck('name');
+        $fonctions   = fonction::pluck('name');
+        $niveaux     = niveau::pluck('name');
+        $echelons    = echelon::pluck('name');
+
+        return view('employees.edit', compact('employee','departments','fonctions','niveaux','echelons'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request, $employee_id)
     {
-        //
+        $employee = Employee::where('employee_id', $employee_id)->firstOrFail();
+
+        $data = $request->validate([
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'middle_name' => 'nullable|string',
+            'personal_id' => 'nullable|string',
+            'birth_date' => 'nullable|date',
+            'gender' => 'nullable|string',
+            'marital_status' => 'nullable|string',
+            'highest_education_level' => 'nullable|string',
+            'nationality' => 'nullable|string',
+            'house_phone' => 'nullable|string',
+            'mobile_phone' => 'nullable|string',
+            'email' => 'nullable|email',
+            'address1' => 'nullable|string',
+            'address2' => 'nullable|string',
+            'city' => 'nullable|string',
+            'department' => 'nullable|string',
+            'function' => 'nullable|string',
+            'niveau' => 'nullable|string',
+            'echelon' => 'nullable|string',
+            'contract_type' => 'nullable|string',
+            'taux_horaire_brut' => 'nullable|numeric',
+            'salaire_mensuel_brut' => 'nullable|numeric',
+            'photo_cropped' => 'nullable|string',
+        ]);
+
+        // gestion photo
+        if ($request->photo_cropped) {
+            $imageName = 'employee_'.$employee->employee_id.'.jpg';
+            $path = public_path('storage/employees/'.$imageName);
+            file_put_contents(
+                $path,
+                base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $request->photo_cropped))
+            );
+            $data['photo'] = 'employees/'.$imageName;
+        }
+
+        $employee->update($data);
+
+        // ✅ On redirige vers show en passant bien l'employee_id
+        return redirect()
+            ->route('employees.show', $employee->employee_id)
+            ->with('success', 'Employee updated successfully!');
     }
 
     /**

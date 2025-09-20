@@ -40,7 +40,7 @@ class InvoicesController extends Controller
         $savedInvoices = [];
 
         foreach ($request->items as $item) {
-            $invoice = Invoices::create([
+            $invoice = invoices::create([
                 'client_id' => $request->client_id,
                 'po_order' => $request->po_order,
                 'date' => $item['date'],
@@ -60,15 +60,7 @@ class InvoicesController extends Controller
     }
 
 
-    public function downloadPdf(invoices $invoice)
-    {
-//        $pdf = PDF\Pdf::loadView('invoices.show', compact('invoice'));
-//        return $pdf->download('facture_' . $invoice->id . '.pdf');
 
-        $pdf = PDF\Pdf::loadView('invoices.show', compact('invoice'));
-        return $pdf->download('facture_' . $invoice->id . '.pdf');
-
-    }
 
 
 
@@ -83,15 +75,34 @@ class InvoicesController extends Controller
      * Display the specified resource.
      */
 
-    public function show($id)
+    public function seeInvoice($id)
     {
-        // Récupérer la facture sélectionnée
+        // Récupérer la facture par ID
         $invoice = Invoice::findOrFail($id);
 
         // Récupérer le client lié
         $customer = $invoice->customer;
 
-        // Récupérer toutes les lignes de la même facture (même PO et numéro_invoice)
+        // Si tu veux récupérer toutes les lignes associées à cette facture
+        $invoices = Invoice::where('customer_id', $invoice->customer_id)
+            ->where('po', $invoice->po)
+            ->where('numero_invoice', $invoice->numero_invoice)
+            ->get();
+
+        return view('invoices.invoice', compact('customer', 'invoice', 'invoices'));
+    }
+
+
+    public function show($customerId)
+    {
+        $invoice = Invoice::where('customer_id', $customerId)
+            ->latest()
+            ->firstOrFail();
+
+
+        $customer = $invoice->customer;
+
+
         $invoices = Invoice::where('customer_id', $invoice->customer_id)
             ->where('po', $invoice->po)
             ->where('numero_invoice', $invoice->numero_invoice)

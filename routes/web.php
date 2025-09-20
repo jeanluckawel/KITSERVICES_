@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeeCardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeEntrepriseController;
 use App\Http\Controllers\EmployeeImportController;
@@ -15,6 +16,10 @@ use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\SalaryGridController;
 use App\Http\Controllers\TimeSheetController;
 use Illuminate\Support\Facades\Route;
+
+
+
+Route::view('employees/card', 'h');
 
 Route::get('/login', function () {
     return view('dashboard');
@@ -39,6 +44,11 @@ Route::middleware('auth')->group(function () {
 
 
 
+Route::get('/employees/{employee}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
+Route::put('/employees/{employee}', [EmployeeController::class, 'update'])->name('employees.update');
+
+
+
 // Affiche le formulaire de création d'employé
 Route::get('/employees/create', [\App\Http\Controllers\EmployeeController::class, 'create'])->name('employees.create')->middleware(['auth', 'verified']);
 
@@ -51,6 +61,10 @@ Route::post('/employees/search', [EmployeeController::class, 'search'])->name('e
 
 // (Optionnel) Liste des employés
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index')->middleware(['auth', 'verified']);
+
+Route::get('employees/card', [EmployeeCardController::class, 'index'])->name('employees.card');
+
+
 
 //import Employee
 
@@ -197,8 +211,11 @@ Route::post('/timesheet/end', [TimeSheetController::class, 'end'])->name('timesh
 Route::get('/timesheets/all', [TimeSheetController::class, 'all'])->name('timesheets.all');
 
 
-
-
+//
+//Route::get('employees/card',function (){
+//    return view('employees.card');
+//});
+//
 
 
 Route::prefix('admin')->group(function () {
@@ -225,7 +242,7 @@ Route::get('/levels-echelons/{department}/{fonction}', [SalaryController::class,
 Route::get('/salary/{department}/{fonction}/{niveau}/{echelon}', [SalaryController::class, 'getSalary']);
 
 
-
+Route::get('/invoices/{invoice}', [InvoicesController::class, 'seeInvoice'])->name('invoices.show');
 
 
 require __DIR__.'/auth.php';
