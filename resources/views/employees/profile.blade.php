@@ -15,16 +15,16 @@
             padding: 40px 20px;
         }
 
-        /* Carte de service 85mm x 55mm */
+        /* Carte de service 85mm x 55mm avec bordure */
         .id-card {
             width: 85mm;
             height: 55mm;
             background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            border: 1px solid #d1d5db; /* bordure grise claire */
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             display: flex;
             overflow: hidden;
-            border-left: 4px solid #f97316;
             padding: 6px;
             font-size: 10px;
         }
@@ -38,14 +38,13 @@
             align-items: center;
             justify-content: center;
             padding: 4px;
-            border-radius: 8px 0 0 8px;
+            border-radius: 6px 0 0 6px;
         }
 
-        /* Photo circulaire avec bordure blanche */
+        /* Photo carrée avec bordure blanche */
         .id-photo {
             width: 24mm;
             height: 24mm;
-            border-radius: 50%;
             border: 2px solid #fff;
             overflow: hidden;
             margin-bottom: 4px;
@@ -66,7 +65,6 @@
             background: #fff;
             color: #f97316;
             font-size: 8px;
-            border-radius: 50%;
             border: 2px solid #fff;
             text-align: center;
         }
@@ -147,7 +145,7 @@
                 <div class="id-details">
                     <div><span class="label">Matricule:</span> {{ $employee->employee_id ?? 'N/A' }}</div>
                     <div><span class="label">Téléphone:</span> {{ $employee->mobile_phone ?? 'N/A' }}</div>
-                    <div><span class="label">Email:</span> {{ $employee->email ?? 'N/A' }}</div>
+{{--                    <div><span class="label">Email:</span> {{ $employee->email ?? 'N/A' }}</div>--}}
                     <div><span class="label">Département:</span> {{ $employee->department ?? 'N/A' }}</div>
                     <div><span class="label">Naissance:</span> {{ $employee->birth_date ?? 'N/A' }}</div>
                 </div>
@@ -180,7 +178,6 @@
                     format: 'a4'
                 });
 
-                // Centrer l'image carte dans le PDF
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const pdfHeight = pdf.internal.pageSize.getHeight();
 
@@ -189,6 +186,11 @@
 
                 const x = (pdfWidth - cardWidth) / 2;
                 const y = (pdfHeight - cardHeight) / 2;
+
+                // Ajouter bordure grise autour de la carte dans le PDF
+                pdf.setDrawColor(209, 213, 219); // couleur gris clair
+                pdf.setLineWidth(0.5);
+                pdf.rect(x, y, cardWidth, cardHeight);
 
                 pdf.addImage(imgData, 'PNG', x, y, cardWidth, cardHeight);
 
