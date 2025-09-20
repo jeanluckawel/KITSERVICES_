@@ -56,6 +56,7 @@ class ChildController extends Controller
             'status' => 1,
         ]);
 
+
         return redirect()->route('employees.index')->with('success', 'Enfant ajouté avec succès.');
 
 

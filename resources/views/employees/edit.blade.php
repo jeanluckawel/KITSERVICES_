@@ -348,7 +348,7 @@
 
                     <div class="flex-1">
                         <label class="block text-gray-700 mb-1">Taux horaire brut (FC)</label>
-                        <input type="number" name="taux_horaire_brut" id="taux_horaire_brut" readonly
+                        <input type="number" name="taux_horaire_brut" id="taux_horaire_brut"
                                value="{{ old('taux_horaire_brut', $employee->taux_horaire_brut) }}"
                                class="w-full px-3 py-2 border rounded-md bg-gray-50" />
                     </div>
@@ -366,14 +366,14 @@
 
                     <div class="flex-1">
                         <label class="block text-gray-700 mb-1">Salaire mensuel brut</label>
-                        <input type="number" name="salaire_mensuel_brut" id="salaire_mensuel_brut" readonly
+                        <input type="number" name="salaire_mensuel_brut" id="salaire_mensuel_brut"
                                value="{{ old('salaire_mensuel_brut', $employee->salaire_mensuel_brut) }}"
                                class="w-full px-3 py-2 border rounded-md bg-gray-50" />
                     </div>
                 </div>
             </div>
 
-            {{-- PICTURE INFO --}}
+{{--             PICTURE INFO --}}
             <div id="picture-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
                 <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Upload Picture</h3>
                 <div class="mb-4">

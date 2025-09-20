@@ -272,4 +272,8 @@ class EmployeeController extends Controller
         return view('employees.search', compact('employees'));
 
     }
+
+
+
+
 }

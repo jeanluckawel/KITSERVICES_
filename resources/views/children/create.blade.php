@@ -78,7 +78,7 @@
                         </div>
                         <div>
                             <label class="block mb-1 text-sm font-semibold text-gray-700">Date de naissance</label>
-                            <input type="date" name="birth_date" value="{{ old('birth_date') }}"
+                            <input type="date" name="birthday" value="{{ old('birthday') }}"
                                    class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none">
                         </div>
                         <div>
@@ -87,7 +87,7 @@
                                     class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none">
                                 <option value="">-- Choisir --</option>
                                 <option value="en vie" {{ old('children_status') == 'en vie' ? 'selected' : '' }}>En vie</option>
-                                <option value="decede" {{ old('children_status') == 'decede' ? 'selected' : '' }}>Décédé</option>
+{{--                                <option value="decede" {{ old('children_status') == 'decede' ? 'selected' : '' }}>Décédé</option>--}}
                             </select>
                         </div>
                     </div>

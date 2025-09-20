@@ -193,7 +193,6 @@
                         />
 
                         <x-form.input id="taux_horaire_brut" name="taux_horaire_brut" label="Taux horaire brut (FC)" type="number" readonly />
-{{--                        <x-form.input id="base_salary" name="base_salary" label="Salaire mensuel brut" type="number" readonly />--}}
                     </div>
 
                     <div class="flex flex-col md:flex-row gap-6 mt-4">

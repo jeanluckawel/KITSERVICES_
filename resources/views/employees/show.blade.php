@@ -121,28 +121,38 @@
                             <td class="border px-1 py-0.5">Position</td>
                             <td class="border px-1 py-0.5">{{ $employee->function ?? 'N/A' }}</td>
                         </tr>
+
+                        @php
+                            $joursParMois = 22;
+                            $heuresParJour = 8;
+                            $semainesParMois = 4;
+
+                            $heuresParMois = $joursParMois * $heuresParJour;
+
+                            $salaireMensuel = $employee->salaire_mensuel_brut ?? 0;
+
+                            $tauxHoraire = $heuresParMois > 0 ? $salaireMensuel / $heuresParMois : 0;
+
+                            $salaireHebdomadaire = $salaireMensuel / $semainesParMois;
+                        @endphp
+
                         <tr>
                             <td class="border px-1 py-0.5">Niveau</td>
                             <td class="border px-1 py-0.5">{{ $employee->niveau ?? 'N/A' }}</td>
                             <td class="border px-1 py-0.5">Coefficient</td>
-                            <td class="border px-1 py-0.5">{{ $employee->coefficient ?? 'N/A' }}</td>
+                            <td class="border px-1 py-0.5">{{ '$ ' . number_format($salaireMensuel, 2) }}</td>
                         </tr>
                         <tr>
                             <td class="border px-1 py-0.5">Échelon</td>
                             <td class="border px-1 py-0.5">{{ $employee->echelon ?? 'N/A' }}</td>
                             <td class="border px-1 py-0.5">Taux horaire brut (FC)</td>
-                            <td class="border px-1 py-0.5">{{'FC' . number_format($employee->taux_horaire_brut,2)  ?? 'N/A' }}</td>
+                            <td class="border px-1 py-0.5">{{'FC ' . number_format($employee->taux_horaire_brut,2)  ?? 'N/A' }}</td>
                         </tr>
                         <tr>
                             <td class="border px-1 py-0.5">Salaire mensuel brut</td>
-                            <td class="border  px-1 py-0.5">{{'$ '. number_format($employee->salaire_mensuel_brut  ,2) ,'N/A' }}</td>
-
-                            @php
-                                $salaireHebdomadaire = $employee->salaire_mensuel_brut / 4.33; // ≈ 213,9 $
-
-                            @endphp
+                            <td class="border px-1 py-0.5">{{ '$ ' . number_format($salaireMensuel, 2) }}</td>
                             <td class="border px-1 py-0.5">Horaire hebdomadaire & répartition</td>
-                            <td class="border px-1 py-0.5">{{'$ ' . number_format($salaireHebdomadaire,2)      }}</td>
+                            <td class="border px-1 py-0.5">{{ '$ ' . number_format($salaireHebdomadaire, 2) }}</td>
                         </tr>
                         <tr>
                             <td class="border px-1 py-0.5">Date d'embauche</td>

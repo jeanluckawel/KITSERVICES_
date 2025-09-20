@@ -245,4 +245,7 @@ Route::get('/salary/{department}/{fonction}/{niveau}/{echelon}', [SalaryControll
 Route::get('/invoices/{invoice}', [InvoicesController::class, 'seeInvoice'])->name('invoices.show');
 
 
+
+
+
 require __DIR__.'/auth.php';

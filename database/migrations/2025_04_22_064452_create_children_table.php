@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('middle_name')->nullable();;
             $table->string('children_status');
             $table->string('gender');
-            $table->integer('age');
+            $table->integer('age')->nullable();
             $table->date('birthday');
             $table->string('status')->default('1');
 
