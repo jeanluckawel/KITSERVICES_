@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('fonction_id')->constrained()->onDelete('cascade');
             $table->foreignId('niveau_id')->constrained()->onDelete('cascade');
             $table->foreignId('echelon_id')->constrained()->onDelete('cascade');
-            $table->decimal('base_salary', 10, 2);
+            $table->decimal('base_salary', 10, 2)->nullable();
             $table->timestamps();
         });
     }
