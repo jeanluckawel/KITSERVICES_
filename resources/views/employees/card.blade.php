@@ -55,40 +55,12 @@
                                 <a href="{{ route('employees.edit', $employee->employee_id) }}"
                                    class="px-3 py-1 bg-orange-500 text-white text-[11px] rounded hover:bg-orange-600 transition">Edit
                                 </a>
+                                <a href=""
+                                   class="px-3 py-1 bg-red-500 text-white text-[11px] rounded hover:bg-red-600 transition">End Contract
+                                </a>
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
-
-            <!-- Modal -->
-        <div x-show="open" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div @click.away="open = false" class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
-                <h2 class="text-lg font-bold text-gray-800 mb-4">End Contract</h2>
-
-                <form :action="`/employees/${selectedEmployee}/end-contract`" method="POST">
-                    @csrf
-                    @method('PUT')
-
-                    <!-- Date fin -->
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">End Date</label>
-                        <input type="date" name="end_date" class="w-full border rounded-lg p-2 mt-1" required>
-                    </div>
-
-                    <!-- Raison -->
-                    <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Reason</label>
-                        <textarea name="reason" rows="3" class="w-full border rounded-lg p-2 mt-1" required></textarea>
-                    </div>
-
-                    <!-- Actions -->
-                    <div class="flex justify-end gap-2">
-                        <button type="button" @click="open = false" class="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400">Cancel</button>
-                        <button type="submit" class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection

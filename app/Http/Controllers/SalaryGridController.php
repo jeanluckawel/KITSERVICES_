@@ -44,7 +44,7 @@ class SalaryGridController extends Controller
             'fonction_id' => 'required|exists:fonctions,id',
             'niveau_id' => 'required|exists:niveaux,id',
             'echelon_id' => 'required|exists:echelons,id',
-            'base_salary' => 'required|numeric|min:0',
+//            'base_salary' => 'required|numeric|min:0',
         ]);
 
 

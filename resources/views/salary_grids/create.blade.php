@@ -95,11 +95,11 @@
                 </div>
 
                 <!-- Salaire -->
-                <div>
-                    <label class="block mb-2 text-orange-600 font-medium">Salaire de Base</label>
-                    <input type="number" step="0.01" name="base_salary"
-                           class="w-full border border-orange-300 px-3 py-2 rounded focus:ring-2 focus:ring-orange-400" required>
-                </div>
+{{--                <div>--}}
+{{--                    <label class="block mb-2 text-orange-600 font-medium">Salaire de Base</label>--}}
+{{--                    <input type="number" step="0.01" name="base_salary"--}}
+{{--                           class="w-full border border-orange-300 px-3 py-2 rounded focus:ring-2 focus:ring-orange-400" >--}}
+{{--                </div>--}}
 
                 <button type="submit"
                         class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-2 rounded-lg shadow">
@@ -119,7 +119,7 @@
                         <th class="border px-4 py-2 text-left text-orange-600">Fonction</th>
                         <th class="border px-4 py-2 text-left text-orange-600">Niveau</th>
                         <th class="border px-4 py-2 text-left text-orange-600">Échelon</th>
-                        <th class="border px-4 py-2 text-left text-orange-600">Salaire</th>
+{{--                        <th class="border px-4 py-2 text-left text-orange-600">Salaire</th>--}}
                     </tr>
                     </thead>
                     <tbody>
@@ -130,7 +130,7 @@
                             <td class="border px-4 py-2">{{ $grid->fonction->name }}</td>
                             <td class="border px-4 py-2">{{ $grid->niveau->name }}</td>
                             <td class="border px-4 py-2">{{ $grid->echelon->name }}</td>
-                            <td class="border px-4 py-2 font-semibold text-gray-700">{{ number_format($grid->base_salary, 2, ',', ' ') }} $</td>
+                           <td class="border px-4 py-2 font-semibold text-gray-700" >{{ number_format($grid->base_salary, 2, ',', ' ') }} $</td>
                         </tr>
                     @endforeach
                     </tbody>
