@@ -104,7 +104,7 @@
                         </td>
                         <td class="px-4 py-3 text-sm">
                             <div class="flex items-center justify-start space-x-2">
-                                <a href="{{ route('employees.end_list_certificat', $employee->employee_id) }}" title="Certificat">
+                                <a href="{{ route('employees.end_list_cdd', $employee->employee_id) }}" title="Certificat">
                                     <button class="orange-btn">Certificat</button>
                                 </a>
                                 <a href="{{ route('employees.end_list_certificat', $employee->employee_id) }}" title="Fin contract">
