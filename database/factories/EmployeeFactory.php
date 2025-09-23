@@ -55,10 +55,16 @@ class EmployeeFactory extends Factory
             'function'               => $this->faker->jobTitle(),
             'niveau'                 => $this->faker->randomElement(['N1', 'N2', 'N3']),
             'echelon'                => $this->faker->randomElement(['E1', 'E2', 'E3']),
-            'contract_type'          => $this->faker->randomElement(['CDI', 'CDD', 'Stage']),
+            'contract_type'          => $this->faker->randomElement(['CDI', 'CDD']),
             'taux_horaire_brut'      => $this->faker->numberBetween(2800, 2900),
             'situation_avant_embauche' => $this->faker->randomElement(['Stagiaire','Chômeur','Étudiant','Étudiante','Travailleur']),
             'salaire_mensuel_brut'   => $this->faker->numberBetween(500, 3000),
+            'end_contract_date'  => function (array $attributes) {
+                if ($attributes['contract_type'] === 'CDD') {
+                    return $this->faker->dateTimeBetween('+1 day', '+5 years')->format('Y-m-d');
+                }
+                return null;
+            },
         ];
     }
 }

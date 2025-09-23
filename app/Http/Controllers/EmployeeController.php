@@ -6,6 +6,7 @@ use App\Mail\NewEmployeeNotification;
 use App\Models\department;
 use App\Models\echelon;
 use App\Models\Employee;
+use App\Models\EndContract;
 use App\Models\fonction;
 use App\Models\niveau;
 use App\Models\salary_grid;
@@ -25,6 +26,29 @@ class EmployeeController extends Controller
 //        $employees = Employee::paginate(100);
         $count = $employees->where('status', '1')->count();
         return view('employees.index',compact('employees','count'));
+    }
+    public function end_list()
+    {
+        $employees = Employee::all()->where('end_contract_date')->sortByDesc('created_at');
+//        $employees = Employee::paginate(100);
+        $count = $employees->where('end_contract_date')->count();
+        return view('employees.end_list',compact('employees','count'));
+    }
+
+    public function end_list_cdd($employee_id)
+    {
+        $employee = Employee::where('employee_id', $employee_id)->firstOrFail();
+
+        return view('end_contracts.cdd',compact('employee'));
+    }
+
+
+    public function end_list_certificat($employee_id)
+    {
+        $employee = Employee::where('employee_id', $employee_id)->firstOrFail();
+
+        return view('end_contracts.certificat',compact('employee'));
+
     }
     public function create()
     {
@@ -100,6 +124,7 @@ class EmployeeController extends Controller
 //            'taux_horaire_brut'        => 'nullable|numeric',
 //            'situation_avant_embauche' => 'nullable|string|max:255',
 //            'salaire_mensuel_brut'     => 'nullable|numeric',
+        'end_contract_date' => 'nullable|date',
         ]);
 
         // Génération automatique de l’employee_id

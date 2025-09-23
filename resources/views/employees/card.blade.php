@@ -53,11 +53,13 @@
                             <!-- Buttons -->
                             <div class="flex justify-center gap-2 mt-2 flex-wrap">
                                 <a href="{{ route('employees.edit', $employee->employee_id) }}"
-                                   class="px-3 py-1 bg-orange-500 text-white text-[11px] rounded hover:bg-orange-600 transition">Edit
+                                   class="px-3 py-1 bg-orange-500 text-white text-sm rounded hover:bg-orange-600 transition">Edit
                                 </a>
-                                <a href=""
-                                   class="px-3 py-1 bg-red-500 text-white text-[11px] rounded hover:bg-red-600 transition">End Contract
+                                <a href="{{ route('end_contracts.create', $employee->employee_id) }}"
+                                   class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition">
+                                    End Contract
                                 </a>
+
                             </div>
                         </div>
                     </div>

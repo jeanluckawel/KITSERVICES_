@@ -166,40 +166,95 @@
             </div>
 
                 {{-- ENTREPRISE INFO --}}
-                <div id="entreprise-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Entreprise Information</h3>
 
-                    <div class="flex flex-col md:flex-row gap-6">
-                        <x-form.select id="department" name="department" label="Department" :options="$departments" />
-                        <x-form.select id="function" name="function" label="Function" :options="$fonctions" />
+            {{-- ENTREPRISE INFO --}}
+            {{-- ENTREPRISE INFO --}}
+            <div id="entreprise-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Entreprise Information</h3>
+
+                <div class="flex flex-col md:flex-row gap-6">
+                    <x-form.select id="department" name="department" label="Department" :options="$departments" />
+                    <x-form.select id="function" name="function" label="Function" :options="$fonctions" />
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-6 mt-4">
+                    <x-form.select id="niveau" name="niveau" label="Niveau" :options="$niveaux" />
+                    <x-form.select id="echelon" name="echelon" label="Echelon" :options="$echelons" />
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-6 mt-4">
+                    <x-form.select
+                        name="situation_avant_embauche"
+                        label="Situation avant embauche"
+                        :options="[
+            'Stagiaire'   => 'Stagiaire',
+            'Chômeur'     => 'Chômeur',
+            'Étudiant'    => 'Étudiant',
+            'Étudiante'   => 'Étudiante',
+            'Travailleur' => 'Travailleur'
+            ]"
+                    />
+
+                    <x-form.input id="taux_horaire_brut" name="taux_horaire_brut" label="Taux horaire brut (FC)" type="number" readonly />
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-6 mt-4">
+                    {{-- Contract Type - Version normale HTML --}}
+                    <div class="w-full md:w-1/2">
+                        <label for="contract_type" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Contract Type
+                        </label>
+                        <select
+                            id="contract_type"
+                            name="contract_type"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                            onchange="toggleEndDate(this.value)"
+                        >
+                            <option value="CDI">CDI</option>
+                            <option value="CDD">CDD</option>
+                        </select>
                     </div>
 
-                    <div class="flex flex-col md:flex-row gap-6 mt-4">
-                        <x-form.select id="niveau" name="niveau" label="Niveau" :options="$niveaux" />
-                        <x-form.select id="echelon" name="echelon" label="Echelon" :options="$echelons" />
-                    </div>
+                    {{-- Salaire mensuel brut --}}
+                    <x-form.input id="salaire_mensuel_brut" name="salaire_mensuel_brut" label="Salaire mensuel brut" type="number" readonly />
+                </div>
 
-                    <div class="flex flex-col md:flex-row gap-6 mt-4">
-                        <x-form.select
-                            name="situation_avant_embauche"
-                            label="Situation avant embauche"
-                            :options="[
-                            'Stagiaire'   => 'Stagiaire',
-                            'Chômeur'     => 'Chômeur',
-                            'Étudiant'    => 'Étudiant',
-                            'Étudiante'   => 'Étudiante',
-                            'Travailleur' => 'Travailleur'
-                            ]"
-                        />
-
-                        <x-form.input id="taux_horaire_brut" name="taux_horaire_brut" label="Taux horaire brut (FC)" type="number" readonly />
-                    </div>
-
-                    <div class="flex flex-col md:flex-row gap-6 mt-4">
-                        <x-form.select name="contract_type" label="Contract Type" :options="['CDI'=>'CDI','CDD'=>'CDD','Stage'=>'Stage']" />
-                        <x-form.input id="salaire_mensuel_brut" name="salaire_mensuel_brut" label="Salaire mensuel brut" type="number" readonly />
+                {{-- Date de fin pour CDD --}}
+                <div id="end-date-container" class="mt-3 hidden">
+                    <div class="w-full md:w-1/2">
+                        <label for="end_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Date de fin de contrat
+                        </label>
+                        <input
+                            type="date"
+                            id="end_date"
+                            name="end_contract_date"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        >
                     </div>
                 </div>
+            </div>
+
+            <script>
+                function toggleEndDate(contractType) {
+                    const endDateContainer = document.getElementById('end-date-container');
+
+                    if (contractType === 'CDD') {
+                        endDateContainer.classList.remove('hidden');
+                    } else {
+                        endDateContainer.classList.add('hidden');
+                    }
+                }
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    const contractTypeSelect = document.getElementById('contract_type');
+                    if (contractTypeSelect) {
+                        toggleEndDate(contractTypeSelect.value);
+                    }
+                });
+            </script>
+
+
 
             {{-- PICTURE INFO --}}
             <div id="picture-section" class="tab-content p-6 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
@@ -376,6 +431,32 @@
                 updateDropdowns();
                 updateSalary();
             });
+        });
+
+
+
+
+
+
+        // cdd type end
+        document.addEventListener('DOMContentLoaded', function () {
+            const contractTypeSelect = document.getElementById('contract_type');
+            const endDateContainer = document.getElementById('end-date-container');
+
+            if (!contractTypeSelect) return;
+
+            const toggleEndDate = () => {
+                if (contractTypeSelect.value === 'CDD') {
+                    endDateContainer.classList.remove('hidden');
+                } else {
+                    endDateContainer.classList.add('hidden');
+                }
+            };
+
+            contractTypeSelect.addEventListener('change', toggleEndDate);
+
+            // Vérifie la valeur au chargement
+            toggleEndDate();
         });
     </script>
 @endsection

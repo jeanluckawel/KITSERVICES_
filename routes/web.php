@@ -7,6 +7,7 @@ use App\Http\Controllers\EmployeeCardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeEntrepriseController;
 use App\Http\Controllers\EmployeeImportController;
+use App\Http\Controllers\EndContractController;
 use App\Http\Controllers\FamillyController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoicesController;
@@ -61,6 +62,13 @@ Route::post('/employees/search', [EmployeeController::class, 'search'])->name('e
 
 // (Optionnel) Liste des employés
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index')->middleware(['auth', 'verified']);
+Route::get('/employees/end_list', [EmployeeController::class, 'end_list'])->name('employees.end_list')->middleware(['auth', 'verified']);
+
+Route::get('/employees/{employee_id}/end-list-cdd', [EmployeeController::class, 'end_list_cdd'])
+    ->name('employees.end_list_cdd');
+
+Route::get('/employees/{employee_id}/end-list-certificat', [EmployeeController::class, 'end_list_certificat'])
+    ->name('employees.end_list_certificat');
 
 Route::get('employees/card', [EmployeeCardController::class, 'index'])->name('employees.card');
 
@@ -246,6 +254,9 @@ Route::get('/invoices/{invoice}', [InvoicesController::class, 'seeInvoice'])->na
 
 
 
+Route::get('/employees/{employee}/end-contract', [EndContractController::class, 'create'])->name('end_contracts.create');
+Route::post('/employees/{employee}/end-contract', [EndContractController::class, 'store'])->name('end_contracts.store');
 
+Route::get('/end-contracts/{id}', [EndContractController::class, 'show'])->name('end_contracts.show');
 
 require __DIR__.'/auth.php';

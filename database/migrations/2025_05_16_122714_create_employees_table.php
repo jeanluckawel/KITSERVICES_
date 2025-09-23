@@ -61,6 +61,7 @@ return new class extends Migration
             $table->string('taux_horaire_brut')->nullable();
             $table->string('situation_avant_embauche')->nullable();
             $table->decimal('salaire_mensuel_brut', 10, 2)->nullable();
+            $table->date('end_contract_date')->nullable();
 
 
             $table->timestamps();

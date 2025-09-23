@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificat de Travail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <style>
+        @page { size: A4 landscape; margin: 0; }
+        body {
+            width: 297mm;
+            height: 210mm;
+            margin: 0;
+            padding: 15mm;
+            font-family: "Times New Roman", serif;
+            background: #fefefe;
+        }
+        .certificate-container {
+            border: 8px double #FF7F00; /* Bordure orange Kit Service */
+            border-radius: 8px;
+            height: 180mm;
+            padding: 25mm 20mm;
+            position: relative;
+            background: #fffdf5;
+            overflow: hidden;
+        }
+        .signature-section {
+            position: absolute;
+            bottom: 30mm;
+            width: calc(100% - 40mm);
+        }
+        .content-text {
+            text-align: justify;
+            font-family: 'Roboto', sans-serif; /* Police du corps principal */
+            color: #333333;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 7rem;
+            color: rgba(255,127,0,0.08);
+            font-weight: bold;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+        }
+        .footer-line {
+            border-top: 2px solid #FF7F00;
+            width: 60%;
+            margin: 0 auto 10px auto;
+        }
+        /* coins décoratifs */
+        .ornamental-corner {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+        }
+        .corner-tl { top: 15px; left: 15px; border-top: 3px solid #FF7F00; border-left: 3px solid #FF7F00; }
+        .corner-tr { top: 15px; right: 15px; border-top: 3px solid #FF7F00; border-right: 3px solid #FF7F00; }
+        .corner-bl { bottom: 15px; left: 15px; border-bottom: 3px solid #FF7F00; border-left: 3px solid #FF7F00; }
+        .corner-br { bottom: 15px; right: 15px; border-bottom: 3px solid #FF7F00; border-right: 3px solid #FF7F00; }
+        .header-decoration {
+            width: 80%;
+            margin: 0 auto;
+            height: 4px;
+            background: linear-gradient(to right, transparent, #FF7F00, transparent);
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="certificate-container">
+    <!-- Bordures ornementales -->
+    <div class="ornamental-border">
+        <div class="ornamental-corner corner-tl"></div>
+        <div class="ornamental-corner corner-tr"></div>
+        <div class="ornamental-corner corner-bl"></div>
+        <div class="ornamental-corner corner-br"></div>
+    </div>
+
+    <!-- Filigrane -->
+    <div class="watermark">KIT SERVICE SARL</div>
+
+    <!-- Titre principal -->
+    <div class="text-center">
+        <h1 class="text-4xl font-bold uppercase tracking-widest text-orange-600">CERTIFICATE</h1>
+        <h2 class="text-2xl font-bold uppercase tracking-wide mt-2 text-gray-700">OF ACHIEVEMENT</h2>
+        <div class="header-decoration"></div>
+    </div>
+
+    <!-- Sous-titre -->
+    <div class="text-center mt-8">
+        <p class="text-lg italic text-gray-600">THIS CERTIFICATE IS PROUDLY PRESENTED TO</p>
+        <hr class="my-4 border-gray-400 w-1/3 mx-auto">
+    </div>
+
+    <div class="mt-8 mb-5 text-sm leading-relaxed content-text space-y-4 text-center">
+        <p>Monsieur / Madame [Nom complet du salarié], Titulaire du numéro matricule : [______].</p>
+        <p>A été employé(e) au sein de notre entreprise du [date de début] au [date de fin], en qualité de [intitulé du poste].</p>
+        <p>Pendant toute la durée de son contrat, Monsieur / Madame [Nom] a fait preuve de [bon comportement, ponctualité, professionnalisme – à adapter selon le cas].</p>
+        <p>Ce certificat lui est délivré à sa demande / ou à l'initiative de l'entreprise, en vue de faire valoir ce que de droit, suite à l'expiration du contrat à durée déterminée signé entre les deux parties.</p>
+
+    </div>
+
+
+
+    <!-- Espace avant le footer -->
+    <div class="my-24"></div> <!-- plus grand pour laisser plus de place au texte -->
+
+    <!-- Footer avec logo et signatures -->
+    <div class="signature-section mt-2" style="bottom: 15mm;"> <!-- footer plus bas -->
+        <div class="footer-line"></div>
+        <div class="flex justify-between items-center mt-4">
+            <!-- Human Resources -->
+            <div class="text-center">
+                <p class="font-bold text-gray-700">HUMAN RESOURCES</p>
+                <p class="text-gray-600">BANZA GLORY</p>
+            </div>
+
+            <!-- Logo + timbre -->
+            <div class="text-center relative">
+                <!-- Logo principal -->
+                <img src="logo.png" alt="Logo" class="h-16 mx-auto relative z-10">
+
+                <!-- Timbre centré et proportionnel -->
+                <img src="trimbre.png" alt="Timbre"
+                     class="absolute top-1/2 left-1/2 z-0 opacity-30"
+                     style="max-height: 200px; max-width: 200px; width: auto; height: auto; transform: translate(-50%, -50%);">
+            </div>
+
+
+            <!-- Manager -->
+            <div class="text-center">
+                <p class="font-bold text-gray-700">MANAGER</p>
+                <p class="text-gray-600">KUZO NELLY</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

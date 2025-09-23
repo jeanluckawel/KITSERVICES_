@@ -147,7 +147,7 @@
                     <div><span class="label">Téléphone:</span> {{ $employee->mobile_phone ?? 'N/A' }}</div>
 {{--                    <div><span class="label">Email:</span> {{ $employee->email ?? 'N/A' }}</div>--}}
                     <div><span class="label">Département:</span> {{ $employee->department ?? 'N/A' }}</div>
-                    <div><span class="label">Naissance:</span> {{ $employee->birth_date ?? 'N/A' }}</div>
+{{--                    <div><span class="label">Naissance:</span> {{ $employee->birth_date ?? 'N/A' }}</div>--}}
                 </div>
 
                 <div class="id-footer">Carte de service - Kit Service {{ now()->year }}</div>
