@@ -104,11 +104,14 @@
                         </td>
                         <td class="px-4 py-3 text-sm">
                             <div class="flex items-center justify-start space-x-2">
-                                <a href="{{ route('employees.end_list_cdd', $employee->employee_id) }}" title="Certificat">
+                                <a href="{{ route('employees.end_list_certificat', $employee->employee_id) }}" title="Certificat">
                                     <button class="orange-btn">Certificat</button>
                                 </a>
-                                <a href="{{ route('employees.end_list_certificat', $employee->employee_id) }}" title="Fin contract">
-                                    <button class="orange-btn">Fin contract</button>
+                                <a href="{{ route('employees.end_list_cdd', $employee->employee_id) }}" title="Fin contract">
+                                    <button class="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition duration-300">
+                                        Fin contrat
+                                    </button>
+
                                 </a>
                             </div>
                         </td>
