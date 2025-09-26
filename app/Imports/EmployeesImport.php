@@ -4,9 +4,11 @@ namespace App\Imports;
 
 use App\Mail\NewEmployeeNotification;
 use App\Models\Employee;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class EmployeesImport implements ToModel, withHeadingRow
 {
@@ -17,6 +19,9 @@ class EmployeesImport implements ToModel, withHeadingRow
     */
     public function model(array $row)
     {
+
+
+
 
         if (collect($row)->filter()->isEmpty()) {
             return null;
@@ -31,6 +36,28 @@ class EmployeesImport implements ToModel, withHeadingRow
         $lastEmployee = Employee::orderBy('id', 'desc')->first();
         $lastNumber = $lastEmployee ? intval(substr($lastEmployee->employee_id, -5)) : 0;
         $newEmployeeId = 'KAM_KIT' . str_pad($lastNumber + 1, 5, '0', STR_PAD_LEFT);
+
+
+        $excelDate = $row['end_contract_date'] ?? null;
+
+        if ($excelDate) {
+            // Si c'est un nombre Excel
+            if (is_numeric($excelDate)) {
+                $endContractDate = Carbon::instance(Date::excelToDateTimeObject($excelDate))->format('Y-m-d');
+            } else {
+                // Si c'est du texte
+                $endContractDate = Carbon::parse($excelDate)->format('Y-m-d');
+            }
+        } else {
+            $endContractDate = null;
+        }
+
+        $createdAt = !empty($row['date_debut'])
+            ? (is_numeric($row['date_debut'])
+                ? Carbon::instance(Date::excelToDateTimeObject($row['date_debut']))
+                : Carbon::parse($row['date_debut']))
+            : null;
+
 
         return new Employee([
             //
@@ -57,6 +84,11 @@ class EmployeesImport implements ToModel, withHeadingRow
             'echelon' => $row['echelon'] ?? '',
             'contract_type' => $row['contract_type'] ?? '',
             'salaire_mensuel_brut' => $row['salaire_mensuel_brut'] ?? '',
+            'end_contract_date' => $endContractDate,
+            'created_at' => $createdAt,
+            'updated_at' => now(),
+
+
             'status' => 1,
 
         ]);

@@ -169,38 +169,41 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('employees.card') }}" class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
-                                    <i class='bx bx-list-ul mr-2'></i>
+                                <a href="{{ route('employees.card') }}"
+                                   class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
+                                    <i class='bx bx-id-card mr-2'></i>
                                     Employee Card
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('employees.end_list') }}" class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
-                                    <i class='bx bx-list-ul mr-2'></i>
+                                <a href="{{ route('employees.end_list') }}"
+                                   class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
+                                    <i class='bx bx-user-x mr-2'></i>
                                     Employee End
                                 </a>
                             </li>
+
                         </ul>
                     </li>
 
                     <!-- Payroll Menu -->
-                    <li class="relative px-6 py-3">
-                        <button @click="isPayrollMenuOpen = !isPayrollMenuOpen" class="flex items-center justify-between w-full text-sm font-semibold text-gray-800 dark:text-gray-100 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
-                            <span class="flex items-center">
-                                <i class='bx bxs-credit-card text-lg mr-3'></i>
-                                Payroll
-                            </span>
-                            <i class='bx bx-chevron-down transition-transform duration-200' :class="{ 'transform rotate-180': isPayrollMenuOpen }"></i>
-                        </button>
-                        <ul x-show="isPayrollMenuOpen" x-transition class="pl-2 mt-2 space-y-2">
-                            <li>
-                                <a href="{{ route('payroll.index') }}" class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
-                                    <i class='bx bx-user-pin mr-2'></i>
-                                    Single Employee
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+{{--                    <li class="relative px-6 py-3">--}}
+{{--                        <button @click="isPayrollMenuOpen = !isPayrollMenuOpen" class="flex items-center justify-between w-full text-sm font-semibold text-gray-800 dark:text-gray-100 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">--}}
+{{--                            <span class="flex items-center">--}}
+{{--                                <i class='bx bxs-credit-card text-lg mr-3'></i>--}}
+{{--                                Payroll--}}
+{{--                            </span>--}}
+{{--                            <i class='bx bx-chevron-down transition-transform duration-200' :class="{ 'transform rotate-180': isPayrollMenuOpen }"></i>--}}
+{{--                        </button>--}}
+{{--                        <ul x-show="isPayrollMenuOpen" x-transition class="pl-2 mt-2 space-y-2">--}}
+{{--                            <li>--}}
+{{--                                <a href="{{ route('payroll.index') }}" class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">--}}
+{{--                                    <i class='bx bx-user-pin mr-2'></i>--}}
+{{--                                    Single Employee--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
 
 
 
@@ -223,7 +226,7 @@
                                 <a href="{{ route('customers.index') }}"
                                    class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
                                     <i class='bx bx-user-pin mr-2'></i>
-                                     Customer
+                                     Invoice
                                 </a>
                             </li>
 
@@ -233,37 +236,37 @@
 
 
                     <!-- TimeSheet Menu -->
-                    <li class="relative px-6 py-3" x-data="{ isTimeSheetMenuOpen: false }">
-                        <button @click="isTimeSheetMenuOpen = !isTimeSheetMenuOpen"
-                                class="flex items-center justify-between w-full text-sm font-semibold text-gray-800 dark:text-gray-100 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
-                    <span class="flex items-center">
-                        <i class='bx bxs-time-five text-lg mr-3'></i>
-                        TimeSheet
-                    </span>
-                            <!-- rotation correcte -->
-                            <i class='bx bx-chevron-down transition-transform duration-200'
-                               :class="{ 'transform rotate-180': isTimeSheetMenuOpen }"></i>
-                        </button>
+{{--                    <li class="relative px-6 py-3" x-data="{ isTimeSheetMenuOpen: false }">--}}
+{{--                        <button @click="isTimeSheetMenuOpen = !isTimeSheetMenuOpen"--}}
+{{--                                class="flex items-center justify-between w-full text-sm font-semibold text-gray-800 dark:text-gray-100 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">--}}
+{{--                    <span class="flex items-center">--}}
+{{--                        <i class='bx bxs-time-five text-lg mr-3'></i>--}}
+{{--                        TimeSheet--}}
+{{--                    </span>--}}
+{{--                            <!-- rotation correcte -->--}}
+{{--                            <i class='bx bx-chevron-down transition-transform duration-200'--}}
+{{--                               :class="{ 'transform rotate-180': isTimeSheetMenuOpen }"></i>--}}
+{{--                        </button>--}}
 
-                        <!-- Dropdown -->
-                        <ul x-show="isTimeSheetMenuOpen" x-transition class="pl-2 mt-2 space-y-2">
-                            <li>
-                                <a href=""
-                                   class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
-                                    <i class='bx bx-user mr-2'></i>
-                                    One Employee
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('timesheets.all') }}"
-                                   class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
-                                    <i class='bx bx-users mr-2'></i>
-                                    All Employees
-                                </a>
-                            </li>
+{{--                        <!-- Dropdown -->--}}
+{{--                        <ul x-show="isTimeSheetMenuOpen" x-transition class="pl-2 mt-2 space-y-2">--}}
+{{--                            <li>--}}
+{{--                                <a href=""--}}
+{{--                                   class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">--}}
+{{--                                    <i class='bx bx-user mr-2'></i>--}}
+{{--                                    One Employee--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <a href="{{ route('timesheets.all') }}"--}}
+{{--                                   class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">--}}
+{{--                                    <i class='bx bx-users mr-2'></i>--}}
+{{--                                    All Employees--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
 
-                        </ul>
-                    </li>
+{{--                        </ul>--}}
+{{--                    </li>--}}
 
 
                     <!-- Salary Grid Menu -->
@@ -272,7 +275,7 @@
                                 class="flex items-center justify-between w-full text-sm font-semibold text-gray-800 dark:text-gray-100 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
         <span class="flex items-center">
             <i class='bx bx-money text-lg mr-3'></i>
-            Salary Grid
+            Entreprise
         </span>
                             <!-- rotation correcte -->
                             <i class='bx bx-chevron-down transition-transform duration-200'
@@ -309,13 +312,13 @@
                                     Échelons
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ route('salary_grids.create') }}"
-                                   class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
-                                    <i class='bx bx-money-withdraw mr-2'></i>
-                                    Salary Grids
-                                </a>
-                            </li>
+{{--                            <li>--}}
+{{--                                <a href="{{ route('salary_grids.create') }}"--}}
+{{--                                   class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">--}}
+{{--                                    <i class='bx bx-money-withdraw mr-2'></i>--}}
+{{--                                    Salary Grids--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
                         </ul>
                     </li>
 

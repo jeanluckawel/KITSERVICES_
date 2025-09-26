@@ -129,7 +129,7 @@
 
                             $heuresParMois = $joursParMois * $heuresParJour;
 
-                            $salaireMensuel = $employee->salaire_mensuel_brut ?? 0;
+                             $salaireMensuel = (float)($employee->salaire_mensuel_brut ?? 0);
 
                             $tauxHoraire = $heuresParMois > 0 ? $salaireMensuel / $heuresParMois : 0;
 

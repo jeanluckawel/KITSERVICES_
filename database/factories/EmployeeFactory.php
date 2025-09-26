@@ -24,7 +24,8 @@ class EmployeeFactory extends Factory
             'marital_status'         => $this->faker->randomElement(['Single', 'Married', 'Divorced']),
             'highest_education_level'=> $this->faker->randomElement(['High School', 'Bachelor', 'Master', 'PhD']),
             'nationality'            => 'Congolese',
-            'photo'                  => null,
+            'photo' => $this->faker->imageUrl(300, 300, 'people'),
+
             'age'                    => $this->faker->numberBetween(20, 60),
             'house_phone'            => $this->faker->phoneNumber(),
             'mobile_phone'           => '2439' . $this->faker->numberBetween(10000000, 99999999),

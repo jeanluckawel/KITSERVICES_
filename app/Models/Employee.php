@@ -14,6 +14,8 @@ class Employee extends Model
 
     use HasFactory;
 
+
+
     protected $fillable = [
         'employee_id', 'first_name', 'last_name', 'middle_name', 'personal_id', 'birth_date',
         'gender', 'marital_status', 'highest_education_level', 'nationality',
@@ -23,7 +25,7 @@ class Employee extends Model
         'emergency_city', 'father_name', 'father_name_status', 'mother_name', 'mother_name_status',
         'spouse_name', 'spouse_phone', 'spouse_birth_date', 'department', 'function', 'niveau',
         'echelon', 'contract_type','taux_horaire_brut', 'situation_avant_embauche','salaire_mensuel_brut',
-        'end_contract_date'
+        'end_contract_date','created_at','updated_at'
 
     ];
 

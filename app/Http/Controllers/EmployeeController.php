@@ -23,6 +23,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = Employee::all()->sortByDesc('created_at');
+//        $employee = Employee::all();
 //        $employees = Employee::paginate(100);
         $count = $employees->where('status', '1')->count();
         return view('employees.index',compact('employees','count'));
@@ -211,29 +212,46 @@ class EmployeeController extends Controller
         $employee = Employee::where('employee_id', $employee_id)->firstOrFail();
 
         $data = $request->validate([
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'middle_name' => 'nullable|string',
-            'personal_id' => 'nullable|string',
-            'birth_date' => 'nullable|date',
-            'gender' => 'nullable|string',
-            'marital_status' => 'nullable|string',
-            'highest_education_level' => 'nullable|string',
-            'nationality' => 'nullable|string',
-            'house_phone' => 'nullable|string',
-            'mobile_phone' => 'nullable|string',
-            'email' => 'nullable|email',
-            'address1' => 'nullable|string',
-            'address2' => 'nullable|string',
-            'city' => 'nullable|string',
-            'department' => 'nullable|string',
-            'function' => 'nullable|string',
-            'niveau' => 'nullable|string',
-            'echelon' => 'nullable|string',
-            'contract_type' => 'nullable|string',
-            'taux_horaire_brut' => 'nullable|numeric',
-            'salaire_mensuel_brut' => 'nullable|numeric',
-            'photo_cropped' => 'nullable|string',
+            'first_name'               => 'sometimes|nullable|string|max:255',
+            'last_name'                => 'sometimes|nullable|string|max:255',
+            'middle_name'              => 'sometimes|nullable|string|max:255',
+            'personal_id'              => 'sometimes|nullable|string|unique:employees,personal_id,' . $employee->id,
+            'birth_date'               => 'sometimes|nullable|date',
+            'gender'                   => 'sometimes|nullable|in:M,F',
+            'marital_status'           => 'sometimes|nullable|string|max:255',
+            'highest_education_level'  => 'sometimes|nullable|string|max:255',
+            'nationality'              => 'sometimes|nullable|string|max:255',
+            'photo'                    => 'sometimes|nullable|image|max:2048',
+
+            'mobile_phone'             => 'sometimes|nullable|string|max:20',
+            'email'                    => 'sometimes|nullable|email|max:255',
+            'address1'                 => 'sometimes|nullable|string|max:255',
+            'address2'                 => 'sometimes|nullable|string|max:255',
+            'city'                     => 'sometimes|nullable|string|max:100',
+            'house_phone'              => 'sometimes|nullable|string|max:20',
+
+            'emergency_full_name'      => 'sometimes|nullable|string|max:255',
+            'emergency_relationship'   => 'sometimes|nullable|string|max:255',
+            'emergency_mobile_phone'   => 'sometimes|nullable|string|max:20',
+            'emergency_address'        => 'sometimes|nullable|string|max:255',
+            'emergency_city'           => 'sometimes|nullable|string|max:100',
+
+            'father_name'              => 'sometimes|nullable|string|max:255',
+            'father_name_status'       => 'sometimes|nullable|string|max:255',
+            'mother_name'              => 'sometimes|nullable|string|max:255',
+            'mother_name_status'       => 'sometimes|nullable|string|max:255',
+            'spouse_name'              => 'sometimes|nullable|string|max:255',
+            'spouse_phone'             => 'sometimes|nullable|string|max:20',
+            'spouse_birth_date'        => 'sometimes|nullable|date',
+
+            'department'               => 'sometimes|nullable|string|max:255',
+            'function'                 => 'sometimes|nullable|string|max:255',
+            'niveau'                   => 'sometimes|nullable|string|max:255',
+            'echelon'                  => 'sometimes|nullable|string|max:255',
+            'contract_type'            => 'sometimes|nullable|string|max:255',
+            'taux_horaire_brut'        => 'sometimes|nullable|numeric',
+            'situation_avant_embauche' => 'sometimes|nullable|string|max:255',
+            'salaire_mensuel_brut'     => 'sometimes|nullable|numeric',
         ]);
 
         // gestion photo
@@ -249,7 +267,6 @@ class EmployeeController extends Controller
 
         $employee->update($data);
 
-        // ✅ On redirige vers show en passant bien l'employee_id
         return redirect()
             ->route('employees.show', $employee->employee_id)
             ->with('success', 'Employee updated successfully!');
@@ -265,9 +282,9 @@ class EmployeeController extends Controller
 
     public function downloadTemplate() : BinaryFileResponse
     {
-        $file = public_path('templates/employees_template.xlsx');
+        $file = public_path('templates/add new employee kit service .xlsx');
 
-        return response()->download($file, 'employees_template.xlsx');
+        return response()->download($file, 'add new employee kit service .xlsx');
 
     }
 

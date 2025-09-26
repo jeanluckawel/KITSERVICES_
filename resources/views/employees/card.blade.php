@@ -32,11 +32,25 @@
 
                         <!-- Photo de l'employé -->
                         <div class="w-full h-40 bg-gray-100 flex items-center justify-center overflow-hidden">
+                            @php
+                                $gender = strtolower($employee->gender);
+
+                                if ($gender === 'female') {
+                                    $photoPath = 'assets/profil/female.png';
+                                } elseif ($gender === 'male') {
+                                    $photoPath = 'assets/profil/male.png';
+                                } else {
+                                    $photoPath = 'assets/profil/other.png';
+                                }
+                            @endphp
+
+
                             <img
-                                src="{{ $employee->photo ? asset('storage/' . $employee->photo) : asset('images/default-avatar.png') }}"
+                                src="{{ asset($photoPath) }}"
+{{--                                src="{{ $employee->photo ? asset('storage/photos/' . $employee->photo) : asset($photoPath) }}"--}}
                                 alt="{{ $employee->first_name }}"
                                 class="max-h-full max-w-full object-contain"
-                            >
+                            />
                         </div>
 
                         <!-- Infos -->
@@ -54,10 +68,6 @@
                             <div class="flex justify-center gap-2 mt-2 flex-wrap">
                                 <a href="{{ route('employees.edit', $employee->employee_id) }}"
                                    class="px-3 py-1 bg-orange-500 text-white text-sm rounded hover:bg-orange-600 transition">Edit
-                                </a>
-                                <a href="{{ route('end_contracts.create', $employee->employee_id) }}"
-                                   class="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition">
-                                    End Contract
                                 </a>
 
                             </div>
