@@ -106,7 +106,7 @@
                                 <div class="text-left text-gray-600 text-[11px] space-y-1 mb-3">
                                     <p><strong>Department:</strong> {{ $employee->department }}</p>
                                     <p><strong>Function:</strong> {{ $employee->function}}</p>
-                                    <p><strong>Date Fin:</strong> {{ $employee->mobile_phone ??  'N/A' }}</p>
+                                    <p><strong>Phone:</strong> {{ $employee->mobile_phone ??  'N/A' }}</p>
                                 </div>
                             </a>
 
