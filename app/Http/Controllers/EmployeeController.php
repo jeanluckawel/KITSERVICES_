@@ -77,6 +77,16 @@ class EmployeeController extends Controller
         ));
     }
 
+    public function restartContart()
+    {
+
+        $employees = EndContract::where('status', 0)
+            ->where('end_contract_date', '>', \Carbon\Carbon::now())
+            ->get();
+
+        return view('employees.restartContart', compact('employees'));
+    }
+
 
 
 

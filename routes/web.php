@@ -64,6 +64,7 @@ Route::post('/employees/search', [EmployeeController::class, 'search'])->name('e
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index')->middleware(['auth', 'verified']);
 Route::get('/employees/end_list', [EmployeeController::class, 'end_list'])->name('employees.end_list')->middleware(['auth', 'verified']);
 Route::get('/employees/end_list_cdi', [EmployeeController::class, 'end_list_cdi'])->name('employees.end-list-cdi')->middleware(['auth', 'verified']);
+Route::get('/employees/restartContart', [EmployeeController::class, 'restartContart'])->name('employees.restartContart')->middleware(['auth', 'verified']);
 
 Route::get('/employees/{employee_id}/end-list-cdd', [EmployeeController::class, 'end_list_cdd'])
     ->name('employees.end_list_cdd');
