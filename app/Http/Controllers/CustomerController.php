@@ -14,9 +14,11 @@ class CustomerController extends Controller
     {
         //
 
-        $customers = Customer::paginate(5);
+        $customers = Customer::all();
 
-        return view('customers.show', compact('customers'));
+        $countAllcustomers = Customer::count();
+
+        return view('customers.show', compact('customers','countAllcustomers'));
 
     }
 

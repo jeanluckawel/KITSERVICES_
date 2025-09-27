@@ -22,7 +22,7 @@
                         </div>
                         <div>
                             <p class="mb-1 text-xs sm:text-sm font-medium text-gray-600">Total Invoices</p>
-                            <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $invoicesCount ?? 'N/A' }}</p>
+                            <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $countAllcustomers ?? 'N/A' }}</p>
                         </div>
                     </div>
                 </a>
@@ -105,7 +105,7 @@
                                 <p><strong>ID Nat #:</strong> {{ $invoice->id_nat ?? 'N/A' }}</p>
                                 <p><strong>RCCM:</strong> {{ $invoice->rccm ?? 'N/A' }}</p>
                                 <p><strong>Phone:</strong> {{ $invoice->telephone ?? 'N/A' }}</p>
-                                <p><strong>Commune:</strong> {{ $invoice->ville . $invoice->commune ?? 'N/A' }}</p>
+                                <p><strong>Commune:</strong> {{ $invoice->ville .' '. $invoice->commune ?? 'N/A' }}</p>
                             </div>
 
                             <!-- Buttons -->
