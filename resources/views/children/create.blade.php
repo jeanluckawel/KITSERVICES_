@@ -93,10 +93,18 @@
                     </div>
 
                     <div class="flex space-x-4">
+                        <!-- Bouton Save -->
                         <button type="submit" class="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-lg shadow">
                             Save
                         </button>
+
+                        <!-- Bouton Back -->
+                        <a href="{{ url()->previous() }}"
+                           class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg shadow flex items-center justify-center">
+                            Back
+                        </a>
                     </div>
+
                 </form>
             </div>
 
