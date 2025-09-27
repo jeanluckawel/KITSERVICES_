@@ -13,6 +13,22 @@ class CustomerSeeder extends Seeder
     {
         $clients = [
             [
+                'name' => 'KAMOA COPPER SA',
+                'id_nat' => '05-B0500-N37233J',
+                'rccm' => '14-B-1683',
+                'nif' => 'A0901048A',
+                'province' => 'Lualaba',
+                'ville' => 'Kolwezi',
+                'commune' => 'Manika',
+                'quartier' => 'Joli-Site',
+                'avenue' => 'Route Likasi',
+                'numero' => '999',
+                'telephone' => '+243996072600',
+                'email' => 'communications@kamoacopper.com',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
                 'name' => 'TENKE FUNGURUME MINING SA',
                 'id_nat' => '06-B1200-N58221K',
                 'rccm' => '15-B-2251',
