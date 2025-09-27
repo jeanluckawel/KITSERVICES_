@@ -102,7 +102,7 @@
                         <div class="p-4 text-center">
                             <h3 class="text-sm font-bold text-gray-800 truncate">{{ $invoice->name }}</h3>
                             <div class="text-left text-gray-600 text-[11px] space-y-1 mb-3">
-                                <p><strong>Invoice #:</strong> {{ $invoice->id_nat }}</p>
+                                <p><strong>ID Nat #:</strong> {{ $invoice->id_nat }}</p>
                                 <p><strong>RCCM:</strong> {{ $invoice->rccm ?? '-' }}</p>
                                 <p><strong>Phone:</strong> {{ $invoice->telephone ?? '-' }}</p>
                                 <p><strong>Commune:</strong> {{ $invoice->commune ?? '-' }}</p>
