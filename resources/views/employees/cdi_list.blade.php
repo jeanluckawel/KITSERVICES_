@@ -117,7 +117,7 @@
                                     Certificate
                                 </a>
                                 <a href="{{ route('employees.end_list_cdd', $employee->employee_id) }}"
-                                   class="flex-1 px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition text-center">
+                                   class="flex-1 px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition text-center">
                                     End contract
                                 </a>
                             </div>

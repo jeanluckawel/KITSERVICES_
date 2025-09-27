@@ -275,15 +275,20 @@
         <!-- Action buttons -->
         <div class="mt-4 flex space-x-3">
             <a href="{{ route('employees.index') }}"
-               class="bg-red-600 text-white px-4 py-1.5 rounded hover:bg-red-700 transition text-[12px]">
+               class="bg-red-500 text-white px-4 py-1.5 rounded hover:bg-red-600 transition text-[12px]">
                 Back
+            </a>
+            <a href="{{ route('employees.edit',$employee->employee_id) }}"
+               class="bg-orange-500 text-white px-4 py-1.5 rounded hover:bg-orange-600 transition text-[12px]">
+                Edit
             </a>
 
             <button onclick="downloadPDF()"
-                    class="bg-black text-white px-4 py-1.5 rounded hover:bg-orange-700 transition text-[12px]">
+                    class="bg-blue-500 text-white px-4 py-1.5 rounded hover:bg-blue-600 transition text-[12px]">
                 Download PDF
             </button>
         </div>
+
 
     </div>
 

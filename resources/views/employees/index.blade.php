@@ -1,128 +1,140 @@
 @extends('layouts.app')
 
+@section('title', 'Kit Service | Employee List Cdd')
 
-@section('title', 'Kit Service | add_new_employee')
-
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-<style>
-    .orange-btn {
-        background-color: #f97316; /* orange-500 */
-        color: white;
-        font-weight: bold;
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 0.25rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .orange-btn:hover {
-        background-color: #ea580c; /* orange-600 */
-    }
-
-</style>
-
-
 @section('content')
+    <div class="max-w-6xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-sm h-[calc(100vh-100px)] flex flex-col">
 
+        <!-- HEADER FIXE -->
+        <!-- HEADER FIXE -->
+        <div class="sticky top-0 bg-white z-20 pb-4 pt-2">
+            <!-- Cartes résumé -->
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <!-- Total Employees -->
+                <a href="{{ route('employees.index') }}">
+                    <div class="flex items-center p-2 sm:p-3 bg-white rounded-lg shadow-xs">
+                        <div class="p-2 sm:p-3 mr-2 sm:mr-3 text-orange-500 bg-orange-100 rounded-full">
+                            <i class='bx bx-group text-lg sm:text-xl'></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-xs sm:text-sm font-medium text-gray-600">Total Employees</p>
+                            <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $employeesAllCount ?? 'N/A' }}</p>
+                        </div>
+                    </div>
+                </a>
 
+                <!-- Employee CDD -->
+                <a href="{{ route('employees.end_list') }}">
+                    <div class="flex items-center p-2 sm:p-3 bg-white rounded-lg shadow-xs">
+                        <div class="p-2 sm:p-3 mr-2 sm:mr-3 text-blue-500 bg-blue-100 rounded-full">
+                            <i class='bx bx-time-five text-lg sm:text-xl'></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-xs sm:text-sm font-medium text-gray-600">Employee CDD</p>
+                            <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $count ?? 'N/A' }}</p>
+                        </div>
+                    </div>
+                </a>
 
-    <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        <!-- Card -->
-        <div
-            class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800"
-        >
-            <div
-                class="p-3 mr-4 text-orange-500 bg-orange-100 rounded-full dark:text-orange-100 dark:bg-orange-500"
-            >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                        d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"
-                    ></path>
-                </svg>
+                <!-- Employee CDI -->
+                <div class="flex items-center p-2 sm:p-3 bg-white rounded-lg shadow-xs">
+                    <div class="p-2 sm:p-3 mr-2 sm:mr-3 text-green-500 bg-green-100 rounded-full">
+                        <i class='bx bx-briefcase text-lg sm:text-xl'></i>
+                    </div>
+                    <div>
+                        <p class="mb-1 text-xs sm:text-sm font-medium text-gray-600">Employee CDI</p>
+                        <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $employeeesAllCdi ?? 'N/A' }}</p>
+                    </div>
+                </div>
+
+                <!-- Others -->
+                <div class="flex items-center p-2 sm:p-3 bg-white rounded-lg shadow-xs">
+                    <div class="p-2 sm:p-3 mr-2 sm:mr-3 text-purple-500 bg-purple-100 rounded-full">
+                        <i class='bx bx-category text-lg sm:text-xl'></i>
+                    </div>
+                    <div>
+                        <p class="mb-1 text-xs sm:text-sm font-medium text-gray-600">Others</p>
+                        <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $others ?? 'N/A' }}</p>
+                    </div>
+                </div>
             </div>
-            <div>
-                <p
-                    class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400"
-                >
-                    Total employees
-                </p>
-                <p
-                    class="text-lg font-semibold text-gray-700 dark:text-gray-200"
-                >
-                    {{ $count ?? 0 }}
-                </p>
+
+            <!-- Navigation + Recherche -->
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-2 mb-4">
+                <!-- Navigation -->
+                <nav class="flex items-center space-x-2 text-sm sm:text-base text-gray-500">
+                    <a href="{{ route('dashboard') }}" class="hover:text-orange-600 transition">Dashboard</a>
+                    <span class="text-gray-300">/</span>
+                    <span class="text-orange-600 font-semibold">Total Employee</span>
+                </nav>
+
+                <!-- Barre de recherche compacte -->
+                <div class="w-52 sm:w-64">
+                    <input type="text" placeholder="Search by name or ID"
+                           class="w-full p-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
+                           x-model="searchQuery" @input="filterEmployees()">
+                </div>
             </div>
         </div>
 
-    </div>
-
-    <div class="w-full overflow-hidden rounded-lg shadow-xs">
-
-        <!-- Scrollable table container with fixed header -->
-        <div class="w-full max-h-[500px] overflow-y-auto overflow-x-auto">
-            <table class="w-full whitespace-no-wrap border-collapse">
-                <thead class="bg-gray-50 dark:bg-gray-800 sticky top-0 z-20 border-b dark:border-gray-700">
-                <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 dark:text-gray-400 uppercase">
-                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800">Full Name</th>
-                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800">Department</th>
-                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800">Gender</th>
-                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800">EmployeeID</th>
-                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800">Action</th>
-                </tr>
-                </thead>
-
-
-
-
-                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+        <!-- LISTE DES EMPLOYÉS SCROLLABLE -->
+        <div class="overflow-y-auto flex-1 pr-2">
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" x-data="{ searchQuery: '' }">
                 @foreach($employees as $employee)
-                    <tr class="text-gray-700 dark:text-gray-400">
-                        <td class="px-4 py-3">
-                            <div class="flex items-center text-sm">
-                                <div class="relative hidden w-8 h-8 mr-3 rounded-full md:block">
-                                    <img class="object-cover w-full h-full rounded-full"
-                                         src="{{ $employee->gender === 'Male'
-                                ? asset('assets/profil/male.jpg')
-                                : asset('assets/profil/female.jpg') }}"
-                                         alt="Photo de {{ $employee->first_name }}" loading="lazy">
-                                    <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
-                                </div>
-                                <a href="{{ route('employees.show', $employee->employee_id) }}">
-                                    <div>
-                                        <p class="font-semibold text-black dark:text-gray-100">{{ $employee->first_name }} {{ $employee->last_name }}</p>
-                                        <p class="text-xs text-gray-600 dark:text-gray-400">{{ $employee->marital_status }}</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </td>
-                        <td class="px-4 py-3 text-sm text-black dark:text-gray-300">
-                            {{ $employee->department }}
-                        </td>
-                        <td class="px-4 py-3 text-xs">
-                            <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                                {{ $employee->gender }}
-                            </span>
-                        </td>
-                        <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
-                            {{ $employee->employee_id ?? 'N/A' }}
-                        </td>
-                        <td class="px-4 py-3 text-sm">
-                            <div class="flex items-center justify-start space-x-2">
-                                <a href="{{ route('children.create', $employee->employee_id) }}" title="Ajouter un enfant">
-                                    <button class="orange-btn">➕ Add a child</button>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+                    <div class="w-full bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                         x-show="searchQuery === '' || '{{ strtolower($employee->first_name.' '.$employee->last_name.' '.$employee->employee_id) }}'.includes(searchQuery.toLowerCase())">
 
+                        <!-- Photo de l'employé -->
+                        <div class="w-full h-40 bg-gray-100 flex items-center justify-center overflow-hidden">
+                            @php
+                                $gender = strtolower($employee->gender);
+                                $photoPath = $gender === 'female' ? 'assets/profil/female.png' : ($gender === 'male' ? 'assets/profil/male.png' : 'assets/profil/other.png');
+                            @endphp
+                            <img src="{{ asset($photoPath) }}" alt="{{ $employee->first_name }}" class="max-h-full max-w-full object-contain"/>
+                        </div>
+
+                        <!-- Infos -->
+                        <div class="p-4 text-center">
+                            <a href="{{ route('employees.show', [$employee->employee_id]) }}">
+                                <h3 class="text-sm font-bold text-gray-800 truncate">{{ $employee->first_name }} {{ $employee->last_name }}</h3>
+                                <p class="text-[11px] text-gray-500 mb-2">ID: {{ $employee->employee_id }}</p>
+                                <div class="text-left text-gray-600 text-[11px] space-y-1 mb-3">
+                                    <p><strong>Department:</strong> {{ $employee->department }}</p>
+                                    <p><strong>Function:</strong> {{ $employee->function}}</p>
+                                    <p><strong>Date Fin:</strong> {{ $employee->mobile_phone ??  'N/A' }}</p>
+                                </div>
+                            </a>
+
+                            <!-- Buttons -->
+                            <div class="flex flex-col sm:flex-row justify-center gap-2 mt-2">
+                                <a href="{{ route('children.create', $employee->employee_id) }}"
+                                   class="flex-1 px-3 py-1 bg-orange-500 text-white text-sm rounded hover:bg-orange-600 transition text-center">
+                                    Add child
+                                </a>
+                                <a href="{{ route('employees.profile', $employee->employee_id) }}"
+                                   class="flex-1 px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition text-center">
+                                    Badge
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 
-
+    <script>
+        function filterEmployees() {
+            const query = document.querySelector('input[x-model="searchQuery"]').value.toLowerCase();
+            document.querySelectorAll('[x-show]').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+    </script>
 @endsection

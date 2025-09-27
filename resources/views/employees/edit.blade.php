@@ -393,9 +393,19 @@
             </div>
 
             {{-- SUBMIT --}}
-            <div class="flex justify-end mb-10">
-                <button type="submit" class="orange-btn">Update Employee</button>
+            <div class="flex justify-end mb-10 space-x-3">
+
+                <a href="{{ route('employees.index') }}"
+                   class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition text-sm">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition text-sm">
+                    Save
+                </button>
             </div>
+
 
         </form>
     </div>

@@ -147,41 +147,41 @@
                             <li>
                                 <a href="{{ route('employees.create') }}" class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
                                     <i class='bx bx-user-plus mr-2'></i>
-                                    Add Employee
+                                    Add
                                 </a>
                             </li>
                             <li>
                                 <a href="{{ route('employees.import') }}" class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
                                     <i class='bx bx-upload mr-2'></i>
-                                    Import Employees
+                                    Import
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ route('employees.search') }}" class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
-                                    <i class='bx bx-search mr-2'></i>
-                                    Search Employees
-                                </a>
-                            </li>
+{{--                            <li>--}}
+{{--                                <a href="{{ route('employees.search') }}" class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">--}}
+{{--                                    <i class='bx bx-search mr-2'></i>--}}
+{{--                                    Search Employees--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
                             <li>
                                 <a href="{{ route('employees.index') }}" class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
                                     <i class='bx bx-list-ul mr-2'></i>
-                                    Employee List
+                                     List
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ route('employees.card') }}"
-                                   class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
-                                    <i class='bx bx-id-card mr-2'></i>
-                                    Employee Card
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ route('employees.end_list') }}"
-                                   class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">
-                                    <i class='bx bx-user-x mr-2'></i>
-                                    Employee End
-                                </a>
-                            </li>
+{{--                            <li>--}}
+{{--                                <a href="{{ route('employees.card') }}"--}}
+{{--                                   class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">--}}
+{{--                                    <i class='bx bx-id-card mr-2'></i>--}}
+{{--                                    Employee Card--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <a href="{{ route('employees.end_list') }}"--}}
+{{--                                   class="flex items-center text-sm text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 px-3 py-2 rounded-lg">--}}
+{{--                                    <i class='bx bx-user-x mr-2'></i>--}}
+{{--                                    Employee End--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
 
                         </ul>
                     </li>

@@ -22,18 +22,36 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::all()->sortByDesc('created_at');
-//        $employee = Employee::all();
+        $employees = Employee::all()->where('status',1)->sortByDesc('created_at');
+
+        $employeesAll = Employee::all()->sortByDesc('created_at');
+        $employeesAllCount = $employeesAll->where('status',1)->count();
+
+        $employeeesAllCdi = $employeesAll->where('contract_type','CDI')->count();
+
 //        $employees = Employee::paginate(100);
-        $count = $employees->where('status', '1')->count();
-        return view('employees.index',compact('employees','count'));
+        $count = $employees->where('end_contract_date')->count();
+
+
+        return view('employees.index',compact(
+            'employees','count',
+            'employeesAllCount','employeeesAllCdi'));
     }
     public function end_list()
     {
         $employees = Employee::all()->where('end_contract_date')->sortByDesc('created_at');
+
+        $employeesAll = Employee::all()->sortByDesc('created_at');
+        $employeesAllCount = $employeesAll->where('status',1)->count();
+
+        $employeeesAllCdi = $employeesAll->where('contract_type','CDI')->count();
+
 //        $employees = Employee::paginate(100);
         $count = $employees->where('end_contract_date')->count();
-        return view('employees.end_list',compact('employees','count'));
+        return view('employees.end_list',compact(
+            'employees','count',
+            'employeesAllCount','employeeesAllCdi'
+        ));
     }
 
     public function end_list_cdd($employee_id)
