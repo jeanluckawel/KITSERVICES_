@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Carbon; @endphp
 @extends('layouts.app')
 
 @section('title', 'Kit Service | Employee List Cdd')
@@ -6,6 +7,7 @@
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
 
 @section('content')
     <div class="max-w-6xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-sm h-[calc(100vh-100px)] flex flex-col">
@@ -42,15 +44,17 @@
                 </a>
 
                 <!-- Employee CDI -->
-                <div class="flex items-center p-2 sm:p-3 bg-white rounded-lg shadow-xs">
-                    <div class="p-2 sm:p-3 mr-2 sm:mr-3 text-green-500 bg-green-100 rounded-full">
-                        <i class='bx bx-briefcase text-lg sm:text-xl'></i>
+                <a href="{{ route('employees.end-list-cdi') }}">
+                    <div class="flex items-center p-2 sm:p-3 bg-white rounded-lg shadow-xs">
+                        <div class="p-2 sm:p-3 mr-2 sm:mr-3 text-green-500 bg-green-100 rounded-full">
+                            <i class='bx bx-briefcase text-lg sm:text-xl'></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-xs sm:text-sm font-medium text-gray-600">Employee CDI</p>
+                            <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $employeeesAllCdi ?? 'N/A' }}</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="mb-1 text-xs sm:text-sm font-medium text-gray-600">Employee CDI</p>
-                        <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $employeeesAllCdi ?? 'N/A' }}</p>
-                    </div>
-                </div>
+                </a>
 
                 <!-- Others -->
                 <div class="flex items-center p-2 sm:p-3 bg-white rounded-lg shadow-xs">
@@ -86,7 +90,25 @@
         <div class="overflow-y-auto flex-1 pr-2">
             <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" x-data="{ searchQuery: '' }">
                 @foreach($employees as $employee)
-                    <div class="w-full bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                    @php
+                        $borderClass = '';
+                        $daysLeft = null;
+
+                    if ($employee->contract_type === 'CDD' && $employee->end_contract_date) {
+                        $endDate = \Carbon\Carbon::parse($employee->end_contract_date);
+                        $now = \Carbon\Carbon::now();
+
+                        $daysLeft = $now->diffInDays($endDate, false); // déjà un entier
+                        $daysLeft = intval($daysLeft); // s'assure que c'est bien un entier
+
+                            if ($daysLeft <= 30 && $daysLeft >= 0) {
+
+                                $borderClass = 'border-2 border-red-500';
+                            }
+                        }
+                    @endphp
+
+                    <div class="w-full bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 {{ $borderClass }}"
                          x-show="searchQuery === '' || '{{ strtolower($employee->first_name.' '.$employee->last_name.' '.$employee->employee_id) }}'.includes(searchQuery.toLowerCase())">
 
                         <!-- Photo de l'employé -->
@@ -107,6 +129,21 @@
                                     <p><strong>Department:</strong> {{ $employee->department }}</p>
                                     <p><strong>Function:</strong> {{ $employee->function}}</p>
                                     <p><strong>Phone:</strong> {{ $employee->mobile_phone ??  'N/A' }}</p>
+
+
+
+                                    @if($employee->contract_type === 'CDD')
+                                        <p><strong>Start:</strong> {{ \Carbon\Carbon::parse($employee->created_at)->format('d/m/Y') }}</p>
+                                        <p><strong>End:</strong> {{ \Carbon\Carbon::parse($employee->end_contract_date)->format('d/m/Y') }}</p>
+                                        @if($daysLeft !== null && $daysLeft <= 30 && $daysLeft >= 0)
+                                            <p class="text-red-500 flex items-center gap-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                {{ $daysLeft }} jours restants
+                                            </p>
+                                        @endif
+                                    @endif
                                 </div>
                             </a>
 
@@ -124,6 +161,8 @@
                         </div>
                     </div>
                 @endforeach
+
+
             </div>
         </div>
     </div>

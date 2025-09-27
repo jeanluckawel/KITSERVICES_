@@ -36,21 +36,23 @@
                         </div>
                         <div>
                             <p class="mb-1 text-xs sm:text-sm font-medium text-gray-600">Employee CDD</p>
-                            <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $count ?? 'N/A' }}</p>
+                            <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $employeeesAllCdd ?? 'N/A' }}</p>
                         </div>
                     </div>
                 </a>
 
                 <!-- Employee CDI -->
-                <div class="flex items-center p-2 sm:p-3 bg-white rounded-lg shadow-xs">
-                    <div class="p-2 sm:p-3 mr-2 sm:mr-3 text-green-500 bg-green-100 rounded-full">
-                        <i class='bx bx-briefcase text-lg sm:text-xl'></i>
+                <a href="{{ route('employees.end-list-cdi') }}">
+                    <div class="flex items-center p-2 sm:p-3 bg-white rounded-lg shadow-xs">
+                        <div class="p-2 sm:p-3 mr-2 sm:mr-3 text-green-500 bg-green-100 rounded-full">
+                            <i class='bx bx-briefcase text-lg sm:text-xl'></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-xs sm:text-sm font-medium text-gray-600">Employee CDI</p>
+                            <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $employeeesAllCdi ?? 'N/A' }}</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="mb-1 text-xs sm:text-sm font-medium text-gray-600">Employee CDI</p>
-                        <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $employeeesAllCdi ?? 'N/A' }}</p>
-                    </div>
-                </div>
+                </a>
 
                 <!-- Others -->
                 <div class="flex items-center p-2 sm:p-3 bg-white rounded-lg shadow-xs">
@@ -70,7 +72,7 @@
                 <nav class="flex items-center space-x-2 text-sm sm:text-base text-gray-500">
                     <a href="{{ route('dashboard') }}" class="hover:text-orange-600 transition">Dashboard</a>
                     <span class="text-gray-300">/</span>
-                    <span class="text-orange-600 font-semibold">Employee List CDD</span>
+                    <span class="text-orange-600 font-semibold">Employee List CDI</span>
                 </nav>
 
                 <!-- Barre de recherche compacte -->
@@ -106,18 +108,13 @@
                                 <div class="text-left text-gray-600 text-[11px] space-y-1 mb-3">
                                     <p><strong>Department:</strong> {{ $employee->department }}</p>
                                     <p><strong>Date debut:</strong> {{ $employee->created_at->format('d-m-Y') }}</p>
-                                    <p><strong>Date Fin:</strong> {{ $employee->end_contract_date ? \Carbon\Carbon::parse($employee->end_contract_date)->format('d-m-Y') : 'N/A' }}</p>
                                 </div>
                             </a>
 
                             <!-- Buttons -->
                             <div class="flex flex-col sm:flex-row justify-center gap-2 mt-2">
-                                <a href="{{ route('employees.end_list_certificat', $employee->employee_id) }}"
-                                   class="flex-1 px-3 py-1 bg-orange-500 text-white text-sm rounded hover:bg-orange-600 transition text-center">
-                                    Certificate
-                                </a>
-                                <a href="{{ route('employees.end_list_cdd', $employee->employee_id) }}"
-                                   class="flex-1 px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition text-center">
+                                <a href=""
+                                   class="flex-1 px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition text-center">
                                     End contract
                                 </a>
                             </div>

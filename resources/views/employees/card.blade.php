@@ -42,15 +42,17 @@
                 </a>
 
                 <!-- Employee CDI -->
-                <div class="flex items-center p-4 bg-white rounded-lg shadow-xs">
-                    <div class="p-3 mr-4 text-green-500 bg-green-100 rounded-full">
-                        <i class='bx bx-briefcase text-xl'></i>
+                <a href="{{ route('employees.end-list-cdi') }}">
+                    <div class="flex items-center p-2 sm:p-3 bg-white rounded-lg shadow-xs">
+                        <div class="p-2 sm:p-3 mr-2 sm:mr-3 text-green-500 bg-green-100 rounded-full">
+                            <i class='bx bx-briefcase text-lg sm:text-xl'></i>
+                        </div>
+                        <div>
+                            <p class="mb-1 text-xs sm:text-sm font-medium text-gray-600">Employee CDI</p>
+                            <p class="text-sm sm:text-base font-semibold text-gray-700">{{ $employeeesAllCdi ?? 'N/A' }}</p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="mb-2 text-sm font-medium text-gray-600">Employee CDI</p>
-                        <p class="text-lg font-semibold text-gray-700">{{ $cdi ?? 'N/A' }}</p>
-                    </div>
-                </div>
+                </a>
 
                 <!-- Others -->
                 <div class="flex items-center p-4 bg-white rounded-lg shadow-xs">

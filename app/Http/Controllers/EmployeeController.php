@@ -29,7 +29,7 @@ class EmployeeController extends Controller
 
         $employeeesAllCdi = $employeesAll->where('contract_type','CDI')->count();
 
-//        $employees = Employee::paginate(100);
+
         $count = $employees->where('end_contract_date')->count();
 
 
@@ -53,13 +53,32 @@ class EmployeeController extends Controller
             'employeesAllCount','employeeesAllCdi'
         ));
     }
-
-    public function end_list_cdd($employee_id)
+    public function end_list_cdi()
     {
-        $employee = Employee::where('employee_id', $employee_id)->firstOrFail();
+        $employees = Employee::where('status', 1)
+            ->where('contract_type', 'CDI')
+            ->orderByDesc('created_at')
+            ->get();
 
-        return view('end_contracts.cdd',compact('employee'));
+
+        $employeesAll = Employee::all()->sortByDesc('created_at');
+        $employeesAllCount = $employeesAll->where('status',1)->count();
+
+        $employeeesAllCdi = $employeesAll->where('contract_type','CDI')->count();
+        $employeeesAllCdd = $employeesAll->where('contract_type','CDD')->count();
+
+
+        $count = $employees->where('end_contract_date')->count();
+
+
+        return view('employees.cdi_list',compact(
+            'employees','count','employeeesAllCdd',
+            'employeesAllCount','employeeesAllCdi'
+        ));
     }
+
+
+
 
 
     public function end_list_certificat($employee_id)
@@ -223,6 +242,14 @@ class EmployeeController extends Controller
         $echelons    = echelon::pluck('name');
 
         return view('employees.edit', compact('employee','departments','fonctions','niveaux','echelons'));
+    }
+
+    public function end_list_cdd($employee_id)
+    {
+        $employee = Employee::where('employee_id',$employee_id)->firstOrFail();
+
+        return view('end_contracts.cdd',compact('employee'));
+
     }
 
     public function update(Request $request, $employee_id)
